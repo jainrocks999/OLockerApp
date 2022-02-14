@@ -163,8 +163,9 @@ else{
                 width: '80%',
                 height: 45,
               }}
-              onPress={() => partnerLogin()
-              // navigation.navigate('Home')
+              onPress={() => 
+                // partnerLogin()
+              navigation.navigate('Home')
               }>
               <Text>GENERATE OTP</Text>
             </TouchableOpacity>
