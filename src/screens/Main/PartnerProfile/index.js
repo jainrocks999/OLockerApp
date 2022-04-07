@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  
+  Linking
 } from 'react-native';
 import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
@@ -19,20 +19,24 @@ import styles from './styles';
 import Catalogue from '../../../components/Catalogue';
 import Profile from '../../../components/Profile';
 import Setting from '../../../components/Settings';
+import { useSelector } from 'react-redux';
+import Loader from '../../../components/Loader';
+import Banner from '../../../components/Banner';
+import {FlatListSlider} from 'react-native-flatlist-slider';
+import ImagePath from '../../../components/ImagePath';
+
+
 const HomeScreen = () => {
    const navigation=useNavigation()
    const [profile,setProfile]=useState(true)
    const [message,setMessage]=useState(false)
    const [catalogue,setCatalogue]=useState(false)
    const [setting,setSetting]=useState(false)
-
+   const isFetching=useSelector(state=>state.isFetching)
+   const selector=useSelector(state=>state.ProfileData)
+   console.log('this is selector response',selector);
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
-   const images = [
-     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU',
-     'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
-     'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg',
-   ];
 
    const renderPage = (image, index) => {
     return (
@@ -83,17 +87,28 @@ const manageTab3=()=>{
       title={'Partner Profile '}
       onPress={() => navigation.goBack()}
       />   
+      {isFetching?<Loader/>:null}
       <ScrollView>
         <View style={{
           backgroundColor:'#032e63'
         }}>
           <View style={{flexDirection:'row',padding:15,width:'100%'}}>
             <View style={{backgroundColor:'#fff',height:100,width:'30%',borderRadius:10}}>
- 
+              {selector.Images.map((item)=>
+              item.Type=='Logo'?
+              <Image
+              style={{height: '100%', width: 100 ,borderRadius:10}}
+              resizeMode={'stretch'}
+              source={{
+                uri: `${ImagePath.Path}${item.ImageUrl}`,
+              }}
+            />:null
+              )}
+            
             </View>
             <View style={{marginLeft:10,width:'60%',marginTop:-4}}>
-              <Text style={{color:'#fff',fontSize:19,fontWeight:'700'}}>{'RC Bafna Jewellery '}</Text>
-              <Text style={{color:'#fff',fontSize:12}}>{'Mumbai'}</Text>
+              <Text style={{color:'#fff',fontSize:19,fontFamily:'Acephimere'}}>{selector.Profile.SupplierName}</Text>
+              <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>{selector.Profile.Location}</Text>
               <View 
               style={{
                 flexDirection:'row',
@@ -111,11 +126,13 @@ const manageTab3=()=>{
                     emptyStar= {require('../../../assets/Image/star1.png')}/>
 
                   <View style={{flexDirection:'row'}}>
-                     <View style={{alignItems:'center',justifyContent:'center'}}>
-                       <Image style={{width:35,height:35}} source={require('../../../assets/PartnerImage/16.png')}/>
-                     </View>
+                     <TouchableOpacity
+                     onPress={()=>Linking.openURL(`tel:${selector.Profile.MobileNo}`)}
+                      style={{alignItems:'center',justifyContent:'center'}}>
+                       <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/16.png')}/>
+                     </TouchableOpacity>
                      <View style={{alignItems:'center',justifyContent:'center',marginLeft:10}}>
-                     <Image style={{width:35,height:35}} source={require('../../../assets/PartnerImage/15.png')}/>
+                     <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/15.png')}/>
                      </View>
                 </View>
               </View>
@@ -128,19 +145,35 @@ const manageTab3=()=>{
                 paddingVertical:10,
                 borderRadius:20
                 }}>
-                <Text style={{color:'#fff',fontSize:12}}>ADD TO NETWORK</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ADD TO NETWORK</Text>
               </TouchableOpacity>
           </View>
 
-          <View style={{alignItems: 'center', height: BannerHeight,marginTop:15}}>
-          <Carousel
+          <View style={{alignItems: 'center', height: 0,marginTop:15}}>
+          {/* <Carousel
             autoplay
             autoplayTimeout={5000}
             loop
             index={0}
             pageSize={BannerWidth}>
             {images.map((image, index) => renderPage(image, index))}
-          </Carousel>
+          </Carousel> */}
+          {/* <FlatListSlider
+            data={images}
+            height={200}
+            timer={5000}
+            // onPress={item => alert(JSON.stringify(item))}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:50}}
+            indicatorContainerStyle={{position:'absolute', bottom: 10}}
+            indicatorActiveColor={'#032e63'}
+            indicatorInActiveColor={'#ffffff'}
+            indicatorActiveWidth={5}
+            animation
+            component={<Banner/>}
+            separatorWidth={15}
+            width={300}
+            autoscroll={false}
+        /> */}
         </View>
        
           <View style={{height:20}}/>
@@ -156,7 +189,7 @@ const manageTab3=()=>{
                  source={require('../../../assets/PartnerImage/pro_uncolor.png')}/>
                  }
                </TouchableOpacity>
-               <Text style={{marginTop:3}}>Pofile</Text>
+               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Pofile</Text>
             </View>
             <View style={{alignItems:'center'}}>
                <TouchableOpacity onPress={()=>navigation.navigate('Chat')} style={styles.tabStyle}>
@@ -169,7 +202,7 @@ const manageTab3=()=>{
                }
 
                </TouchableOpacity>
-               <Text style={{marginTop:3}}>Message</Text>
+               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Message</Text>
             </View>
             <View style={{alignItems:'center'}}>
                <TouchableOpacity onPress={()=>manageTab2()} style={styles.tabStyle}>
@@ -181,7 +214,7 @@ const manageTab3=()=>{
                source={require('../../../assets/PartnerImage/8.png')}/>
                }
                </TouchableOpacity>
-               <Text style={{marginTop:3}}>Catalogue</Text>
+               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Catalogue</Text>
             </View>
             <View style={{alignItems:'center'}}>
                <TouchableOpacity onPress={()=>manageTab3()} style={styles.tabStyle}>
@@ -193,7 +226,7 @@ const manageTab3=()=>{
                source={require('../../../assets/PartnerImage/7.png')}/>
                }
                </TouchableOpacity>
-               <Text style={{marginTop:3}}>Settings</Text>
+               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Settings</Text>
             </View>
         </View>
         <View style={{marginTop:10}}>
@@ -218,3 +251,43 @@ const data=[
     {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
     {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
 ]
+
+
+const images = [
+  {
+    image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+    desc:
+      'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+  },
+ {
+   image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+   desc:
+     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+ },
+ {
+  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  desc:
+    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+},
+{
+  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  desc:
+    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+},
+{
+  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  desc:
+    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+},
+{
+  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  desc:
+    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+},
+{
+  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  desc:
+    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
+},
+
+ ]

@@ -5,6 +5,7 @@ import SplashScreen from "../screens/Auth/SplashPage";
 import HomeScreen from '../screens/Main/HomeScreen';
 import MessageList from '../screens/Main/MessageList';
 import Login from "../screens/Auth/LoginPage";
+import RegisterPage from '../screens/Auth/RegisterPage';
 import Addcategory from "../screens/Main/Addcategory";
 import Addproduct from "../screens/Main/Addproduct";
 import Addcollection from "../screens/Main/Addcollection";
@@ -40,6 +41,7 @@ function Navigate() {
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Message" component={MessageList}/>
         <Stack.Screen name="Login" component ={Login}/>
+        <Stack.Screen name="RegisterPage" component={RegisterPage}/>
         <Stack.Screen name="Addcategory" component ={Addcategory}/>
         <Stack.Screen name="Addproduct" component ={Addproduct}/>
         <Stack.Screen name="Addcollection" component ={Addcollection}/>

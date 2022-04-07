@@ -107,14 +107,12 @@ export default StyleSheet.create({
     },
     textB: {
         fontSize: 18,
-        color: 'grey',
-        fontWeight: '700',
+        fontWeight: '500',
     },
     textC: {
-        fontSize: 15,
-        color: 'grey',
+        fontSize: 13,
         fontWeight: '500',
-        marginLeft: 17
+        marginLeft: 17,
     },
     button: {
 
@@ -126,7 +124,7 @@ export default StyleSheet.create({
     textbt: {
         color: 'white',
         fontSize: 18,
-        fontWeight: '600'
+        fontWeight: '600',
     },
     rnimg:{
         marginLeft: 2,

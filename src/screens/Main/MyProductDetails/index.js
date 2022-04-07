@@ -3,17 +3,48 @@ import {View, Text, TouchableOpacity, FlatList, ScrollView,Image} from 'react-na
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { TextInput } from 'react-native-gesture-handler';
+import ImagePath from '../../../components/ImagePath';
 
 const MyProducts = ({route}) => {
     const navigation=useNavigation()
-    const datas=route.params.title
+    const selector=useSelector(state=>state.Category)
+    const [search,setSearch]=useState('')
+    const [filteredDataSource, setFilteredDataSource] = useState(selector);
+    const [masterDataSource, setMasterDataSource] = useState(selector);
+
+console.log('this is sub category details',selector);
+const searchFilterFunction = text => {
+      if (text) {
+        const newData = masterDataSource.filter(function (item) {
+          const itemData = `${item.GrossWt}${item.ProductSKU} ${item.Price}`
+            ? `${item.GrossWt} ${item.ProductSKU} ${item.Price}`.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        setFilteredDataSource(newData);
+        setSearch(text);
+      } else {
+        setFilteredDataSource(masterDataSource);
+        setSearch(text);
+      }
+    };
+
+  const handleSearch = () => {
+      setSearch('');
+      setFilteredDataSource(masterDataSource);
+    };
+  
+
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
         source2={require('../../../assets/La.png')}
-        title={datas}
+        title={'Product List'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
@@ -27,42 +58,106 @@ const MyProducts = ({route}) => {
             marginTop: 20,
           }}>
           <View>
-              <Text>87 Items</Text>
+              <Text style={{fontFamily:'Acephimere',fontSize:14}}>{`${selector.length} Items`}</Text>
           </View>
-          <View>
-              <View></View>
+          {/* <View style={{flexDirection:'row',alignItems:'center'}}>
+              <TouchableOpacity  onPress={()=>navigation.navigate('Filter')}>
+                <Image style={{height:20,width:20}} source={require('../../../assets/Image/karni.png')}/>
+              </TouchableOpacity>
               <View style={{
                   borderWidth:1,
-                  borderRadius:10,
+                  borderRadius:30,
                   paddingHorizontal:10,
-                  paddingVertical:5,
                   alignItems:'center',
                   justifyContent:'center',
                   flexDirection:'row',
+                  backgroundColor:'#fff',
+                  marginLeft:10,
+                  height:35
                   }}>
-                  <Image style={{width:16,height:16,tintColor:'#2c2e2c'}} source={require('../../../assets/search1.png')}/>
-                  <Text style={{marginLeft:10}}>{'Search by ID'}</Text>
+                  <Image resizeMode={'contain'} style={{width:20,height:13,tintColor:'#2c2e2c'}}
+                   source={require('../../../assets/Image/serch.png')}/>
+                   <View style={{height:35,alignItems:'center',justifyContent:'center',marginTop:4}}>
+                   <TextInput
+                   placeholder='Search by ID'
+                   value={search}
+                   onChangeText={(val)=>searchFilterFunction(val)}
+                  //  style={{height:}}
+                   />
+                   </View>
+                  <View style={{width:30}}/>
               </View>
-          </View>
+          </View> */}
         </View>
-        <View style={{marginTop: 10}}>
+        <View style={{marginTop: 10,paddingHorizontal:5,}}>
           <FlatList
-            data={data}
+            data={filteredDataSource}
             numColumns={2}
             renderItem={({item}) => (
-              <View
+              <TouchableOpacity
+              onPress={()=>navigation.navigate('SubCategory')}
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 160,
+                  height: 190,
                   backgroundColor: '#fff',
-                  flex:1,
-                  margin:10,
+                  // flex:1,
+                  margin:6,
                   borderRadius:10,
-                  elevation:3
+                  elevation:3,
+                  width:'46.5%',
                 }}>
-                 <Text style={{color: 'red', fontSize: 12}}>{item.title}</Text>
-              </View>
+                   
+                    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{padding:15}}>
+                       <Image style={{width:21,height:18}} source={require('../../../assets/Image/dil.png')}/>
+                       <Image style={{width:20,height:14,marginTop:10}} source={require('../../../assets/Image/share1.png')}/>
+                    </View>
+                 <View style={{
+                   borderTopRightRadius:10,
+                   borderBottomLeftRadius:10,
+                   paddingHorizontal:10,
+                   backgroundColor:'#24a31e',
+                   paddingVertical:2,
+                   alignSelf:'flex-start'
+                   }}>
+                    
+                     <Text style={{
+                       fontFamily:'Roboto-Medium',
+                       fontSize:12,
+                       color:'#fff'
+                     }}>{`${item.GrossWt} GM`}</Text>
+
+                   </View>
+                   </View>
+                <View style={{
+                  width:'100%',
+                  alignItems:'center',
+                  marginTop:-40
+                  }}>
+                 <Image
+                  style={{height: 100, width: 120,marginLeft:30}}
+                  resizeMode='stretch'
+                  source={{uri: `${ImagePath.Path}${(item.Url).substring(2)}`}}
+                  
+                />
+                </View>
+                <View style={{justifyContent:'center',
+                 bottom:10,
+                 position:'absolute',
+                 left:0,
+                 right:0,
+                 paddingHorizontal:20
+              }}>
+                  <Text style={{color:'#050505',fontFamily:'Acephimere',fontSize:13}}>
+                    {`ID# ${item.ProductSKU}`}
+                  </Text>
+                  <View style={{flexDirection:'row',alignItems:'center',marginLeft:-5}}>
+                    <Image style={{width:16,height:20}} source={require('../../../assets/Image/rupay.png')}/>
+                  <Text style={{color:'#050505',fontFamily:'Roboto-Medium'}}>
+                    {item.Price}
+                  </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -76,13 +171,14 @@ const MyProducts = ({route}) => {
 };
 export default MyProducts;
 const data = [
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-//   {title: 'Hello', type: 'add'},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
 ];
+
+

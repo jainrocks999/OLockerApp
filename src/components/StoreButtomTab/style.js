@@ -8,13 +8,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     opacity: 50,
-    paddingBottom:20,
+    paddingBottom:15,
     shadowColor:'black',
     shadowOpacity:10,
     shadowOffset:{height:4,width:2},
     elevation:3,
     borderTopColor:'#afb3b0',
-    paddingTop:15
+    paddingTop:10
     
   },
 

@@ -21,9 +21,10 @@ export default StyleSheet.create({
     Text1:
     {
         fontWeight: '500',
-        color: 'grey',
+        color: '#949494',
         marginTop: 15,
-        fontSize: 17
+        fontSize: 17,
+        fontFamily:'Acephimere'
     },
     card:
     {
@@ -90,7 +91,11 @@ export default StyleSheet.create({
     bttext: {
         color: 'white',
         fontSize: 20,
-        fontWeight: '500'
+        fontWeight: '500',
+        fontFamily:'Acephimere'
+        // color: 'white',
+        // fontSize: 20,
+        // fontWeight: '500'
     }
 })
 

@@ -19,9 +19,10 @@ export default StyleSheet.create({
     Text1:
     {
         fontWeight: '500',
-        color: 'grey',
+        color: '#949494',
         marginTop: 15,
-        fontSize: 17
+        fontSize: 17,
+        fontFamily:'Acephimere'
     },
     main: {
         flexDirection: 'row',
@@ -62,7 +63,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         marginBottom: 0,
         paddingHorizontal: 5,
-        paddingVertical: 20,
+        paddingBottom: 20,
 
     },
 
@@ -104,12 +105,13 @@ export default StyleSheet.create({
     bttext: {
         color: 'white',
         fontSize: 20,
-        fontWeight: '500'
+        fontWeight: '500',
+        fontFamily:'Acephimere'
     },
     rn:{
-        inputAndroid: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-        inputIOS: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-        placeholder: { color: 'black', width: '100%', alignSelf: 'center', },
+        inputAndroid: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+        inputIOS: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+        placeholder: { color: '#474747', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
       },
       rnimg:{
         marginLeft: 2,

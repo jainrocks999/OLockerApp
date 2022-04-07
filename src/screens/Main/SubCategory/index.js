@@ -1,20 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, FlatList, ScrollView,Image} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image} from 'react-native';
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import Preview from "../../../components/Preview";
+import Banner from '../../../components/Banner';
+import { TextInput } from 'react-native-gesture-handler';
 
 const SubCategory = ({route}) => {
     const navigation=useNavigation()
+    const [collection,setCollection]=useState('Kangan')
+    const [stockNo,setStock]=useState('373800-UQYB18')
+    const [metal,setMetal]=useState('Gold 999 - 50.00 gms')
+    const [editable,setEditable]=useState(false)
+    const [editable1,setEditable1]=useState(false)
+    const [editable2,setEditable2]=useState(false)
+    const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+
+
+  const manageEdit=()=>{
+      setEditable(true)
+      setEditable1(true)
+      setEditable2(true)
+  }
   return (
     <View style={{flex: 1,backgroundColor:'#032e63'}}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
         source2={require('../../../assets/La.png')}
-        title={'Neclace'}
+        title={'Necklace'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
@@ -25,35 +41,68 @@ const SubCategory = ({route}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: 15,
-            marginTop: 20,
+            marginTop: 5,
             flex:1
           }}>
           <View>
-              <Text style={{color:'#fff'}}>Icon</Text>
+            <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
           </View>
           <View>
               <TouchableOpacity onPress={()=>navigation.navigate('Filter')}>
-              <Image style={{width:15,height:16,tintColor:'#fff'}} source={require('../../../assets/Image/karni.png')}/>
+              <Image style={{width:24,height:18,marginTop:10}} tintColor={'white'} source={require('../../../assets/Image/share1.png')}/>
               </TouchableOpacity>
           </View>
         </View>
         <View style={{marginTop:10}}>
-        <FlatListSlider
+        {/* <FlatListSlider
           data={images}
           width={205}
           timer={5000}
-          component={<Preview />}
+          component={<Banner />}
           onPress={item => alert(JSON.stringify(item))}
           indicatorActiveWidth={40}
           contentContainerStyle={{paddingHorizontal: 16}}
           animation
           indicator={false}
           autoscroll={false}
+        /> */}
+         {/* <FlatListSlider
+            data={images}
+            height={200}
+            timer={5000}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:100}}
+            indicatorContainerStyle={{position:'absolute', bottom: 10}}
+            indicatorActiveColor={'#032e63'}
+            indicatorInActiveColor={'#ffffff'}
+            indicatorActiveWidth={5}
+            animation
+            component={<Preview/>}
+            separatorWidth={15}
+            width={200}
+            autoscroll={false}
+        /> */}
+         <FlatListSlider
+            data={images}
+            height={200}
+            timer={5000}
+            // onPress={item => alert(JSON.stringify(item))}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:50}}
+            indicatorContainerStyle={{position:'absolute', bottom: -20}}
+            indicatorActiveColor={'#032e63'}
+            indicatorInActiveColor={'#ffffff'}
+            indicatorActiveWidth={5}
+            // animation
+            component={<Preview/>}
+            separatorWidth={15}
+            width={310}
+            autoscroll={false}
+            loop={false}
         />
       </View>
       
-        <View style={{alignItems:'center',marginTop:20}}>
-        <Text style={{color:'#fff'}}>{'5,25,000.00 (Approximate price)'}</Text>
+        <View style={{alignItems:'center',marginTop:20,flexDirection:'row',justifyContent:'center'}}>
+        <Image style={{tintColor:'#fff',width:16,height:16,marginTop:8}} source={require('../../../assets/Image/rupay.png')}/>
+        <Text style={{color:'#fff',fontFamily:'Acephimere',marginLeft:2,marginTop:12}}>{'5,25,000.00 (Approximate price)'}</Text>
         </View>
         <View style={{padding:20}}>
           <View style={{
@@ -64,20 +113,53 @@ const SubCategory = ({route}) => {
         elevation: 5,
         borderRadius: 10,
         backgroundColor: 'white',
-        paddingVertical: 10,
+        paddingVertical: 20,
         width:'100%',
         paddingHorizontal:10
         }}>
-          <View style={{alignItems:'center',justifyContent:'center'}}>
-        <Text style={{fontSize:15,color:'#000'}}>PRODUCT DESCRIPTION</Text>
+          <View style={{
+            alignItems:'center',
+            justifyContent:'space-between',
+            flexDirection:'row',
+            width:'100%'
+            }}>
+        <Text style={{fontSize:15,color:'#052a47',fontFamily:'Acephimere',marginLeft:20}}>PRODUCT DESCRIPTION</Text>
+        <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
+        <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
+        </TouchableOpacity>
         </View>
-        <View style={{marginLeft:20}}>
-          <Text style={{color:'#000',marginTop:8}}>{'Collection :      Kangan'}</Text>
-          <Text style={{color:'#000',marginTop:8}}>{'Stock No :        45UYTR-8UYTR'}</Text>
-          <Text style={{color:'#000',marginTop:8}}>{'Metal :              Gold 999 - 50.00 Gms'}</Text>
+        <View style={{marginLeft:20,marginTop:8}}>
+          <View style={{flexDirection:'row',alignItems:'center'}}>
+             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Collection :'}</Text>
+             <TextInput
+             style={{height:40,color:'#052a47'}}
+             value={collection}
+             editable={editable}
+             onChangeText={(val)=>setCollection(val)}
+            
+             />
+          </View>
+          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
+             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Stock No :'}</Text>
+             <TextInput
+             style={{height:40,color:'#052a47'}}
+             value={stockNo}
+             editable={editable1}
+             onChangeText={(val)=>setStock(val)}
+             />
+          </View>
+          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
+             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Metal :'}</Text>
+             <TextInput
+             style={{height:40,color:'#052a47'}}
+             value={metal}
+             editable={editable2}
+             onChangeText={(val)=>setMetal(val)}
+             />
+          </View>
         </View>
           </View>
-          <View style={{
+          {/* <View style={{
             alignItems:'center',
             justifyContent:'space-between',
             marginTop:20,
@@ -92,7 +174,7 @@ const SubCategory = ({route}) => {
                 alignItems:'center',
                 justifyContent:'center'
                 }}>
-                <Text style={{color:'#fff',fontSize:12}}>ADD TO CATALOGUE</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ADD TO CATALOGUE</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{
                 backgroundColor:'#ea056c',
@@ -103,9 +185,9 @@ const SubCategory = ({route}) => {
                 alignItems:'center',
                 justifyContent:'center'
                 }}>
-                <Text style={{color:'#fff',fontSize:12}}>ENQURE NOW</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ENQURE NOW</Text>
               </TouchableOpacity>
-          </View>
+          </View> */}
 
 
       </View>

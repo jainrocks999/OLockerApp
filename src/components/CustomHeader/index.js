@@ -28,7 +28,7 @@ const Header = ({
           <TouchableOpacity onPress={onPress1}>
             <Image style={styles.img1} source={source1} />
           </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft: 10}}>
+          <TouchableOpacity style={{marginLeft: 20}}>
             <Image style={styles.img2} source={source2} />
           </TouchableOpacity>
         </View>
@@ -51,9 +51,17 @@ const styles = StyleSheet.create({
     width: 25,
   },
   img2: {
-    height: 26,
-    width: 22,
+    height: 24,
+    width: 20,
   },
+  // img1: {
+  //   height: 20,
+  //   width: 25,
+  // },
+  // img2: {
+  //   height: 26,
+  //   width: 22,
+  // },
   container: {
     width: '100%',
     backgroundColor: '#032e63',
@@ -66,6 +74,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 18,
-    fontWeight: '700',
+    fontFamily:'Roboto-Medium'
   },
 });

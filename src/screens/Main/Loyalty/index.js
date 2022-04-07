@@ -30,41 +30,41 @@ const Loyalty = () => {
           <View style={styles.main}>
            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
              <Image style={{height:70,width:70}} source={require('../../../assets/Image/hand.png')}/>
-             <Text style={{color:'#e9056b',fontSize:22,marginLeft:10}}>{'Loyalty\nOffers'}</Text>
-             <View style={{borderWidth:0.5,height:50,borderColor:'#e9056b'}}></View>
-             <Text style={{color:'#e9056b',marginLeft:10,fontSize:12}}>For customers</Text>
+             <Text style={{color:'#e9056b',fontSize:26,marginLeft:10,fontFamily:'Philosopher-Regular'}}>{'Loyalty\nOffers'}</Text>
+             <View style={{borderWidth:0.5,height:50,borderColor:'#e9056b',marginLeft:5}}></View>
+             <Text style={{color:'#e9056b',marginLeft:12,fontSize:12,fontFamily:'Philosopher-Regular'}}>For customers</Text>
            </View>
       
         <View style={styles.main1}>
          <TextInput
-          style={{marginLeft:10,width:'90%',fontSize:17}}
+          style={{marginLeft:10,width:'90%',fontSize:14,color:'#a3a3a3',fontFamily:'Acephimere'}}
          placeholder='Enter Loyalty offer name'
-         placeholderTextColor='grey'
+         placeholderTextColor='#a3a3a3'
          />
 
         </View>
         <View style={styles.main1}>
          <TextInput
-          style={{marginLeft:10,width:'90%',fontSize:17}}
+          style={{marginLeft:10,width:'90%',fontSize:14,color:'#a3a3a3',fontFamily:'Acephimere'}}
          placeholder='Numder of Points'
-         placeholderTextColor='grey'
+         placeholderTextColor='#a3a3a3'
          />
 
         </View>
         <View style={styles.main1}>
          <TextInput
-          style={{marginLeft:10,width:'90%',fontSize:17}}
+          style={{marginLeft:10,width:'90%',fontSize:14,color:'#a3a3a3',fontFamily:'Acephimere'}}
          placeholder='Start Date'
-         placeholderTextColor='grey'
+         placeholderTextColor='#a3a3a3'
         
          />
 
         </View>
         <View style={styles.main1}>
          <TextInput
-          style={{marginLeft:10,width:'90%',fontSize:17}}
+          style={{marginLeft:10,width:'90%',fontSize:14,color:'#a3a3a3',fontFamily:'Acephimere'}}
          placeholder='End Date'
-         placeholderTextColor='grey'
+         placeholderTextColor='#a3a3a3'
          />
 
         </View>
@@ -76,7 +76,7 @@ const Loyalty = () => {
             style={styles.button}>
             <Text style={styles.textbt}>{'Save'}</Text>
           </TouchableOpacity>
-          <Text style={{marginLeft:8,marginTop:10,fontSize:11}}>DELETE OFFER</Text>
+          <Text style={{marginLeft:8,marginTop:10,fontSize:10,color:'#707070',fontFamily:'Acephimere'}}>DELETE OFFER</Text>
 
         </View>
         <View style={{ marginTop: 30 }} />

@@ -9,7 +9,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         paddingVertical:15,
-        paddingHorizontal:40,
+        paddingHorizontal:25,
         backgroundColor:'#fff'
     }
 })

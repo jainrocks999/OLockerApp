@@ -1,28 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import {View, Text, Image, TouchableOpacity, TextInput,ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import axios from 'axios';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Toast from "react-native-simple-toast";
+import {Formik} from 'formik';
+import * as yup from 'yup';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../../../components/Loader';
+
+const loginValidationSchema = yup.object().shape({
+  email: yup.string().required('Please enter your Email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid Email Address'),
+  password: yup
+    .string()
+    .required('Please enter your Password'),
+});
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email,setEmail]=useState('')
-  const [password,setPassword]=useState('')
+  const [fetching,setFetching]=useState(false)
 
-const partnerLogin=async()=>{
-if(email==''){
-  console.log('Please enter ');
-}
-else if(password==''){
-
-}
-else{
-
+const partnerLogin=async(values)=>{
+  setFetching(true)
   var axios = require('axios');
-
     var config = {
       method: 'get',
-      url: 'http://api.myjeweller.in/api/Partner/PartnerLogin?email=info@attoinfotech.com&password=Atto%23303',
+      url:`https://devappapi.olocker.in/api/Partner/PartnerLogin?email=${values.email}&password=${values.password}`,
       headers: { 
         'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
       }
@@ -30,77 +34,46 @@ else{
     axios(config)
     .then(function (response) {
       console.log('yoyoyoyo',JSON.stringify(response.data));
+      if(response.data.success==true){
+        setFetching(false)
+        AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo))
+        navigation.replace('Home')
+        Toast.show('Login successful')
+      }
+      else if(response.data.success==false){
+      Toast.show(response.data.error_info.description)
+      setFetching(false)
+      }
     })
     .catch(function (error) {
       console.log('error',error);
+      setFetching(false)
     });
-  // let res=await fetch("http://api.myjeweller.in/api/Partner/PartnerLogin", {
-  //     "method": "POST",
-  //     "headers": {
-  //       'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
-  //        Accept: 'application/json',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //        email: 'info@attoinfotech.com',
-  //        password: 'Atto#303',
-  //    })
-  //   })
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       console.log("user response",response);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  
-//  let res=await fetch('http://api.myjeweller.in/api/Partner/PartnerLogin', {
-//     method: 'POST',
-//     headers: {
-//     'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
-//     Accept: 'application/json',
-//     'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//     "email": 'info@attoinfotech.com',
-//     "password": 123,
-//     }),
-//     });
-//   axios.get('https://api.myjeweller.in/api/Partner/PartnerLogin', {params:{
-//     email: 'info@attoinfotech.com',
-//     password: 'Atto#303',
-// }
-//  },
-//   { 'headers': { 
-//     'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
-//    } 
-//   })
-// await axios({
-//   method: 'GET',
-//   url: 'https://api.myjeweller.in/api/Partner/PartnerLogin',
-//   headers: {
-//     'MobileAppKey':'EED26D5A-711D-49BD-8999-38D8A60329C5',
-//     'Content-Type': 'application/json',
-//       'Accept': 'application/json',
-      
-//   },
-//   data: {
-//       "email" : 'info@attoinfotech.com',
-//       "password":'Atto#303',
-//   }
-// })
-//   .then((response) => {
-//     console.log(response);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   })
-
-}
-
 }
   return (
+    <Formik
+      initialValues={{email: '', password: ''}}
+      onSubmit={values => partnerLogin(values)}
+      validateOnMount={true}
+      validationSchema={loginValidationSchema}>
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        touched,
+        isValid,
+        errors,
+      }) => (
     <View style={styles.container}>
+      <ScrollView>
+        {fetching?<Loader/>:null}
+        <KeyboardAwareScrollView
+            extraScrollHeight={10}
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{flex: 1}}>
+
       <View
         style={{
           backgroundColor: '#052a47',
@@ -129,29 +102,47 @@ else{
           <View style={[styles.input, {marginTop: 20}]}>
             <Image
               style={styles.image}
-              source={require('../../../assets/phone.png')}
+              source={require('../../../assets/msg.png')}
             />
 
             <TextInput 
             style={styles.input1}
             placeholder="Enter your Email"
-            value={email}
-            onChangeText={(val)=>setEmail(val)}
+            // value={email}
+            // onChangeText={(val)=>setEmail(val)}
+            keyboardType='email-address'
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
+            value={values.email}
              />
           </View>
+          <View style={styles.error}>
+                      {errors.email && touched.email && (
+                        <Text style={styles.warn}>{errors.email}</Text>
+                      )}
+                    </View>
           <View style={[styles.input, {marginTop: 10}]}>
             <Image
               style={styles.image}
-              source={require('../../../assets/phone.png')}
+              source={require('../../../assets/lock1.png')}
             />
 
             <TextInput 
             style={styles.input1} 
             placeholder="Enter your Password" 
-            value={password}
-            onChangeText={(val)=>setPassword(val)}
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
+            value={values.password}
+            keyboardType={'number-pad'}
+            secureTextEntry={true}
             />
+            
           </View>
+          <View style={styles.error}>
+                      {errors.password && touched.password && (
+                        <Text style={styles.warn}>{errors.password}</Text>
+                      )}
+                    </View>
           <View style={{paddingHorizontal: 20}}>
             <TouchableOpacity
               style={{
@@ -165,9 +156,10 @@ else{
               }}
               onPress={() => 
                 // partnerLogin()
-              navigation.navigate('Home')
+                handleSubmit()
+              // navigation.navigate('Home')
               }>
-              <Text>GENERATE OTP</Text>
+              <Text>Login</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 40}} />
@@ -189,13 +181,19 @@ else{
               paddingVertical: 4,
             }}>
             <Text style={{fontWeight: '700'}}>{`Don't have account? `}</Text>
+            <TouchableOpacity onPress={()=>navigation.navigate('RegisterPage')}>
             <Text style={{color: '#e9056b', marginLeft: 3}}>
               {'Create Your Account'}
             </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-    </View>
+      </KeyboardAwareScrollView>
+      </ScrollView>
+      </View>
+      )}
+      </Formik>
   );
 };
 export default Login;

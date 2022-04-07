@@ -12,8 +12,11 @@ import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
 import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
+import { useSelector } from 'react-redux';
 const HomeScreen = () => {
    const navigation=useNavigation()
+   const selector=useSelector(state=>state.RequestList)
+   console.log('this is selector response',selector);
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
@@ -25,7 +28,7 @@ const HomeScreen = () => {
       />   
       <View>
         <View style={{paddingHorizontal:20,marginTop:10}}>
-         <Text>{'3 Pending Requests'}</Text>
+         <Text style={{color:'#565656',fontFamily:'Acephimere'}}>{'3 Pending Requests'}</Text>
          </View>
          <FlatList
          data={data}
@@ -35,24 +38,24 @@ const HomeScreen = () => {
 
                  </View>
                  <View style={{marginLeft:20}}>
-                     <Text style={{fontSize:16,color:'#032e63'}}>{item.name}</Text>
-                     <Text style={{fontSize:14,color:'#032e63'}}>{item.city}</Text>
-                     <Text style={{fontSize:12}}>{item.time}</Text>
+                     <Text style={{fontSize:16,color:'#032e63',fontFamily:'Acephimere'}}>{item.name}</Text>
+                     <Text style={{fontSize:13,color:'#032e63',fontFamily:'Acephimere'}}>{item.city}</Text>
+                     <Text style={{fontSize:11,color:'#575757',fontFamily:'Acephimere'}}>{item.time}</Text>
                      <View style={{
                        alignItems:'center',
                        justifyContent:'space-between',
                        flexDirection:'row',
-                       marginTop:10,
+                       marginTop:20,
                        }}>
                        <TouchableOpacity style={{
-                         backgroundColor:'green',
+                         backgroundColor:'#5dc95c',
                          paddingHorizontal:15,
                          alignItems:'center',
                          justifyContent:'center',
                          borderRadius:15,
                          paddingVertical:5
                        }}>
-                          <Text style={{color:'#fff',fontSize:12}}>ACCEPT</Text>
+                          <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ACCEPT</Text>
                        </TouchableOpacity>
                        <TouchableOpacity style={{
                          backgroundColor:'red',
@@ -64,7 +67,7 @@ const HomeScreen = () => {
                          marginLeft:10
                          
                        }}>
-                          <Text style={{color:'#fff',fontSize:12}}>REJECT</Text>
+                          <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>REJECT</Text>
                        </TouchableOpacity>
                      </View>
                  </View>
@@ -81,8 +84,8 @@ const HomeScreen = () => {
 };
 export default HomeScreen;
 const data=[
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
+    {image:'',name:'RC Bafna Jewellers',city:'Mumbai',time:'17 Minutes ago'},
+    {image:'',name:'RC Bafna Jewellers',city:'Mumbai',time:'17 Minutes ago'},
+    {image:'',name:'RC Bafna Jewellers',city:'Mumbai',time:'17 Minutes ago'},
 
 ]

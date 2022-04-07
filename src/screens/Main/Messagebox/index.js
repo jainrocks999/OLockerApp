@@ -31,20 +31,22 @@ const HomeScreen = () => {
           width:'75%'
           }}>
             <TouchableOpacity style={{
-              borderWidth:1,height:40,
+              borderWidth:1,
               borderRadius:16,alignItems:'center',
               justifyContent:'center',
-              paddingHorizontal:20
+              paddingHorizontal:20,
+              paddingVertical:5
               }}>
-              <Text>Bussiness</Text>
+              <Text style={{fontFamily:'Roboto-Medium',fontSize:13,color:'#032e63'}}>Business</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{
-              borderWidth:1,height:40,
+              borderWidth:1,
               borderRadius:16,alignItems:'center',
               justifyContent:'center',
-              paddingHorizontal:20
+              paddingHorizontal:20,
+              paddingVertical:5
               }}>
-              <Text>Customer</Text>
+              <Text style={{fontFamily:'Roboto-Medium',fontSize:13,color:'#616161'}}>Customer</Text>
             </TouchableOpacity>
         </View>
         <View>
@@ -53,15 +55,15 @@ const HomeScreen = () => {
           renderItem={({item})=>(
             <View style={{backgroundColor:'#fff',marginTop:10,paddingHorizontal:10,paddingVertical:10,paddingLeft:20}}>
                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                 <Text style={{fontSize:16}}>{item.title}</Text>
+                 <Text style={{fontSize:16,color:'#032e63',fontFamily:'Roboto-Medium'}}>{item.title}</Text>
                  <View style={{backgroundColor:'#12cb16',paddingHorizontal:6,paddingVertical:2}}>
-                   <Text style={{color:'#fff',fontSize:13}}>NEW</Text>
+                   <Text style={{color:'#fff',fontSize:12,fontFamily:'Roboto-Regular'}}>NEW</Text>
                  </View>
                </View>
-               <Text>{item.text}</Text>
+               <Text style={{fontFamily:'Roboto-Regular',color:'#4b4b4b'}}>{item.text}</Text>
                <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
                  <Image style={{tintColor:'grey',height:12,width:16}} source={require('../../../assets/Fo.png')}/>
-                 <Text style={{marginLeft:6,fontSize:12,color:'grey'}}>{item.time}</Text>
+                 <Text style={{marginLeft:6,fontSize:12,color:'#939393'}}>{item.time}</Text>
                </View>
             </View>
           )}
@@ -83,10 +85,10 @@ const HomeScreen = () => {
            width:'100%',
            paddingHorizontal:40,
            alignItems:'center',
-           paddingVertical:8,
+           paddingVertical:10,
            borderRadius:10
            }}>
-           <Text style={{color:'#fff',fontSize:16,fontWeight:'500'}}>Send new message</Text>
+           <Text style={{color:'#fff',fontSize:16,fontFamily:'Roboto-Medium'}}>Send new message</Text>
          </TouchableOpacity>
       </View>  
        <View style={{bottom:0,position:'absolute',left:0,right:0}}>

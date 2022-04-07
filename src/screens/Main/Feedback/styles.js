@@ -19,7 +19,8 @@ export default StyleSheet.create({
     {
        fontWeight: '400',
        // color: '#032e63',
-        fontSize: 16
+        fontSize: 13,
+        fontFamily:'Acephimere'
     },
     card:
     {
@@ -75,7 +76,7 @@ export default StyleSheet.create({
         alignItems:'center',
         borderColor: 'grey',
         justifyContent:'center',
-        paddingVertical:7
+        paddingVertical:8
        
     },
     bottom: {
@@ -116,7 +117,8 @@ export default StyleSheet.create({
     textbt: {
         color: 'white',
         fontSize: 20,
-        fontWeight: '500'
+        fontWeight: '500',
+        fontFamily:'Acephimere'
     },
     rnimg:{
         marginLeft: 2,

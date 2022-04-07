@@ -19,10 +19,12 @@ import RNPickerSelect from 'react-native-picker-select';
 import Bottum from "../../../components/StoreButtomTab";
 import Header from '../../../components/CustomHeader';
 import Stars from "react-native-stars";
+import { useSelector } from 'react-redux';
 
 const ExpandableComponent = ({item, onClickFunction}) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
   const navigation=useNavigation()
+
   useEffect(() => {
     if (item.isExpanded) {
       setLayoutHeight(null);
@@ -50,8 +52,11 @@ const ExpandableComponent = ({item, onClickFunction}) => {
               flexDirection:'row',
               alignItems:'center',
             }}>
-         <Text style={{fontSize:15,color:'#032e63'}}>{item.name}</Text>
-          <View 
+         <Text style={{fontSize:15,
+          color:'#032e63',
+          fontFamily:'Acephimere'
+          }}>{item.CustomerName}</Text>
+          {/* <View 
           style={{
             backgroundColor:'#da9401',
             borderRadius:20,
@@ -60,18 +65,22 @@ const ExpandableComponent = ({item, onClickFunction}) => {
             marginLeft:10,
             paddingVertical:2,paddingHorizontal:17
             }}>
-              <Text style={{color:'#fff',fontSize:10}}>GOLD</Text>
-          </View>
+              <Text style={{color:'#fff',fontSize:9,fontFamily:'Acephimere'}}>GOLD</Text>
+          </View> */}
           </View>
           <View>
-          <Stars
-                    display={3}
-                    spacing={3}
-                    count={5}
-                    starSize={15}
-                    fullStar= {require('../../../assets/Image/star.png')}
-                    emptyStar= {require('../../../assets/Image/star1.png')}/>
-
+          {item.QuestionAnswers.map((item, key) => 
+            item.Question=='Rate Us Between 1 to 10, 1 being the best & 10 worst?'?
+            <Stars
+            display={item.Answer/2}
+            spacing={3}
+            count={5}
+            starSize={15}
+            fullStar= {require('../../../assets/Image/star.png')}
+            emptyStar= {require('../../../assets/Image/star1.png')}/>
+             :null
+          )}
+         
           </View>
           </View>
           <View style={{
@@ -81,10 +90,10 @@ const ExpandableComponent = ({item, onClickFunction}) => {
             marginTop:5,
             paddingHorizontal:17
             }}>
-          <Text>{item.mobile}</Text>
-          {/* <Text>{item.date}</Text> */}
+          <Text style={{color:'#313131',fontFamily:'Roboto-Medium'}}>{item.MobileNo}</Text>
+         {layoutHeight==null? <Text style={{fontSize:12,color:'#2d2d2d',fontFamily:'Acephimere'}}>{item.CreateDate}</Text>:null}
               </View>
-          <View style={{
+          {layoutHeight==0? <View style={{
             flexDirection:'row',
             alignContent:'center',
             justifyContent:'space-between',
@@ -92,67 +101,44 @@ const ExpandableComponent = ({item, onClickFunction}) => {
             width:'100%'
             }}>
               <View style={{width:'30%'}}></View>
-             {layoutHeight==0? <View style={{flexDirection:'row'}}>
-                <Text style={{fontSize:12}}>EXPAND</Text>
-                <Image style={{height:12,width:14,marginLeft:5}} source={require('../../../assets/F.png')}/>
-              </View>:<View/>}
-              <Text style={{fontSize:12}}>{item.date}</Text>
-          </View>
+             <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Text style={{fontSize:12,fontFamily:'Acephimere'}}>EXPAND</Text>
+                <Image style={{height:10,width:8,marginLeft:5}} source={require('../../../assets/arrowD.png')}/>
+              </View>
+              <Text style={{fontSize:12,color:'#2d2d2d',fontFamily:'Acephimere'}}>{item.CreateDate}</Text>
+          </View>:<View/>}
           <View
         style={{
           height: layoutHeight,
           overflow: 'hidden',
         }}>
-        {item.subcategory.map((item, key) => (
-          <View>
-           <View style={{ borderWidth:1, marginTop:15, borderColor:'#DDDDDD',}}/>
-           <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:7}}>
-           <Text>How was our Jewellery collection</Text>
-          <Text style={{color:'#032e63',fontSize:12}}>Excellent</Text>
+        {item.QuestionAnswers.map((item, key) => (
+          <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:15}}>
+              <View style={{width:'45%',marginTop:5}}>
+               <Text style={{color:'#2d2d2d',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.Question}</Text>
+              </View>
 
-           </View>
-          
-           <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:4}}>
-           <Text>Staff behavior</Text>
-          <Text style={{color:'#032e63',fontSize:12}}>Well Behaved</Text>
-
-           </View>
-          
-           <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:4}}>
-           <Text>Showroom ambience</Text>
-          <Text style={{color:'#032e63',fontSize:12}}>Proper Jewellery displyed</Text>
-
-           </View>
-          
-           <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,marginTop:4}}>
-           <Text>Will vou refer us</Text>
-          <Text style={{color:'#032e63',fontSize:12}}>Yes</Text>
-
-           </View>
-          <View style={{ marginTop: 20, marginHorizontal: 10, }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Messagebox')}
-            style={styles.button}>
-            <Text style={styles.textbt}>{'Reply'}</Text>
-          </TouchableOpacity>
-        </View>
-        </View>
-         
+              <View style={{width:'45%',marginTop:5}}>
+               <Text style={{color:'#032e63',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.Answer}</Text>
+              </View>
+          </View>
+        
         ))}
       </View>
-       </View>
-       
+       </View>    
       </TouchableOpacity>
-      
     </View>
   );
 };
 
 const App = () => {
   const navigation=useNavigation()
-  const [listDataSource, setListDataSource] = useState(CONTENT);
+  const selector=useSelector(state=>state.Feedback)
+  const [listDataSource, setListDataSource] = useState(selector);
   const [multiSelect, setMultiSelect] = useState(false);
-
+  const [pending,setPending]=useState(true)
+  const [replied,setReplied]=useState(false)
+console.log('this is selector value',selector);
   if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
@@ -160,10 +146,8 @@ const App = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const array = [...listDataSource];
     if (multiSelect) {
-      // If multiple select is enabled
       array[index]['isExpanded'] = !array[index]['isExpanded'];
     } else {
-      // If single select is enabled
       array.map((value, placeindex) =>
         placeindex === index
           ? (array[placeindex]['isExpanded'] =
@@ -173,6 +157,14 @@ const App = () => {
     }
     setListDataSource(array);
   };
+  const managePending=()=>{
+    setPending(true)
+    setReplied(false)
+  }
+  const manageReplied=()=>{
+    setReplied(true)
+    setPending(false)
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -185,24 +177,42 @@ const App = () => {
        onPress={() => navigation.goBack()}
        />
         <ScrollView>
-        <View style={styles.main}>
-            <View style={[styles.main1,{borderColor:'#032e63'}]}>
-            <Text style={[styles.Text1,{color:'#032e63'}]}>Pending Reply</Text>
-            </View>      
-        <View style={[styles.main1,{marginLeft:10}]}>
-          <Text style={styles.Text1}>Replied</Text>
-            </View>
+        {/* <View style={styles.main}>
+            <TouchableOpacity
+             onPress={()=>managePending()}
+             style={[styles.main1,{borderColor:pending==true?'#032e63':'#2d2d2d'}]}>
+              <Text style={[styles.Text1,{color:pending==true?'#032e63':'#2d2d2d'}]}>Pending Reply</Text>
+            </TouchableOpacity>      
+            <TouchableOpacity
+             onPress={()=>manageReplied()}
+             style={[styles.main1,{marginLeft:10,borderColor:replied==true?'#032e63':'#2d2d2d'}]}>
+              <Text style={[styles.Text1,{color:replied==true?'#032e63':'#2d2d2d'}]}>Replied</Text>
+            </TouchableOpacity>
 
-          </View>
-          {listDataSource.map((item, key) => (
+          </View> */}
+         {pending==true? <View>
+          {selector.map((item, key) => (
             <ExpandableComponent
-              key={item.category_name}
+              key={item.CustomerSrNo}
               onClickFunction={() => {
                 updateLayout(key);
               }}
               item={item}
             />
           ))}
+          </View>:null}
+          {replied==true? <View>
+          {selector.map((item, key) => (
+            <ExpandableComponent
+              key={item.CustomerSrNo}
+              onClickFunction={() => {
+                updateLayout(key);
+              }}
+              item={item}
+            />
+          ))}
+          </View>:null}
+
           <View style={{marginBottom:70}}/>
         </ScrollView>
       </View>

@@ -19,10 +19,45 @@ import {
 } from 'victory-native';
 import RNPickerSelect from 'react-native-picker-select';
 import styles from './styles';
+import { useSelector,useDispatch } from 'react-redux';
+import Loader from '../../../components/Loader';
+import AsyncStorage from "@react-native-community/async-storage";
 
 const MyCatalogue = () => {
   const navigation = useNavigation();
   const [status,setStatus]=useState('')
+  const isFetching=useSelector(state=>state.isFetching)
+  const dispatch=useDispatch()
+
+  const manageCustomer=async()=>{
+    const srno=await AsyncStorage.getItem('Partnersrno')
+    dispatch({
+      type: 'Get_Customer_Request',
+      url: 'GetCustomersByPartnerId',
+      PartnerSrno:srno,
+      navigation
+    });
+    
+  }
+
+  const manageFeedback=async()=>{
+    const srno=await AsyncStorage.getItem('Partnersrno')
+    dispatch({
+      type: 'Get_Feedback_Request',
+      url: 'GetCustomerFeedbackByPartnerId',
+      PartnerSrno:srno,
+      navigation
+    });
+  }
+  const Loyalty=(id)=>{
+    dispatch({
+      type: 'Get_Loyalty_Request',
+      url: 'GetPartnerPoint',
+      customerId:857246,
+      navigation
+    });
+  }
+
 
   const data = [
     {quarter: 1, earnings: 500},
@@ -47,6 +82,7 @@ const MyCatalogue = () => {
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
+      {isFetching?<Loader/>:null}
       <ScrollView>
         <View
           style={{
@@ -67,12 +103,12 @@ const MyCatalogue = () => {
             borderRadius: 10,
           }}>
           <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
-            <Text style={{fontWeight:'700'}}>{'35705 customers '}</Text>
+            <Text style={{fontFamily:'Philosopher-Regular',color:'#032e63',fontSize:16}}>{'35705 customers '}</Text>
             <View style={{
               borderWidth: 1,
               borderRadius: 30,
               height: 40,
-              width: '50%',
+              width: '55%',
               marginTop: 10,
               paddingHorizontal: 15,
               justifyContent: 'center',
@@ -82,9 +118,9 @@ const MyCatalogue = () => {
                 items={Data}
                 onValueChange={val =>setStatus(val)}
                 style={ {
-                  inputAndroid: { color: 'black', width: '100%', fontSize: 12, marginBottom: -1, },
-                  inputIOS: { color: 'black', width: '100%', fontSize: 12, marginBottom: -1, },
-                  placeholder: { color: 'black', width: '100%', alignSelf: 'center', },
+                  inputAndroid: { color: '#3b3a3a', width: '100%', fontSize: 12, marginBottom: -1,fontFamily:'Acephimere' },
+                  inputIOS: { color: '#3b3a3a', width: '100%', fontSize: 12, marginBottom: -1,fontFamily:'Acephimere' },
+                  placeholder: { color: '#3b3a3a', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
               }}
                 value={status}
                 useNativeAndroidPickerStyle={false}
@@ -116,9 +152,9 @@ const MyCatalogue = () => {
               ]}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 20, padding: 30},
+                axisLabel: {fontSize: 20, padding: 30,fontFamily:'Acephimere'},
                 ticks: {stroke: 'grey', size: 5},
-                tickLabels: {fontSize: 8, padding: 5},
+                tickLabels: {fontSize: 8, padding: 5,fontFamily:'Acephimere'},
               }}
             />
             <VictoryAxis dependentAxis tickFormat={x => `${x}`} sty />
@@ -134,76 +170,28 @@ const MyCatalogue = () => {
           alignItems:'center',
           paddingVertical:10
           }}>
-          <TouchableOpacity onPress={()=>navigation.navigate('Mycustomer')}
+          <TouchableOpacity onPress={()=>manageCustomer()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
                  <Image style={{height:60,width:60,}} source={require('../../../assets/Image/myCustomerImage.png')}/>
                </View>
-               <Text style={{fontSize:12,marginTop:5}}>{'My Customers'}</Text>
+               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'My Customers'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('Feedback')}
+          <TouchableOpacity onPress={()=>manageFeedback()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
                  <Image style={{height:60,width:60,}} source={require('../../../assets/Image/feedbackI.png')}/>
                </View>
-               <Text style={{fontSize:12,marginTop:5}}>{'Feedback'}</Text>
+               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Feedback'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('Loyalty')}
+          <TouchableOpacity onPress={()=>Loyalty()}
            style={{alignItems:'center'}}>
                <View style={{}}>
                  <Image style={{height:60,width:60,}} source={require('../../../assets/Image/heart.png')}/>
                </View>
-               <Text style={{fontSize:12,marginTop:5}}>{'Loyalty'}</Text>
+               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Loyalty'}</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={{alignItems:'center'}}>
-          <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/leaderI.png')}/>
-               </View>
-               <Text style={{fontSize:12,marginTop:5}}>{'Letherboard'}</Text>
-          </TouchableOpacity> */}
-        </View>
-        {/* <View style={styles.blog}>
-            <Image style={styles.img1}
-              source={require('../../../assets/search1.png')}
-            />
-            <TextInput
-              style={{marginLeft: 10}}
-              placeholder="Search by Name or Phone Number"
-              placeholderTextColor='grey'
-              style={{color: 'grey', width: '100%'}}
-              returnKeyType="done"
-            />
-          </View> */}
-          {/* <View style={{paddingHorizontal:15}}>
-            <Text>Recent downloads</Text>
-          </View> */}
-          {/* <View>
-            <FlatList 
-            data={User}
-            renderItem={({item})=>(
-              <View style={{
-                backgroundColor:'#fff',
-                marginTop:10,
-                flexDirection:'row',
-                justifyContent:'space-between',
-                paddingHorizontal:20,
-                alignItems:'center',
-                paddingVertical:10
-              }}>
-                <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
-                <Image
-                style={{width:40,height:40,borderRadius:20}}
-                source={item.image}/>
-                <Text style={{marginLeft:20}}>{item.title}</Text>
-                </View>
-                <View>
-                  <Text>{item.mobile}</Text>
-                </View>
-              </View>
-            )}
-            />
-          </View> */}
-         
+        </View>  
 
         <View style={{height:140}}/>
 
@@ -213,7 +201,7 @@ const MyCatalogue = () => {
           alignItems:'center',
           justifyContent:'center'
         }}>
-          <Text style={{color:'#fff',fontSize:30,fontWeight:'500'}}>+</Text>
+          <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View>
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <TabView />
@@ -234,9 +222,9 @@ const data = [
   {title: 'Hello', type: 'add'},
 ];
 const Data = [
-  { label: 'Last 1 year', value: '1' },
-  { label: 'Last 2 year', value: '2' },
-  { label: 'Last 3 year', value: '3' },
+  { label: 'Today Downloads', value: 'Today Downloads' },
+  { label: 'Total Downloads', value: 'Total Downloads' },
+  // { label: 'Last 3 year', value: '3' },
 ];
 const User=[
   {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},

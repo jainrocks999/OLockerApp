@@ -25,7 +25,7 @@ const BottomTab = () => {
       <View style={styles.container}>
         <View style={{width: 30}}>
         <Image
-            style={{height: 25, width: 25}}
+            style={{height: 25, width: 25,marginTop:6}}
             source={require('../../assets/Lay.png')}
           />
         </View>
@@ -38,7 +38,7 @@ const BottomTab = () => {
       <View style={styles.container}>
         <View style={{width: 30}}>
         <Image
-            style={{height: 25, width: 25}}
+            style={{height: 28, width: 28,marginTop:2}}
             source={require('../../assets/noti.png')}
           />
         </View>
@@ -51,7 +51,7 @@ const BottomTab = () => {
       <View style={styles.container}>
         <View style={{width: 30}}>
         <Image
-            style={{height: 25, width: 25}}
+            style={{height: 25, width: 23}}
             source={require('../../assets/Sh.png')}
           />
         </View>

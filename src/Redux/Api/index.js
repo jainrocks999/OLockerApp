@@ -6,12 +6,11 @@ export default class Api {
     try {
       const response = await axios({
         method: 'POST',
-        headers: {
-          'content-type': 'multipart/form-data',
-          Accept: 'multipart/form-data',
+        headers: { 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
         },
         url: Constants.MainUrl + url,
-        data,
+        params:data,
       });
       return response.data;
     } catch (error) {
@@ -19,48 +18,30 @@ export default class Api {
     }
   };
 
-  static fetchDataByPOSTValue = async (url) => {
-    try {
-      const response = await axios({
-        method: 'POST',
-        // headers: {
-        //   'content-type': 'multipart/form-data',
-        //   Accept: 'multipart/form-data',
-        // },
-        url: Constants.MainUrl + url,
-        //data,
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };
-  static fetchDataByGETValue = async (url) => {
+  static fetchDataByGET = async (url,data) => {
     try {
       const response = await axios({
         method: 'GET',
-        // headers: {
-        //   'content-type': 'multipart/form-data',
-        //   Accept: 'multipart/form-data',
-        // },
+        headers: { 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
         url: Constants.MainUrl + url,
-        //data,
+        params:data        
       });
       return response.data;
     } catch (error) {
       throw error;
     }
   };
-
-  static fetchDataByGET = async (url) => {
+  static fetchDataByGET2 = async (url,data) => {
     try {
       const response = await axios({
         method: 'GET',
-        headers: {
-          'content-type': 'multipart/form-data',
-          Accept: 'multipart/form-data',
+        headers: { 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
         },
-        url: Constants.MainUrl + url,
+        url: Constants.MainUrl2 + url,
+        params:data        
       });
       return response.data;
     } catch (error) {
@@ -68,5 +49,20 @@ export default class Api {
     }
   };
 
+  static fetchDataByGET1 = async (url,data) => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        headers: { 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl1 + url,
+        params:data        
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
  
 }

@@ -37,8 +37,8 @@ card: {
     //borderWidth: 1,
   },
   image: {
-    width: 34,
-    height: 34,
+    width: 28,
+    height: 28,
     marginLeft:-10
   },
   input1: {
@@ -57,4 +57,17 @@ card: {
     
     
   },
+  error:
+    {
+        width:'90%',
+        justifyContent:'center',
+        alignItems:'flex-start',
+        paddingHorizontal:22,
+        marginTop:6
+    },
+    warn:
+    {
+        fontSize:12,
+        color:'red'
+    },
 })

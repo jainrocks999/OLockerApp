@@ -12,9 +12,52 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import Header from '../../../components/CustomHeader';
 import BottomTab from '../../../components/StoreButtomTab';
+import { useSelector,useDispatch } from 'react-redux';
+import Loader from '../../../components/Loader';
 const Mycustomer = () => {
   const navigation = useNavigation();
-  
+  const selector=useSelector(state=>state.CustomerList)
+  const dispatch=useDispatch()
+  console.log('this is selector data',selector);
+  const isFetching=useSelector(state=>state.isFetching)
+  const [search,setSearch]=useState('')
+  const [filteredDataSource, setFilteredDataSource] = useState(selector);
+  const [masterDataSource, setMasterDataSource] = useState(selector);
+
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = `${item.FirstName} ${item.LastName} ${item.Mobile}`
+          ? `${item.FirstName} ${item.LastName} ${item.Mobile}`.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
+const handleSearch = () => {
+    setSearch('');
+    setFilteredDataSource(masterDataSource);
+  };
+
+const userProfile=(id)=>{
+  dispatch({
+    type: 'Get_User_Request',
+    url: 'GetUserProfile',
+    customerId:id,
+    navigation
+  });
+}
+
+
+
+
   return (
     <View style={styles.container1}>
      <Header
@@ -24,24 +67,28 @@ const Mycustomer = () => {
       title={'My Customers '}
       onPress={() => navigation.goBack()}
       /> 
+      {isFetching?<Loader/>:null}
        <View style={styles.blog}>
-            <Image style={styles.img1}
-              source={require('../../../assets/search1.png')}
+            <Image style={{height:13,width:20}} resizeMode={'contain'}
+              source={require('../../../assets/Image/serch.png')}
             />
             <TextInput
               style={{marginLeft: 10}}
               placeholder="Search by Name or Phone Number"
-              placeholderTextColor='grey'
-              style={{color: 'grey', width: '100%'}}
+              placeholderTextColor='9a9a9a'
+              style={{color: '9a9a9a', width: '100%',fontFamily:'Roboto-Regular'}}
               returnKeyType="done"
+              value={search}
+              onChangeText={(val)=>searchFilterFunction(val)}
             />
           </View>
           <View>
             <FlatList 
-            data={User}
+            data={filteredDataSource}
             renderItem={({item})=>(
               <TouchableOpacity
-               onPress={()=>navigation.navigate('MyCustomerDetail')}
+              onPress={()=>userProfile(item.SrNo)}
+              //  onPress={()=>navigation.navigate('MyCustomerDetail')}
                style={{
                 backgroundColor:'#fff',
                 marginTop:10,
@@ -54,11 +101,18 @@ const Mycustomer = () => {
                 <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
                 <Image
                 style={{width:40,height:40,borderRadius:20}}
-                source={item.image}/>
-                <Text style={{marginLeft:20}}>{item.title}</Text>
+                source={require('../../../assets/user.jpeg')}/>
+                <Text 
+                style={{
+                  marginLeft:20,
+                  color:'#032e63',
+                  fontFamily:'Acephimere',
+                  fontSize:14,
+                  width:'50%'
+                  }}>{`${item.FirstName} ${item.LastName}`}</Text>
                 </View>
                 <View>
-                  <Text>{item.mobile}</Text>
+                  <Text style={{fontFamily:'Roboto-Regular',color:'#313131',fontSize:15}}>{item.Mobile}</Text>
                 </View>
               </TouchableOpacity>
             )}
@@ -69,7 +123,7 @@ const Mycustomer = () => {
           alignItems:'center',
           justifyContent:'center'
         }}>
-          <Text style={{color:'#fff',fontSize:30,fontWeight:'500'}}>+</Text>
+        <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View>
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />

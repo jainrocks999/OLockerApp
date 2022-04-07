@@ -7,13 +7,33 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Linking
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import Header from '../../../components/CustomHeader';
 import BottomTab from '../../../components/StoreButtomTab';
+import { useSelector,useDispatch } from "react-redux";
+import Loader from '../../../components/Loader';
+import ImagePath from '../../../components/ImagePath';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const Mycustomer = () => {
   const navigation = useNavigation();
+  const isFetching=useSelector(state=>state.isFetching)
+  const selector=useSelector(state=>state.User)
+  console.log('this is selector data',selector);
+  const dispatch=useDispatch()
+const manageFeedback=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno')
+    dispatch({
+      type: 'Get_Feedback_Request',
+      url: 'GetCustomerFeedbackByPartnerId',
+      PartnerSrno:srno,
+      navigation
+    });
+  }
+
 
   return (
     <View style={styles.container1}>
@@ -21,9 +41,10 @@ const Mycustomer = () => {
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
         source2={require('../../../assets/La.png')}
-        title={'My Customers '}
+        title={'My Customers Profile'}
         onPress={() => navigation.goBack()}
       />
+      {isFetching?<Loader/>:null}
       <ScrollView>
       <View
         style={{
@@ -34,30 +55,50 @@ const Mycustomer = () => {
           paddingVertical: 20,
           flexDirection: 'row',
         }}>
-        <View style={{width: '30%', height: 100, borderWidth: 1}}></View>
+        <View style={{width: '30%', height: 100, }}>
+          <Image 
+          style={{height: '100%', width: 100 }}
+          source={{
+            uri: `${ImagePath.Path}${selector.ImageLocation}`,
+          }}
+          />
+        </View>
         <View style={{width: '70%', paddingHorizontal: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: '#032e63', fontSize: 16}}>Milind Shethia</Text>
+          <View style={{flexDirection: 'row',alignItems:'center'}}>
+            <Text style={{
+              color: '#032e63', 
+              fontSize: 16,
+              fontFamily:'Acephimere',
+              }}>{`${selector.FirstName} ${selector.LastName}`}</Text>
             <View
               style={{
-                backgroundColor: '#918f90',
+                backgroundColor: '#595758',
                 marginLeft: 7,
-                borderRadius: 10,
                 paddingHorizontal: 10,
-                paddingVertical: 2,
+                alignItems:'center',
+                justifyContent:'center',
+                borderWidth:1,
+                paddingVertical:2,
+                borderRadius:10
               }}>
-              <Text style={{fontSize: 12, color: '#fff'}}>PLATINUM</Text>
+              <Text style={{fontSize: 9, color: '#fff',fontFamily:'Acephimere'}}>PLATINUM</Text>
             </View>
           </View>
-          <Text style={{fontSize: 12, fontWeight: '700', marginTop: 8}}>
-            {'34,Atmosphere Tower\nNavi Mumbai 400000\nMaharashtra,India'}
+          <Text style={{fontSize: 12, fontFamily: 'Acephimere', marginTop: 8,color:'#343434'}}>
+            {/* {'34,Atmosphere Tower\nNavi Mumbai 400000\nMaharashtra,India'} */}
+            {` ${selector.Address1}\n ${selector.City} ${selector.Pin}\n ${selector.State} ${selector.Country}`}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{marginTop: 10, color: '#000'}}>+918765467834</Text>
+            <Text style={{marginTop: 10, color: '#313131',fontFamily:'Acephimere'}}>{`+91${selector.MobileNo}`}</Text>
+            <TouchableOpacity
+            onPress={()=>Linking.openURL(`tel:${selector.MobileNo}`)}
+            >
             <Image
-              style={{height: 40, width: 40}}
+              style={{height: 28, width: 29,}}
+              resizeMode={'contain'}
               source={require('../../../assets/PartnerImage/16.png')}
             />
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -67,12 +108,19 @@ const Mycustomer = () => {
               alignItems: 'center',
             }}>
             <View>
-              <Text style={{color: '#032e63'}}>Birthday</Text>
-              <Text>10 Sep 1989</Text>
+              <Text style={{color: '#032e63',fontFamily:'Acephimere'}}>Birthday</Text>
+              <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Image style={{height:15,width:15}} source={require('../../../assets/calender.png')}/>
+              <Text style={{marginLeft:6,fontFamily:'Acephimere'}}>{selector.DOB}</Text>
+              </View>
             </View>
             <View>
-              <Text style={{color: '#032e63'}}>Anniversary</Text>
-              <Text>NA</Text>
+              <Text style={{color: '#032e63',fontFamily:'Acephimere'}}>Anniversary</Text>
+              <View style={{flexDirection:'row',alignItems:'center'}}>
+              <Image style={{height:15,width:15}} source={require('../../../assets/calender.png')}/>
+              <Text style={{marginLeft:6,fontFamily:'Acephimere'}}>NA</Text>
+              </View>
+
             </View>
           </View>
         </View>
@@ -88,11 +136,11 @@ const Mycustomer = () => {
             borderRadius: 10,
           }}>
           <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
-            <Text style={{fontSize: 16, fontWeight: '700', color: '#032e63'}}>
-              Customer Management{' '}
+            <Text style={{fontSize: 18, fontFamily: 'Philosopher-Regular', color: '#032e63'}}>
+              {'Customer Management '}
             </Text>
           </View>
-          <View style={{borderWidth: 0.5, borderColor: 'grey'}} />
+          <View style={{borderWidth: 0.4, borderColor: 'grey'}} />
           <View
             style={{
               flexDirection: 'row',
@@ -101,7 +149,7 @@ const Mycustomer = () => {
               width: '100%',
             }}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Feedback')}
+              onPress={() => manageFeedback()}
               style={{
                 paddingVertical: 20,
                 alignItems: 'center',
@@ -110,11 +158,11 @@ const Mycustomer = () => {
               }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
-                  style={{height: 35, width: 35}}
+                  style={{height: 35, width: 35,tintColor:'#032e63'}}
                   source={require('../../../assets/Image/handFeed.png')}
                 />
               </View>
-              <Text style={{fontSize: 11, marginTop: 5}}>Feedback</Text>
+              <Text style={{fontSize: 11, marginTop: 5,color:'#343434',fontFamily:'Acephimere'}}>Feedback</Text>
             </TouchableOpacity>
             <View
               style={{
@@ -138,7 +186,7 @@ const Mycustomer = () => {
                   source={require('../../../assets/Image/msge.png')}
                 />
               </View>
-              <Text style={{fontSize: 11, marginTop: 14}}>Message Box</Text>
+              <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Message Box</Text>
             </TouchableOpacity>
             <View
               style={{
@@ -163,16 +211,16 @@ const Mycustomer = () => {
                   source={require('../../../assets/Image/userMy.png')}
                 />
               </View>
-              <Text style={{fontSize: 11, marginTop: 14}}>Edit Profile</Text>
+              <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Edit Profile</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={{marginTop: 20,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-          <Text style={{fontSize: 16}}>Purchase History</Text>
+          <Text style={{fontSize: 16,color:'#565656',fontFamily:'Acephimere'}}>Purchase History</Text>
           <TouchableOpacity
           onPress={()=>navigation.navigate('Purchase')}
            style={{backgroundColor:'#032e63',paddingHorizontal:10,borderRadius:8,paddingVertical:3}}>
-              <Text style={{color:'#fff'}}>View all</Text>
+              <Text style={{color:'#fff',fontFamily:'Acephimere',fontSize:11}}>View all</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -182,14 +230,28 @@ const Mycustomer = () => {
           renderItem={({item}) => (
             <View style={{backgroundColor:'#fff',marginTop:10,flexDirection:'row',paddingHorizontal:15,paddingVertical:15}}>
                 <View style={{width:'30%',height:90,borderWidth:1}}>
-
+                  <View style={{width:'100%',alignItems:'flex-end'}}>
+                    <View style={{
+                      backgroundColor:'#24a31e',
+                      borderBottomLeftRadius:13,
+                      paddingVertical:2,
+                      paddingHorizontal:10,
+                      alignItems:'center',
+                      justifyContent:'center'
+                    }}>
+                      <Text style={{fontFamily:'Roboto-Medium',fontSize:11,color:'#fff',marginBottom:1}}>INSURED</Text>
+                    </View>
+                  </View>
                 </View>
                 <View style={{width:'70%',paddingHorizontal:8}}>
                     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={{color:'#000'}}>{`ITEM ID   ${item.itemId}`}</Text>
-                        <Text style={{color:'#000'}}>{item.price}</Text>
+                        <Text style={{color:'#343434',fontFamily:'Acephimere'}}>{`ITEM ID   ${item.itemId}`}</Text>
+                        <View style={{flexDirection:'row'}}>
+                        <Image style={{width:16,height:16}} source={require('../../../assets/Image/rupay.png')}/>
+                        <Text style={{color:'#343434',fontFamily:'Acephimere'}}>{item.price}</Text>
+                        </View>
                     </View>
-                    <Text style={{fontSize:12,marginTop:5}}>{`Purchase Date  ${item.date}`}</Text>
+                    <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.date}`}</Text>
                     <View style={{justifyContent:'flex-end',alignItems:'flex-end'}}>
                         <Image style={{height:60,width:40}} source={require('../../../assets/Image/pdf.png')}/>
                     </View>

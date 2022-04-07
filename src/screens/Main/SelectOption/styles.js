@@ -21,9 +21,9 @@ export default StyleSheet.create({
     Text1:
     {
         fontWeight: '500',
-        color: 'grey',
-        // marginTop: 15,
-        fontSize: 17
+        color: '#949494',
+        fontSize: 17,
+        fontFamily:'Acephimere'
     },
     card:
     {

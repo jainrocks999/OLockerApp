@@ -14,8 +14,134 @@ import styles from './styles';
 import RNPickerSelect from 'react-native-picker-select';
 import Buttom from "../../../components/StoreButtomTab";
 import Header from '../../../components/CustomHeader';
+import { CheckBox } from 'react-native-elements';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from '@react-native-community/async-storage';
 const Addproduct = () => {
   const navigation = useNavigation();
+  const [type,setType]=useState('')
+  const [category,setCategory]=useState('')
+  const [collection,setCollection]=useState('')
+  const [stock_number,setStock_number]=useState('')
+  const [metal,setMetal]=useState('')
+  const [purity,setPurity]=useState('')
+  const [grossWeight,setGrossWeight]=useState('')
+  const [netWeight,setNetWeight]=useState('')
+  const [stone,setStone]=useState('')
+  const [diam,setDiam]=useState('')
+  const [stoneWeight,setStoneWeight]=useState('')
+  const [sValue,setSValue]=useState('')
+  const [price,setPrice]=useState('')
+  const [status,setStatus]=useState()
+
+  const [gold,setGold]=useState(false)
+  const [silver,setSilver]=useState(false)
+  const [platinum,setPlatinum]=useState(false)
+
+  const [gm,setGm]=useState(false)
+  const [percentage,setPercentage]=useState(false)
+
+  const [diamond,setDiamond]=useState(false)
+  const [otherStone,setOtherStone]=useState(false)
+
+const addProduct=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno')
+  if(type==''){
+    Toast.show('Please select type')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(collection==''){
+    Toast.show('Please select collection')
+  }
+  else if(stock_number==''){
+    Toast.show('Please enter stock number')
+  }
+  else if(metal==''){
+    Toast.show('Please select metal type')
+  }
+  else if(purity==''){
+    Toast.show('Please enter purity')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else if(category==''){
+    Toast.show('Please select category')
+  }
+  else{
+    dispatch({
+      type: 'Add_Collecion_Request',
+      url: 'AddCollection',
+      PartnerSrno:srno,
+    });
+  }
+  
+}
+
+const manageGold=()=>{
+  setGold(true)
+  setSilver(false)
+  setPlatinum(false)
+}
+const manageSilver=()=>{
+  setSilver(true)
+  setGold(false)
+  setPlatinum(false)
+}
+const managePlatinum=()=>{
+  setPlatinum(true)
+  setGold(false)
+  setSilver(false)
+}
+const manageGm=()=>{
+  setGm(true)
+  setPercentage(false)
+}
+const managePercentage=()=>{
+  setPercentage(true)
+  setGm(false)
+}
+const manageDiamond=()=>{
+  setDiamond(true)
+  setOtherStone(false)
+}
+const manageOtherStone=()=>{
+  setOtherStone(true)
+  setDiamond(false)
+}
+
 
   return (
     <View style={styles.container1}>
@@ -27,58 +153,46 @@ const Addproduct = () => {
       onPress={() => navigation.goBack()}
       />
       <ScrollView style={{ flex: 1, paddingHorizontal: 15, paddingVertical: 20, }}>
+      <KeyboardAwareScrollView
+            extraScrollHeight={10}
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{flex: 1}}>
+
         <View style={styles.card}>
 
           <View style={styles.main}>
             <Text style={styles.Text1}>Select Type</Text>
             <View style={styles.main1}>
               <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                items={Data}
-                value={Data}
+                onValueChange={(value) => setType(value)}
+                items={dataType}
+                value={type}
                 style={{
-                   inputAndroid: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                   inputIOS: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                   placeholder: { color: 'black', width: '100%', alignSelf: 'center', },
+                   inputAndroid: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+                   inputIOS: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+                   placeholder: { color: '#474747', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                 }}
                 useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Product', value: 0 }}
+                placeholder={{ label: 'Type', value: '' }}
                 Icon={() => (
                   <Image style={styles.rnimg}
                     source={require('../../../assets/F.png')}
                   />
                 )}
               />
-               {/* <RNPickerSelect
-                onValueChange={val =>setCategory(val)}
-                items={Data}
-                style={{
-                  inputAndroid: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                  inputIOS: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                  placeholder: { color: 'black', width: '100%', alignSelf: 'center', },
-              }}
-                value={type}  
-                useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Category', value: ''}}
-                Icon={() => (
-                  <Image style={styles.rnimg}
-                    source={require('../../../assets/F.png')}
-                  />
-                )}
-              /> */}
             </View>
           </View>
           <View style={styles.main}>
             <Text style={styles.Text1}>Category</Text>
             <View style={styles.main1}>
               <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                items={Data}
+                onValueChange={(value) => setCategory(value)}
+                items={dataCategory}
                 style={styles.rn}
-                value={Data}
-
+                value={category}
                 useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Necklace', value: 0 }}
+                placeholder={{ label: 'Select', value: '' }}
                 Icon={() => (
                   <Image style={styles.rnimg}
                   source={require('../../../assets/F.png')}
@@ -91,11 +205,12 @@ const Addproduct = () => {
             <Text style={styles.Text1}>Collection</Text>
             <View style={styles.main1}>
               <RNPickerSelect
-                items={Data}
+                items={dataCollection}
                 style={styles.rn}
-                value={Data}
+                value={collection}
+                onValueChange={(val)=>setCollection(val)}
                 useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Light jewellery', value: null }}
+                placeholder={{ label: 'Select', value: '' }}
                 Icon={() => (
                   <Image style={styles.rnimg}
                   source={require('../../../assets/F.png')}
@@ -112,43 +227,46 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Enter Id'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={stock_number}
+                onChangeText={(val)=>setStock_number(val)}
               />
             </View>
           </View>
-
           <View style={styles.main}>
             <Text style={styles.Text1}>Metal</Text>
-
-
-            <View>
-              {/* <CheckBox
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <CheckBox
                 center
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
-                checkedColor='blue'
-                checked='hh'
-                
-              /> */}
+                checkedColor='#032e63'  
+                checked={gold} 
+                onPress={()=>manageGold()}             
+              />
+              <Text style={{marginLeft:-15,fontSize:13,fontFamily:'Acephimere'}}>Gold</Text>
             </View>
-            <View>
-              {/* <CheckBox
+            <View style={{flexDirection:'row',alignItems:'center',marginLeft:-15}}>
+              <CheckBox
                 center
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
-                checkedColor='blue'
-              /> */}
-
+                checkedColor='#032e63'   
+                checked={silver}  
+                onPress={()=>manageSilver()}           
+              />
+              <Text style={{marginLeft:-15,fontSize:13,fontFamily:'Acephimere'}}>Silver</Text>
             </View>
-            <View>
-              {/* <CheckBox
+            <View style={{flexDirection:'row',alignItems:'center',marginLeft:-15}}>
+              <CheckBox
                 center
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
-                checkedColor='blue'
-            
-              /> */}
-
+                checkedColor='#032e63'    
+                checked={platinum}   
+                onPress={()=>managePlatinum()}         
+              />
+              <Text style={{marginLeft:-15,fontSize:13,fontFamily:'Acephimere'}}>Platinum</Text>
             </View>
           </View>
 
@@ -158,7 +276,9 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Purity %'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={purity}
+                onChangeText={(val)=>setPurity(val)}
               />
             </View>
           </View>
@@ -168,7 +288,9 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Enter weight in gm'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={grossWeight}
+                onChangeText={(val)=>setGrossWeight(val)}
               />
             </View>
           </View>
@@ -178,27 +300,90 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Enter weight in gm'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={netWeight}
+                onChangeText={(val)=>setNetWeight(val)}
               />
             </View>
           </View>
-          <View style={styles.main}>            
+          <View style={[styles.main]}>
+            <Text style={styles.Text1}>Making</Text>
+            <View style={{flexDirection:'row',width:'64%'}}>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <CheckBox
+                center
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                checkedColor='#032e63'   
+                checked={gm}  
+                onPress={()=>manageGm()}           
+              
+              />
+              <Text style={{marginLeft:-17,fontSize:12,fontFamily:'Acephimere'}}>Per gm</Text>
+            </View> 
+            <View style={{flexDirection:'row',alignItems:'center',marginLeft:-15}}>
+              <CheckBox
+                center
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                // checkedColor='blue'  
+                checkedColor='#032e63'   
+                checked={percentage}  
+                onPress={()=>managePercentage()}           
+                            
+              />
+              <Text style={{marginLeft:-17,fontSize:12,fontFamily:'Acephimere'}}>{`Percentage %`}</Text>
+            </View>
+            </View>
+          </View>
+          <View style={[styles.main,{marginTop:-7}]}>            
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder=''
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+
               />
             </View>
           </View>
-          <View style={styles.main}>            
+          <View style={[styles.main]}>
+            <Text style={styles.Text1}>Inclusion</Text>
+            <View style={{flexDirection:'row',width:'64%'}}>
+            <View style={{flexDirection:'row',alignItems:'center'}}>
+              <CheckBox
+                center
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                checkedColor='#032e63'   
+                checked={diamond}  
+                onPress={()=>manageDiamond()}           
+                          
+              />
+              <Text style={{marginLeft:-17,fontSize:12,fontFamily:'Acephimere'}}>Diamond</Text>
+            </View> 
+            <View style={{flexDirection:'row',alignItems:'center',marginLeft:-15}}>
+              <CheckBox
+                center
+                checkedIcon="dot-circle-o"
+                uncheckedIcon="circle-o"
+                checkedColor='#032e63'   
+                checked={otherStone}  
+                onPress={()=>manageOtherStone()}           
+                            />
+              <Text style={{marginLeft:-17,fontSize:12,fontFamily:'Acephimere'}}>{`Other Stone`}</Text>
+            </View>
+            </View>
+          </View>
+          <View style={[styles.main,{marginTop:-7}]}>            
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Stone name'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={stone}
+                onChangeText={(val)=>setStone(val)}
               />
             </View>
           </View>
@@ -208,7 +393,9 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Diam value'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={diam}
+                onChangeText={(val)=>setDiam(val)}
               />
             </View>
           </View>
@@ -218,7 +405,9 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Stone weight'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={stoneWeight}
+                onChangeText={(val)=>setStoneWeight(val)}
               />
             </View>
           </View>
@@ -228,17 +417,22 @@ const Addproduct = () => {
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
                 placeholder='Stone value'
-                placeholderTextColor='black'
+                placeholderTextColor='#474747'
+                value={sValue}
+                onChangeText={(val)=>setSValue(val)}
               />
             </View>
           </View>
           <View style={styles.main}>            
           <Text style={styles.Text1}>Price</Text>
-          <View style={styles.main1}>
+          <View style={[styles.main1,{alignItems:'center',flexDirection:'row'}]}>
+          <Image style={{width:16,height:20,marginBottom:3}} source={require('../../../assets/Image/rupay.png')}/>
               <TextInput
                 style={{ width: '90%', marginLeft: 0 }}
-                placeholder='Enter ammount'
-                placeholderTextColor='black'
+                placeholder='Enter amount'
+                placeholderTextColor='#474747'
+                value={price}
+                onChangeText={(val)=>setPrice(val)}
               />
             </View>
           </View>
@@ -246,22 +440,25 @@ const Addproduct = () => {
           <Text style={styles.Text1}>Status</Text>
           <View style={styles.main1}>
               <RNPickerSelect
-                items={Data}
+                items={dataStatus}
                 style={styles.rn}
-                value={Data}
+                value={status}
                 useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Active', value: null }}
+                placeholder={{ label: 'Select', value: '' }}
                 Icon={() => (
                   <Image style={styles.rnimg}
                   source={require('../../../assets/F.png')}
                 />
                 )}
+                onValueChange={(val)=>setStatus(val)}
               />
             </View>
 
           </View>
-
-          <View style={styles.bottom}>
+          <View style={styles.main}>
+          <Text style={styles.Text1}>Product photo</Text>
+          </View>
+          <View style={[styles.bottom]}>
             <View style={styles.btview} >
                <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
             </View>
@@ -283,6 +480,7 @@ const Addproduct = () => {
 
         </View>
         <View style={{ marginTop: 30 }} />
+        </KeyboardAwareScrollView>
       </ScrollView>
       <StatusBar />
       <Buttom />
@@ -298,3 +496,26 @@ const Data = [
   { label: 'Quarterly', value: '3' },
   { label: 'Monthly', value: '1' },
 ];
+
+const dataType = [
+  { label: 'Gold', value: '1' },
+  { label: 'Silver', value: '12' },
+  { label: 'Platinum', value: '6' },
+];
+
+const dataCategory =[
+  { label: 'Necklace', value: '1' },
+  { label: 'Jewellery', value: '12' },
+  { label: 'Diamond', value: '6' },
+]
+
+const dataCollection =[
+  { label: 'Necklace', value: '1' },
+  { label: 'Jewellery', value: '12' },
+  { label: 'Diamond', value: '6' },
+]
+
+const dataStatus =[
+  { label: 'Active', value: '1' },
+  { label: 'In Active', value: '12' },
+]

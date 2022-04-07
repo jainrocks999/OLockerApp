@@ -28,7 +28,7 @@ export default StyleSheet.create({
     },
     img1: {
         width: 25,
-        height: 24,
+        height: 18,
         marginLeft: 10
     },
     text: {

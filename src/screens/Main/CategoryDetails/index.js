@@ -3,17 +3,21 @@ import {View, Text, TouchableOpacity, FlatList, ScrollView,Image} from 'react-na
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import ImagePath from '../../../components/ImagePath';
 
 const MyProducts = ({route}) => {
     const navigation=useNavigation()
-    const datas=route.params.title
+    const selector=useSelector(state=>state.CategoryDetail)
+    console.log('this is user detals',selector);
+    // const datas=route.params.title
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
         source2={require('../../../assets/La.png')}
-        title={datas}
+        title={'Category List'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
@@ -27,32 +31,102 @@ const MyProducts = ({route}) => {
             marginTop: 20,
           }}>
           <View>
-              <Text>87 Items</Text>
+              <Text style={{color:'#565656',fontFamily:'Acephimere'}}>87 Items</Text>
           </View>
           <View>
-              <View>
-              <Image style={{width:15,height:16,tintColor:'#2c2e2c'}} source={require('../../../assets/Image/karni.png')}/>
-              </View>
+              {/* <TouchableOpacity
+              onPress={()=>navigation.navigate('Filter')}
+               style={{width:20,height:20}}>
+              <Image style={{width:20,height:20,tintColor:'#2c2e2c'}} source={require('../../../assets/Image/karni.png')}/>
+              </TouchableOpacity> */}
           </View>
         </View>
         <View style={{marginTop: 10}}>
           <FlatList
-            data={data}
+            data={selector}
             numColumns={2}
             renderItem={({item}) => (
               <TouchableOpacity
-                onPress={()=>navigation.navigate('SubCategory')}
+              onPress={()=>navigation.navigate('SubCategory')}
                 style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 160,
+                  height: 190,
                   backgroundColor: '#fff',
                   flex:1,
-                  margin:10,
+                  margin:6,
                   borderRadius:10,
-                  elevation:3
+                  elevation:3,
                 }}>
-                 <Text style={{color: 'red', fontSize: 12}}>{item.title}</Text>
+                   
+                    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{padding:15}}>
+                       <Image style={{width:20,height:17,tintColor:'#ea056c'}} source={require('../../../assets/Image/dil.png')}/>
+                       <Image style={{width:20,height:14,marginTop:10}} source={require('../../../assets/Image/share1.png')}/>
+                    </View>
+                 <View style={{
+                   borderTopRightRadius:10,
+                   borderBottomLeftRadius:10,
+                   paddingHorizontal:10,
+                   backgroundColor:'#24a31e',
+                   paddingVertical:2,
+                   alignSelf:'flex-start'
+                   }}>
+                    
+                     <Text style={{
+                       fontFamily:'Roboto-Regular',
+                       fontSize:12,
+                       color:'#fff'
+                     }}>{`${item.GrossWt} GM`}</Text>
+
+                   </View>
+                   </View>
+                <View style={{
+                  width:'100%',
+                  alignItems:'center',
+                  marginTop:-40
+                  }}>
+                 <Image
+                  style={{height: 100, width: 120,marginLeft:30}}
+                  resizeMode='stretch'
+                  source={{uri: `${ImagePath.Path}${(item.Url).substring(2)}`}}
+                  
+                />
+                </View>
+                <View style={{
+                justifyContent:'space-between',
+                 bottom:10,
+                 position:'absolute',
+                 left:0,
+                 right:0,
+                 paddingHorizontal:10,
+                 flexDirection:'row',
+                 alignItems:'center'
+              }}>
+                <View style={{paddingHorizontal:10,marginLeft:-6}}>
+                  <Text style={{color:'#050505',fontSize:13,fontFamily:'Acephimere'}}>
+                  {`ID# ${item.ProductSKU}`}
+                  </Text>
+                  <View style={{flexDirection:'row',alignItems:'center',marginLeft:-5}}>
+                    <Image style={{width:16,height:20}} source={require('../../../assets/Image/rupay.png')}/>
+                  <Text style={{color:'#050505',fontFamily:'Acephimere',fontSize:13}}>
+                    {item.Price}
+                  </Text>
+                  </View>
+                  </View>
+                  <View>
+                    <TouchableOpacity 
+                    style={{
+                      width:34,
+                      height:34,
+                      borderRadius:17,
+                      backgroundColor:'#ea056c',
+                      alignItems:'center',
+                      justifyContent:'center'
+                      }}>
+                       <Image style={{height:22,width:22}} 
+                       source={require('../../../assets/plus.png')}/>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </TouchableOpacity>
             )}
           />
@@ -67,13 +141,13 @@ const MyProducts = ({route}) => {
 };
 export default MyProducts;
 const data = [
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-  {title: 'Hello'},
-//   {title: 'Hello', type: 'add'},
-];
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png')},
+  {title: require('../../../assets/Image/myjewlery.png'),type:'add'},
+  ];
+  

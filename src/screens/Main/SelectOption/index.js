@@ -23,13 +23,19 @@ const SelectOption = () => {
 const manageOption=(val)=>{
   setType(val)
   if(val=='Product'){
-     navigation.navigate('Addproduct')
+     navigation.navigate('Addproduct',{
+      type:val
+    })
   }
   else if(val=='Category'){
-      navigation.navigate('Addcategory')
+      navigation.navigate('Addcategory',{
+        type:val
+      })
   }
   else if(val=='Collections'){
-      navigation.navigate('Addcollection')
+      navigation.navigate('Addcollection',{
+        type:val
+      })
   }
 }
   return (
@@ -56,9 +62,9 @@ const manageOption=(val)=>{
                 onValueChange={val =>manageOption(val)}
                 items={Data}
                 style={{
-                  inputAndroid: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                  inputIOS: { color: 'black', width: '100%', fontSize: 14, marginBottom: -1, },
-                  placeholder: { color: 'black', width: '100%', alignSelf: 'center', },
+                  inputAndroid: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+                  inputIOS: { color: '#474747', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere' },
+                  placeholder: { color: '#474747', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
               }}
                 value={type}  
                 useNativeAndroidPickerStyle={false}
@@ -72,6 +78,9 @@ const manageOption=(val)=>{
             </View>
           </View>
       </View>   
+      <View style={{alignItems:'center',justifyContent:'center'}}>
+        <Text style={{color:'#7d7d7d',fontFamily:'Acephimere'}}>SELECT OPTION TO ADD FROM DROPDOWN</Text>
+      </View>
        <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
       </View>
@@ -83,6 +92,6 @@ export default SelectOption;
 
 const Data = [
     { label: 'Product', value: 'Product' },
-    { label: 'Category', value: 'Category' },
+    // { label: 'Category', value: 'Category' },
     { label: 'Collections', value: 'Collections'}
   ];

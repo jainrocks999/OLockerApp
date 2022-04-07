@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,18 @@ import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 const HomeScreen = () => {
    const navigation=useNavigation()
+   const [business,setBusiness]=useState(true)
+   const [customer,setCustomer]=useState(false)
+
+
+const manageBusiness=()=>{
+  setBusiness(true)
+  setCustomer(false)
+}
+const manageCustomer=()=>{
+  setCustomer(true)
+  setBusiness(false)
+}
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
@@ -25,35 +37,44 @@ const HomeScreen = () => {
       <View>
         <View style={{
           paddingHorizontal:20,
-          paddingVertical:10,
-          flexDirection:'row',justifyContent:'space-between',
-          width:'75%'
+          paddingVertical:5,
+          flexDirection:'row',
+          width:'75%',
+          alignItems:'center',
+          marginTop:8
           }}>
-            <TouchableOpacity style={{
-              borderWidth:1,height:40,
+            <TouchableOpacity
+            onPress={()=>manageBusiness()}
+            style={{
+              borderWidth:1,height:35,
               borderRadius:16,alignItems:'center',
               justifyContent:'center',
-              paddingHorizontal:20
+              paddingHorizontal:20,
+              borderColor:business==true?'#032e63':'#2b2b2b'
               }}>
-              <Text>Bussiness</Text>
+              <Text style={{fontSize:13,fontFamily:'Acephimere',color:business==true?'#032e63':'#2b2b2b'}}>Business</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{
-              borderWidth:1,height:40,
+            <TouchableOpacity
+            onPress={()=>manageCustomer()}
+            style={{
+              borderWidth:1,height:35,
               borderRadius:16,alignItems:'center',
               justifyContent:'center',
-              paddingHorizontal:20
+              paddingHorizontal:20,
+              marginLeft:15,
+              borderColor:customer==true?'#032e63':'#2b2b2b'
               }}>
-              <Text>Customer</Text>
+              <Text style={{fontSize:13,fontFamily:'Acephimere',color:customer==true?'#032e63':'#2b2b2b'}}>Customer</Text>
             </TouchableOpacity>
         </View>
         <View>
-          <FlatList
+         {business==true? <FlatList
           data={data}
           renderItem={({item})=>(
             <View style={{backgroundColor:'#fff',marginTop:10,paddingHorizontal:10,paddingVertical:10,paddingLeft:20}}>
                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                  <Text style={{fontSize:16}}>{item.title}</Text>
-                 <View style={{backgroundColor:'#12cb16',paddingHorizontal:6,paddingVertical:2}}>
+                 <View style={{backgroundColor:'#24a31e',paddingHorizontal:6,paddingVertical:2}}>
                    <Text style={{color:'#fff',fontSize:13}}>NEW</Text>
                  </View>
                </View>
@@ -64,7 +85,25 @@ const HomeScreen = () => {
                </View>
             </View>
           )}
-          />
+          />:null}
+          {customer==true? <FlatList
+          data={data}
+          renderItem={({item})=>(
+            <View style={{backgroundColor:'#fff',marginTop:10,paddingHorizontal:10,paddingVertical:10,paddingLeft:20}}>
+               <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                 <Text style={{fontSize:16}}>{item.title}</Text>
+                 <View style={{backgroundColor:'#24a31e',paddingHorizontal:6,paddingVertical:2}}>
+                   <Text style={{color:'#fff',fontSize:13}}>NEW</Text>
+                 </View>
+               </View>
+               <Text>{item.text}</Text>
+               <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
+                 <Image style={{tintColor:'grey',height:12,width:16}} source={require('../../../assets/Fo.png')}/>
+                 <Text style={{marginLeft:6,fontSize:12,color:'grey'}}>{item.time}</Text>
+               </View>
+            </View>
+          )}
+          />:null}
         </View>
       </View>   
        <View style={{bottom:0,position:'absolute',left:0,right:0}}>
