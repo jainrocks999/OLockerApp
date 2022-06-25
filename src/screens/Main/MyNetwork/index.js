@@ -298,7 +298,7 @@ const getSupplier=async(values)=>{
                 borderRadius:8,
                 flexDirection:'row',
                 justifyContent:'space-between'
-                }}>
+                }}> 
                   {console.log('h123',item)}
                    <View>
                   {/* <Text style={{ fontSize: 16, color: '#000', fontFamily: 'Acephimere' }}>{item.SrNo}</Text> */}
