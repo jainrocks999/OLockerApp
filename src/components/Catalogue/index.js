@@ -3,19 +3,24 @@ import { View,FlatList,TouchableOpacity,Text,Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useSelector,useDispatch } from 'react-redux';
 import ImagePath from '../../components/ImagePath';
-
+import AsyncStorage from '@react-native-community/async-storage';
 const Catalogue=()=>{
   const navigation=useNavigation()
-  const selector=useSelector(state=>state.Catalogue)
+  const selector = useSelector(state => state.Catalogue.Categories)
   const dispatch=useDispatch()
-
-  const manageCategory=(id)=>{
-    dispatch({
-      type: 'Get_Category1_Request',
-      url: 'GetPartnerProductsByCatalogueCategory',
-      PartnerSrno:575,
-      Category:id,
-      navigation
+  console.log('this is user respons223',selector);
+  const manageCategory=async(id)=>{
+      const srno = await AsyncStorage.getItem('Partnersrno')
+    const supplierid = await AsyncStorage.getItem('SupplierId')
+  console.log('this is user category details',supplierid)
+      dispatch({
+        type: 'GetPartners_Catalogue_Request',
+         url: 'GetPartnerProductsByCatalogueCategory',
+        PartnerSrno: srno,
+        Category: id,
+        supplierId:supplierid,
+        navigation
+     
     });
   }
   
@@ -29,8 +34,10 @@ const Catalogue=()=>{
             data={selector}
             numColumns={3}
             renderItem={({item})=>(
+              
               <TouchableOpacity
-              // onPress={()=>manageCategory(item.Id)}
+               // onPress={() => navigation.navigate('MyProductDetails', { id: item.Id })}
+                onPress={()=>manageCategory(item.Id)}
               // onPress={()=>navigation.navigate('CategoryDetails')}
               style={{
                 width: '33.3%',
@@ -40,17 +47,19 @@ const Catalogue=()=>{
                 backgroundColor:'#fff',
                 borderWidth:0.3
               }}>
-                 
+                {console.log('this is user respons2234',item)}
+
                  <Image
                 style={{height: 100, width: '100%', }}
                 // resizeMode={'stretch'}
-                source={{uri: `${ImagePath.Path1}${(item.Url).substring(2)}`}}
+                  source={{ uri: `${ImagePath.Path}${item.CategoryImage}`}}
               />
               <View style={{marginTop:5,alignItems:'center'}}>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#032e63',fontWeight:'700'}}>{item.ItemName}</Text>
-              {/* <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#0d0d0d'}}>{`${item.TotalItems} Items`}</Text> */}
+                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#032e63', fontWeight: '700' }}>{item.CategoryName}</Text>
+                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#0d0d0d' }}>{`${item.TotalItems} Items`}</Text>
               </View>
               </TouchableOpacity>
+              
             )}
             />
            {/* <View style={{backgroundColor:'#fff'}}>

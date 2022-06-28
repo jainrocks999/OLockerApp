@@ -13,12 +13,13 @@ import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const MyCatalogue = ({route}) => {
+  const selector4 = useSelector(state => state.Catalogue.Categories)
   const selector=useSelector(state=>state.ProductList)
-
+  const selector3 = useSelector(state => state.NetworkList1)
   const selector1=useSelector(state=>state.CollectionList)
   const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
-  console.log("log12",selector1);
+  console.log("log102",selector3);
   console.log('this is user selector data',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
@@ -35,19 +36,26 @@ const MyCatalogue = ({route}) => {
       animated: true,
     });
   }
-  const manageCategory1=async(id)=>{
-    const srno=await AsyncStorage.getItem('Partnersrno')
-    console.log('123 category details',id);
-  
-      dispatch({
-        type: 'Get_PartnerC_Request',
-        //url:'GetProductsByCatalogueCategory',
-        url: 'GetPartnerProductsByCatalogueCategory',
-        PartnerSrno:srno,
-        Category:id,
-        navigation
-      });
-    }
+  const onPressTouch1 = () => {
+    scrollRef.current?.scrollTo({
+      y: 800,
+      animated: true,
+    });
+  }
+  const manageCategory1 = async (id) => {
+    const srno = await AsyncStorage.getItem('Partnersrno')
+    const supplierid = await AsyncStorage.getItem('SupplierId')
+    console.log('this is user category details', supplierid)
+    dispatch({
+      type: 'GetPartners_Catalogue_Request',
+      url: 'GetPartnerProductsByCatalogueCategory',
+      PartnerSrno: srno,
+      Category: id,
+      supplierId: supplierid,
+      navigation
+
+    });
+  }
   
 const manageCategory=async(id)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
@@ -92,6 +100,16 @@ const manageCategory=async(id)=>{
 
   }
 console.log('cvvvv',data);
+  const manageProfile = async (id) => {
+    AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    console.log('storage id for supplier', id);
+    dispatch({
+      type: 'Partner_Catalogue_Request',
+      url: 'GetPartnerCatalogueCategories',
+      SupplierSrNo: id,
+      navigation
+    });
+  }
 const manageProduct=()=>{
   setProduct(true)
   setPartner(false)
@@ -157,12 +175,14 @@ const scrollToInitialPosition = () => {
              fontFamily:'Acephimere'
              }}>{'MY PRODUCTS'}</Text>
             </TouchableOpacity>
-            <View style={{marginLeft:40,alignItems:'center'}}>
+            <TouchableOpacity 
+            onPress={()=>onPressTouch1()}            
+            style={{marginLeft:40,alignItems:'center'}}>
             <View style={{width:100,height:100,borderRadius:50,backgroundColor:'#fff',borderWidth:1}}>
             <Image style={{height:100,width:95}} source={require('../../../assets/Image/neck.png')}/>
             </View>
               <Text style={{color:'#fff',marginTop:10,fontFamily:'Acephimere'}}>{'MY COLLECTIONS'}</Text>
-            </View>
+            </TouchableOpacity>
             
         </View>
         <View style={{alignItems:'center',justifyContent:'center',marginTop:20}}>
@@ -232,6 +252,7 @@ const scrollToInitialPosition = () => {
             renderItem={({item})=>(
                 <TouchableOpacity
                 onPress={()=>manageCategory(item.Id)}
+                // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
               style={{
                 width: '33.3%',
                 alignItems: 'center',
@@ -254,35 +275,72 @@ const scrollToInitialPosition = () => {
               </TouchableOpacity>
             )}
             />:null}
-            {partner==true?<FlatList
-            data={selector}
-            numColumns={3}
-            renderItem={({item})=>(
+            {partner==true?  
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              data={selector3}
+              //numColumns={2}
+              style={{ margin: 10, marginTop:0, marginBottom:0 }}
+              renderItem={({ item }) => (
                 <TouchableOpacity
-                onPress={()=>manageCategory(item.Id)}
-              style={{
-                width: '33.3%',
-                alignItems: 'center',
-                height: 160,
-                backgroundColor:'#fff',
-                borderWidth:0.3
-              }}>
-                 <View>
-                {item.CategoryImage? <Image
-                style={{height: 100, width: 118, }}
-                // resizeMode={'stretch'}
-                source={{
-                  uri: `${ImagePath.Path1}${item.CategoryImage}`,
-                }}
-              />:<View style={{height:100}}/>}
-              <View style={{marginTop:5,alignItems:'center'}}>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#032e63',fontWeight:'700'}}>{item.CategoryName}</Text>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#0d0d0d'}}>{`${item.TotalItems} Items`}</Text>
-              </View>
-              </View>
+                  onPress={() => manageProfile(item.SupplierSrNo)}
+                  style={{ width:120, margin: 5, borderRadius: 20, height: 145, marginTop: 0 }}>
+                  <View style={{ backgroundColor: 'red', height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+                    <Image
+                      style={{ height: 80, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+                      resizeMode='stretch'
+                      source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
+                    />
+                  </View>
+                  <View style={{
+                    backgroundColor: '#fff',
+                    //  height:80,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                    padding: 10,
+                    justifyContent: 'center',
+
+                  }}>
+                    <Text
+                      style={{ color: '#032e63', fontSize: 15, fontFamily: 'Acephimere', }}
+                    >{item.SupplierName}</Text>
+                    {/* <Text style={{ fontFamily: 'Acephimere', color: '#666666', fontSize: 12 }}>{item.CityName}</Text> */}
+                  </View>
+                  {console.log('supplier id 3r', item)}
+                </TouchableOpacity>
+              )}
+
+            />:null}
+          {partner == true ? <FlatList
+            data={selector4}
+            numColumns={3}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => manageCategory1(item.Id)}
+                // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
+                style={{
+                  width: '33.3%',
+                  alignItems: 'center',
+                  height: 160,
+                  backgroundColor: '#fff',
+                  borderWidth: 0.3
+                }}>
+                {console.log('zzz', item)}
+                <Image
+                  style={{ height: 100, width: '100%', }}
+                  // resizeMode={'stretch'}
+                  source={{
+                    uri: `${ImagePath.Path}${item.CategoryImage}`,
+                  }}
+                />
+                <View style={{ marginTop: 5, alignItems: 'center' }}>
+                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#032e63', fontWeight: '700' }}>{item.CategoryName}</Text>
+                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#0d0d0d' }}>{`${item.TotalItems} Items`}</Text>
+                </View>
               </TouchableOpacity>
             )}
-            />:null}
+          /> : null}
         </View>
         <View style={{backgroundColor:'#fff'}}>
           <View style={{alignItems:'center',paddingVertical:20}}>
@@ -301,7 +359,7 @@ const scrollToInitialPosition = () => {
                 // backgroundColor:'#fff',
                 borderWidth:.5
               }}>
-                 
+                {console.log('jkkk',item)} 
                  <Text>{item.Name}</Text>
                 {/* <Image
                   style={{height: 160, width: '100%', }}

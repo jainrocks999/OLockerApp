@@ -29,6 +29,7 @@ const HomeScreen = () => {
   const [collections,setCollecions]=useState()
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.NetworkList1)
+  console.log('networklist21',selector);
   const GraphicalNotification=useSelector(state=>state.GraphicalNotification)
   console.log('this is graphical notification data',GraphicalNotification);
   const selector1=useSelector(state=>state.Gold)
@@ -67,6 +68,16 @@ console.log("goldprice......",selector1);
       dispatch({
         type: 'Get_Allsupplier_Request',
         url:'GetAllSupplier',
+        PartnerSrno:partnerSrNo
+      });
+      dispatch({
+        type:'Get_SupplierProducts_Request',
+        url:'GetSupplierProducts',
+        PartnerSrno:partnerSrNo
+      })
+      dispatch({
+        type:'Get_Products_Request',
+        url:'GetProducts',
         PartnerSrno:partnerSrNo
       });
       dispatch({
@@ -113,7 +124,6 @@ console.log("goldprice......",selector1);
       });
   } ) ();
  },[]);
-
  const Demo=()=>{
 
   var axios = require('axios');

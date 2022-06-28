@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput,ScrollView} from 'react-native';
+import {View, Text, Image, TouchableOpacity, TextInput,ScrollView, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import axios from 'axios';
@@ -39,7 +39,6 @@ const partnerLogin=async(values)=>{
         setFetching(false)
         console.log("00000000");
         AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo))
-      AsyncStorage.setItem('SuppliesnrNo',JSON.stringify('15'))
         navigation.replace('Home')
         Toast.show('Login successful')
       }
@@ -99,7 +98,7 @@ const partnerLogin=async(values)=>{
           <View
             style={{
               borderBottomWidth: 1,
-              marginHorizontal: 270,
+              marginHorizontal:Platform.OS=='android'?270:293,
               marginLeft: 12,
             }}
           />
@@ -160,9 +159,9 @@ const partnerLogin=async(values)=>{
               }}
               onPress={() => {
                 // AsyncStorage.setItem('Partnersrno',)
-                navigation.replace('Home')    
+               // navigation.replace('Home')    
                 // partnerLogin()  
-                // handleSubmit()  
+                 handleSubmit()  
               }
              
                 

@@ -29,10 +29,25 @@ initialstate = {
   Detail:[],
   PartnerC:[],
   AllNotification:[],
+  Products:[],
+  SupplierProduct:[],
+  PartnerCatalog:[]
 };
 export default (state = initialstate, action) => {
-  switch (action.type) {
+  switch (action.type) { 
+    case 'Get_SupplierProducts_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_SupplierProducts_Success':
+      return { ...state, isFetching: false, SupplierProduct: action.payload };
+    case 'Get_SupplierProducts_Error':
+      return { ...state, isFetching: false };
 
+    case 'Get_Products_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Products_Success':
+      return { ...state, isFetching: false, Products: action.payload };
+    case 'Get_Products_Error':
+      return { ...state, isFetching: false };
     case 'Get_Product_Request':
       return { ...state, isFetching: true };
     case 'Get_Product_Success':
@@ -98,12 +113,12 @@ export default (state = initialstate, action) => {
     case 'Get_Category1_Error':
      return { ...state, isFetching: false };
 
-    case 'Get_Network_Request':
-      return { ...state, isFetching: true };
-    case 'Get_Network_Success':
-      return { ...state, isFetching: false, NetworkList: action.payload };
-    case 'Get_Network_Error':
-     return { ...state, isFetching: false };
+    // case 'Get_Network_Request':
+    //   return { ...state, isFetching: true };
+    // case 'Get_Network_Success':
+    //   return { ...state, isFetching: false, NetworkList: action.payload };
+    // case 'Get_Network_Error':
+    //  return { ...state, isFetching: false };
     
      case 'Get_Network1_Request':
       return { ...state, isFetching: true };
@@ -202,6 +217,12 @@ export default (state = initialstate, action) => {
     case 'Get_Allnotification_Success':
       return { ...state, isFetching: false, AllNotification: action.payload };
     case 'Get_Allnotification_Error':
+      return { ...state, isFetching: false };
+    case 'GetPartners_Catalogue_Request':
+      return { ...state, isFetching: true };
+    case 'GetPartners_Catalogue_Success':
+      return { ...state, isFetching: false, PartnerCatalog: action.payload };
+    case 'GetPartners_Catalogue_Error':
       return { ...state, isFetching: false };
 
     case 'Partner_Catalogue_Request':

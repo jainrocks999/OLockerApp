@@ -34,7 +34,7 @@ const HomeScreen = () => {
    const [setting,setSetting]=useState(false)
    const isFetching=useSelector(state=>state.isFetching)
    const selector=useSelector(state=>state.ProfileData)
-  
+   const selector1 = useSelector(state => state.Catalogue)
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
 

@@ -89,15 +89,6 @@ const pendingRequest=async()=>{
   });
 
 }
-const manageNetwork=async()=>{
-  const srno=await AsyncStorage.getItem('Partnersrno')
-dispatch({
-  type: 'Get_Network_Request',
-  url: 'GetMyNetworkByPartnerId',
-  partnerSrNo:srno,
-  navigation
-});
-}
 const SentRequest=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
   
@@ -329,7 +320,7 @@ const getSupplier=async(values)=>{
               <View style={{borderWidth:0.5,borderColor:'grey'}}/>
               <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',width:'100%'}}>
                    <TouchableOpacity
-                   onPress={()=>manageNetwork()}
+                   onPress={()=>navigation.navigate('MyNetworks')}
                    style={{padding:10,alignItems:'center',justifyContent:'center',width:'33%'}}>
                    <View style={{alignItems:'center',justifyContent:'center'}}>
                      <Image style={{height:40,width:42,tintColor:'#032e63'}} source={require('../../../assets/PartnerImage/4.png')}/>

@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 const SubCategory = ({route}) => {
     const navigation=useNavigation()
-   
+
     const selector=useSelector(state=>state.Detail.GetProductModel)
     console.log('1111120',selector);
     const data=[]

@@ -51,6 +51,51 @@ function* getProducts(action) {
     });
   }
 }
+function* getProduct(action) {
+  try {
+    const data = {
+      partnerSrNo: action.PartnerSrno
+    }
+    const response = yield call(Api.fetchDataByGET, action.url, data);
+    if (response.success == true) {
+      yield put({
+        type: 'Get_Products_Success',
+        payload: response.Products,
+      });
+    } else {
+      yield put({
+        type: 'Get_Products_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'Get_Products_Error',
+    });
+  }
+}
+function* getSupplierProduct(action) {
+  try {
+    const data = {
+      partnerSrNo: action.PartnerSrno
+    }
+    
+    const response = yield call(Api.fetchDataByGET, action.url, data);
+    if (response.success == true) {
+      yield put({
+        type: 'Get_SupplierProducts_Success',
+        payload: response.SupplierProduct,
+      });
+    } else {
+      yield put({
+        type: 'Get_SupplierProducts_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'Get_SupplierProducts_Error',
+    });
+  }
+}
 
 
 function* getCollection(action) {
@@ -59,7 +104,6 @@ function* getCollection(action) {
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Collection_Success',
@@ -200,7 +244,6 @@ function* getCustomer(action) {
       });
     }
   } catch (error) {
-    console.log('wwwwwwwwwww',error);
     yield put({
       type: 'Get_Customer_Error',
     });
@@ -220,7 +263,7 @@ function* getCategory(action) {
         type: 'Get_Category_Success',
         payload: response.GetProducts,
       });
-      action.navigation.navigate('MyProductDetails')
+      action.navigation.navigate('MyProductDetails', { PartnerProductlist: false })
     } else {
       yield put({
         type: 'Get_Category_Error',
@@ -266,7 +309,6 @@ function* getNetwork(action) {
       partnerSrNo:action.partnerSrNo
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Network_Success',
@@ -337,14 +379,12 @@ function* getSent(action) {
 }
 
 function* getRejected(action) {
-  console.log('a12229', action);
   try {
     const data={
       Srno: action.SrNo,
       RejectReason: action.RejectReason
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
-    console.log('this is11232',response);
     if (response.data.success == true) {
       yield put({
         type: 'Get_Rejected_Success',
@@ -364,18 +404,14 @@ function* getRejected(action) {
 }
 
 function* getAccepted(action) {
-  console.log('a122295',action);
   try {
     const data= {
      Srno:action.SrNo,
       IsShowinRetailerApp:action.IsShowinRetailerApp
 
     }
-    console.log('11119',data);
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
-    // console.log('this is respo111133',response);
     if (response.data.success == true) {
-      console.log('this is respo113', response);
       yield put({
         
         type: 'Get_Accepted_Success',
@@ -446,14 +482,12 @@ function* getFeedback(action) {
 }
 
 function* addCollection(action) {
-  console.log('action22222',action);
+ 
   try {
     const data={
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByPOST, action.url,data);
-    console.log('this is response',response);
-    console.log('dataaaaaaaa',data);
     if (response.success == true) {
       yield put({
         type: 'Add_Collection_Success',
@@ -502,9 +536,6 @@ function* getGold(action) {
       PartnerId:action.PartnerId
     }
     const response = yield call(Api.fetchDataByGET, action.url,action.PartnerId);
-    console.log('this is response111111',response);
-    console.log('this is response1111 data',data);
-    console.log('this is response1111 data data', action.PartnerId);
     if (response.success == true) {
       yield put({
         type: 'Get_Gold_Success',
@@ -618,15 +649,12 @@ function* getGraphicalNotification(action) {
   }
 }
 function* getAllNotification(action) {
-  console.log('wawawa',action);
   try {
     const data = {
       partnerSrno: action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('wawawaa', response);
     if (response.success == true) {
-      console.log('wawawaaaa', response);
       yield put({
         type: 'Get_Allnotification_Success',
         payload: response,
@@ -646,16 +674,14 @@ function* getAllNotification(action) {
 function* PartnerCatalogue(action) {
   try {
     const data={
-      PartnerSrNo:action.PartnerSrNo,
-      Category:action.Category,
       SupplierSrNo:action.SupplierSrNo
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is user response',response);
+    console.log('this is user respons22',response,data);
     if (response.success == true) {
       yield put({
         type: 'Partner_Catalogue_Success',
-        payload: response.GetProducts,
+        payload: response,
       });
     } else {
       yield put({
@@ -668,6 +694,33 @@ function* PartnerCatalogue(action) {
     });
   }
 }
+
+function* PartnersCatalogue(action) {
+  try {
+    const data = {
+      PartnerSrno: action.PartnerSrno,
+      SupplierSrNo: action.supplierId,
+      Category: action.Category
+    }
+    const response = yield call(Api.fetchDataByGET, action.url, data);
+    if (response.success == true) {
+
+      yield put({
+        type: 'GetPartners_Catalogue_Success',
+        payload: response,
+      });
+      action.navigation.navigate('MyProductDetails',{PartnerProductlist:true})
+    } else {
+      yield put({
+        type: 'GetPartners_Catalogue_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'GetPartners_Catalogue_Error',
+    });
+  }
+}
 function* Allsupplier(action) {
 
  
@@ -676,11 +729,9 @@ function* Allsupplier(action) {
       PartnerSrNo:JSON.stringify(action.PartnerSrNo),
      
     }
-    console.log("ablc",action.PartnerSrno);
-    console.log("ablc data",action.url);
-    
+       
     const response = yield call(Api.fetchDataByGET1, action.url,action.PartnerSrno);
-    console.log('this is1234',response);
+   
     if (response.success == true) {
       yield put({
         type: 'Get_Allsupplier_Success',
@@ -705,7 +756,7 @@ function* getProdcutCategories(action) {
     const data={
       PartnerSrno:action.PartnerSrno,
     }
-    console.log('ggg',action.PartnerSrno);
+   
     const response = yield call(Api.fetchDataByGET, action.url,data);
     console.log('this is 0000',response);
     if (response.success == true) {
@@ -725,22 +776,22 @@ function* getProdcutCategories(action) {
   }
 }
 function* getProdcutDetail(action) {
-  console.log('abvb',action);
+ 
   try {
     const data={
      
       PartnerId:action.PartnerId,
       ProductId:action.ProductId,
     }
-    console.log('1130211',data);
+  
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('th wsw',response);
+   
     if (response.success == true) {
       yield put({
         type: 'Get_Detail_Success',
         payload: response,
       });
-      action.navigation.navigate('SubCategory')
+      action.navigation.navigate('SubCategory',{Network:true})
     } else {
       yield put({
         type: 'Get_Detail_Error',
@@ -760,11 +811,13 @@ export default function* authSaga() {
 
   yield takeEvery('User_Login_Request', doLogin);
   yield takeEvery('Get_Product_Request',getProducts)
+  yield takeEvery('Get_Products_Request', getProduct)
+  yield takeEvery('Get_SupplierProducts_Request',getSupplierProduct)
   yield takeEvery('Get_Collection_Request',getCollection)
   yield takeEvery('Get_Customer_Request',getCustomer)
   yield takeEvery('Get_Category_Request',getCategory)
   yield takeEvery('Get_Category1_Request',getCategory1)
-  yield takeEvery('Get_Network_Request',getNetwork)
+  // yield takeEvery('Get_Network_Request',getNetwork)
   yield takeEvery('Get_Network1_Request',getNetwork1)
   yield takeEvery('Get_Sent_Request',getSent)
   yield takeEvery('Get_Accepted_Request',getAccepted)
@@ -783,6 +836,7 @@ export default function* authSaga() {
   yield takeEvery('Get_Pending_Request',pendingRequest)
   yield takeEvery('Get_Graphical_Request',getGraphicalNotification)
   yield takeEvery('Partner_Catalogue_Request',PartnerCatalogue)
+  yield takeEvery('GetPartners_Catalogue_Request', PartnersCatalogue)
   yield takeEvery('Get_Allsupplier_Request',Allsupplier)
   yield takeEvery('Get_Catalogcategories_Request',getProdcutCategories)
   yield takeEvery('Get_Detail_Request',getProdcutDetail)

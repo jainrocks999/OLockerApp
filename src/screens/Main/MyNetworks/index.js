@@ -16,14 +16,15 @@ import { useSelector,useDispatch } from 'react-redux';
 import Loader from "../../../components/Loader";
 import { TextInput } from 'react-native-gesture-handler';
 import ImagePath from '../../../components/ImagePath';
+import AsyncStorage from '@react-native-community/async-storage';
 const HomeScreen = () => {
    const navigation=useNavigation()
-   const selector=useSelector(state=>state.NetworkList)
+  const selector = useSelector(state => state.NetworkList1)
    const isFetching=useSelector(state=>state.isFetching)
    const [search,setSearch]=useState('')
    const [filteredDataSource, setFilteredDataSource] = useState(selector);
    const [masterDataSource, setMasterDataSource] = useState(selector);
- 
+    console.log('vmm',selector);
    const searchFilterFunction = text => {
      if (text) {
        const newData = masterDataSource.filter(function (item) {
@@ -48,15 +49,14 @@ const HomeScreen = () => {
  
 
    const dispatch=useDispatch()
-  const manageProfile=(id)=>{
-    console.log('this is id for supplier',id);
-   
+  const manageProfile=async(id)=>{ 
+    AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    console.log('storage id for supplier',id);
       dispatch({
         type: 'Partner_Catalogue_Request',
-        url: 'GetPartnerProductsByCatalogueCategory',
-        PartnerSrNo:2,
-        Category:53,
-        SupplierSrNo:4,
+        url:'GetPartnerCatalogueCategories',
+        SupplierSrNo:id,
+        navigation
       });
     
     dispatch({
@@ -137,8 +137,10 @@ const HomeScreen = () => {
                  >{item.SupplierName}</Text>
                  <Text style={{fontFamily:'Acephimere',color:'#666666',fontSize:12}}>{item.CityName}</Text>
                </View>
+             {console.log('supplier id', item)}
              </TouchableOpacity>
          )}
+        
          />
          {/* <View style={{height:300}}/> */}
       </View>   

@@ -83,10 +83,10 @@ const userProfile=async(id)=>{
               source={require('../../../assets/Image/serch.png')}
             />
             <TextInput
-              style={{marginLeft: 10}}
+            //  style={{marginLeft: 10}}
               placeholder="Search by Name or Phone Number"
               placeholderTextColor='9a9a9a'
-              style={{color: '9a9a9a', width: '100%',fontFamily:'Roboto-Regular'}}
+              style={{color: '9a9a9a', width: '100%',marginLeft:10,fontFamily:'Roboto-Regular'}}
               returnKeyType="done"
               value={search}
               onChangeText={(val)=>searchFilterFunction(val)}
@@ -108,6 +108,7 @@ const userProfile=async(id)=>{
                 alignItems:'center',
                 paddingVertical:10
               }}>
+                {console.log('hmm',item)}
                 <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
                 <Image
                 style={{width:40,height:40,borderRadius:20}}

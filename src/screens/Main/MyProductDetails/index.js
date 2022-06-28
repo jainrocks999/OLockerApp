@@ -11,11 +11,14 @@ const MyProducts = ({route}) => {
     const navigation=useNavigation()
     const dispatch=useDispatch()
     const selector=useSelector(state=>state.Category)
+  const selector1 = useSelector(state => state.PartnerCatalog.GetProducts)
+  console.log('vkm user respons Selector1',selector1);
+  console.log('vkm user respons Selector', selector);
+ // const Data=selector1;
     const [search,setSearch]=useState('')
     const [filteredDataSource, setFilteredDataSource] = useState(selector);
     const [masterDataSource, setMasterDataSource] = useState(selector);
-
-console.log('this is sub category details',selector);
+  const partner= route.params.PartnerProductlist
 const searchFilterFunction = text => {
       if (text) {
         const newData = masterDataSource.filter(function (item) {
@@ -39,16 +42,15 @@ const searchFilterFunction = text => {
     };
     const manageCategory=async(SrNo)=>{
       const partner=await AsyncStorage.getItem('Partnersrno')
-      console.log('this is user detailssssss',partner,SrNo);
-    
+      console.log('this is user detailssssss',SrNo);
+     
         dispatch({
           type: 'Get_Detail_Request',
           url:'GetProductDetail',
-         // url: 'GetPartnerProductsByCatalogueCategory',
          PartnerId:partner,
          ProductId:SrNo,
           navigation
-        });
+        })
       }
      // "Url": "..//images/ProductImages/2022/6/919__test444292919_0.jpg",
 
@@ -76,7 +78,7 @@ const searchFilterFunction = text => {
             marginTop: 20,
           }}>
           <View>
-              <Text style={{fontFamily:'Acephimere',fontSize:14}}>{`${selector.length} Items`}</Text>
+            <Text style={{ fontFamily: 'Acephimere', fontSize: 14 }}>{partner ?`${selector1.length} Items`:`${selector.length} Items`}</Text>
           </View>
           {/* <View style={{flexDirection:'row',alignItems:'center'}}>
               <TouchableOpacity  onPress={()=>navigation.navigate('Filter')}>
@@ -109,11 +111,13 @@ const searchFilterFunction = text => {
         </View>
         <View style={{marginTop: 10,paddingHorizontal:5,}}>
           <FlatList
-            data={filteredDataSource}
+            data={partner ? selector1:filteredDataSource}
             numColumns={2}
             renderItem={({item}) => (
               <TouchableOpacity
-              onPress={()=>manageCategory(item.SrNo)}
+              onPress={()=>
+                partner == false?
+                manageCategory(item.SrNo ):null}
                 // ()=>navigation.navigate('SubCategory')
               
                 style={{
