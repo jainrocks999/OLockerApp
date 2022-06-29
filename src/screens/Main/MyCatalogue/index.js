@@ -38,7 +38,7 @@ const MyCatalogue = ({route}) => {
   }
   const onPressTouch1 = () => {
     scrollRef.current?.scrollTo({
-      y: 800,
+      y: 600,
       animated: true,
     });
   }
@@ -286,12 +286,19 @@ const scrollToInitialPosition = () => {
                 <TouchableOpacity
                   onPress={() => manageProfile(item.SupplierSrNo)}
                   style={{ width:120, margin: 5, borderRadius: 20, height: 145, marginTop: 0 }}>
+                    {console.log('abvds',item)}
                   <View style={{ backgroundColor: 'red', height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+                    {item.SupplierImage == null ?
+                    <Image
+                        style={{ width: '100%', height: 80, borderRadius: 0 }}
+                        resizeMode='cover'
+                        source={require('../../../assets/Not.png')} />:
                     <Image
                       style={{ height: 80, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
                       resizeMode='stretch'
                       source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
-                    />
+                      /> 
+                  }
                   </View>
                   <View style={{
                     backgroundColor: '#fff',
@@ -359,6 +366,21 @@ const scrollToInitialPosition = () => {
                 // backgroundColor:'#fff',
                 borderWidth:.5
               }}>
+
+                {item.Url == null ?
+
+                  <Image
+                    style={{ width: '100%', height: 160, }}
+                    resizeMode='center'
+                    source={require('../../../assets/Not.png')} /> :
+                  <Image
+                    style={{ height: 100, width: 160, }}
+                    resizeMode='stretch'
+                    source={{ uri: `${ImagePath.Path}${(item.Url).substring(2)}` }}
+
+                  />
+                }
+
                 {console.log('jkkk',item)} 
                  <Text>{item.Name}</Text>
                 {/* <Image

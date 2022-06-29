@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
 import { useDispatch,useSelector } from 'react-redux';
+import DocumentPicker from 'react-native-document-picker';
 const Addproduct = () => {
   const dispatch=useDispatch()
   const navigation = useNavigation();
@@ -46,7 +47,20 @@ const Addproduct = () => {
 
   const [diamond,setDiamond]=useState(false)
   const [otherStone,setOtherStone]=useState(false)
-
+  const [photo, setPhoto] = useState('')
+  const uploadPhoto = async () => {
+    try {
+      const res = await DocumentPicker.pickMultiple({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+      });
+      setPhoto(res[0].uri);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+      } else {
+        throw err;
+      }
+    }
+  };
 const addProduct=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
   if(type==''){
@@ -542,9 +556,18 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}>Product photo</Text>
           </View>
           <View style={[styles.bottom]}>
-            <View style={styles.btview} >
+              <TouchableOpacity onPress={() => uploadPhoto()}>
+                {photo ? <Image
+                  style={{ height: 93, width: 90, borderRadius: 10 }}
+                  source={{ uri: photo }}
+                />
+                  : <Image
+                    style={{ height: 93, width: 90 }}
+                    source={require('../../../assets/Image/add_photo.png')} />}
+              </TouchableOpacity>
+            {/* <View style={styles.btview} >
                <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
-            </View>
+            </View> */}
             <View style={styles.btview} >             
             <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
             </View>

@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 const Loyalty = () => {
   const navigation = useNavigation();
   const selector=useSelector(state=>state.Loyalty)
+  console.log('selector12data',selector);
 
   return (
     <View style={styles.container1}>

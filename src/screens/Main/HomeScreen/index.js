@@ -283,11 +283,15 @@ axios(config)
                   backgroundColor:'#fff'
                 
                 }}>
-                <Image
-                  style={{height: 120, width: '100%',borderRadius:15}}
-                  resizeMode='stretch'
-                  source={{uri: `${ImagePath.Path}${item.SupplierImage}`}}
-                />
+                {item.SupplierImage == null ? <Image
+                  style={{ width: '100%', height: 120, borderRadius: 20 }}
+                  source={require('../../../assets/Not.png')} /> :
+                  <Image
+                    style={{ height: 120, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+                    resizeMode='stretch'
+                    source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
+                  />
+                }
               </TouchableOpacity>
             )}
           />

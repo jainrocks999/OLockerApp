@@ -230,12 +230,13 @@ const manageFeedback=async()=>{
           data={selector1}
           renderItem={({item}) => (
             <View style={{backgroundColor:'#fff',marginTop:10,flexDirection:'row',paddingHorizontal:15,paddingVertical:15}}>
+              {console.log('xmv',item)}
                 <View style={{width:100,height:90,borderWidth:1}}>
                   
                   <Image 
                         style={{height: '100%', width: 100 }}
                         source={{
-                          uri: `https://api.myjeweller.in/images/OraImages/rss/No_Image_1.png`,
+                          uri: `${ImagePath.Path}${item.CategoryImage}`,
                         }}
                       >
 

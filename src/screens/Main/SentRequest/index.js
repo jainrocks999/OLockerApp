@@ -112,11 +112,22 @@ console.log('this is selector data1111',selector);
                   <View style={{flexDirection:'row',paddingVertical:15,justifyContent:'space-between',paddingHorizontal:15}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                       <View style={{width:100,borderWidth:0,height:80}}>
-                      <Image
+                        {item.Logo == "" ?
+                          <Image
+                            style={{ width: 100, height: 80, marginLeft:-10}}
+                            resizeMode='cover'
+                            source={require('../../../assets/Not.png')} /> :
+                          <Image
+                            style={{ height: 80, width: 100,marginLeft:30 }}
+                            resizeMode='stretch'
+                            source={{ uri: `${ImagePath.Path}${(item.Logo).substring(2)}` }}
+                          />
+                        }
+                      {/* <Image
                       style={{height:80,width:100,marginLeft:30}}
                       //resizeMode='stretch'
                       source={{uri: `${ImagePath.Path}${(item.Logo).substring(2)}`}}
-                      />
+                      /> */}
                       </View>
                       <View style={{marginLeft:10}}>
                         <Text style={{color:'#032e63',fontFamily:'Acephimere',fontSize:17,fontWeight:'600'}}>{item.SupplierName}</Text>

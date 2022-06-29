@@ -28,6 +28,64 @@ const MyCatalogue = () => {
   const [status,setStatus]=useState('')
   const isFetching=useSelector(state=>state.isFetching)
   const dispatch=useDispatch()
+  const [data1,setUserdata]=useState()
+  const [search, setSearch] = useState('')
+  const [filteredDataSource, setFilteredDataSource] = useState(data1);
+  const [masterDataSource, setMasterDataSource] = useState(data1);
+
+  const searchFilterFunction = text => {
+   
+    if (text) {
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = `${item.FirstName} ${item.LastName} ${item.Mobile}`
+          ? `${item.FirstName} ${item.LastName} ${item.Mobile}`.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+     
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
+  const handleSearch = () => {
+    setSearch('');
+    setFilteredDataSource(masterDataSource);
+  };
+
+ useEffect( ()=>{
+  var axios = require('axios');
+
+  var config = {
+    method: 'get',
+    url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload?PartnerSrNo=575&FromDate=1/1/2010&ToDate=1/1/2022',
+    // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
+    headers: {
+      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+      'Content-Type': 'application/json'
+    },
+    // params:{
+    //   PartnerSrNo:575,
+    //   FromDate:1/1/2010,
+    //   ToDate:1/1/2022
+    // }
+  };
+
+  axios(config)
+    .then(function (response) {
+      console.log('wwwwccc', JSON.stringify(response.data.Downloads));
+      setUserdata(response.data.Downloads);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+ 
+},[])
+  console.log('wwwww', data1);
 
   const manageCustomer=async()=>{
     const srno=await AsyncStorage.getItem('Partnersrno')
@@ -191,7 +249,57 @@ const MyCatalogue = () => {
                <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Loyalty'}</Text>
           </TouchableOpacity>
         </View>  
-
+        <View style={styles.blog}>
+          <Image style={{ height: 13, width: 20 }} resizeMode={'contain'}
+            source={require('../../../assets/Image/serch.png')}
+          />
+          <TextInput
+            //  style={{marginLeft: 10}}
+            placeholder="Search by Name or Phone Number"
+            placeholderTextColor='9a9a9a'
+            style={{ color: '9a9a9a', width: '100%', marginLeft: 10, fontFamily: 'Roboto-Regular' }}
+            returnKeyType="done"
+             value={search}
+            onChangeText={(val) => searchFilterFunction(val)}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={data1}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+               // onPress={() => userProfile(item.SrNo)}
+                //  onPress={()=>navigation.navigate('MyCustomerDetail')}
+                style={{
+                  backgroundColor: '#fff',
+                  marginTop: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 20,
+                  alignItems: 'center',
+                  paddingVertical: 10
+                }}>
+                {console.log('hmm1234567', item)}
+                <View style={{ height: 40, borderRadius: 20, flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    style={{ width: 40, height: 40, borderRadius: 20 }}
+                    source={require('../../../assets/user.jpeg')} />
+                  <Text
+                    style={{
+                      marginLeft: 20,
+                      color: '#032e63',
+                      fontFamily: 'Acephimere',
+                      fontSize: 14,
+                      width: '60%'
+                    }}>{`${item.FirstName} ${item.LastName}`}</Text>
+                </View>
+                <View>
+                  <Text style={{ fontFamily: 'Roboto-Regular', color: '#313131', fontSize: 15 }}>{item.Mobile}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
         <View style={{height:140}}/>
 
       </ScrollView>

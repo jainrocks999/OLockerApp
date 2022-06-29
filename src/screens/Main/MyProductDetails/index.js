@@ -157,12 +157,20 @@ const searchFilterFunction = text => {
                   alignItems:'center',
                   marginTop:-40
                   }}>
+                 {item.Url==null?  
+                 
+                    <Image
+                      style={{ width: '100%', height: 120,marginLeft:30}}
+                      resizeMode='center'
+                      source={require('../../../assets/Not.png')} /> :
                  <Image
                   style={{height: 100, width: 120,marginLeft:30}}
                   resizeMode='stretch'
-                  source={{uri: `${ImagePath.Path}${(item.Url).substring(2)}`}}
+                      source={{ uri: `${ImagePath.Path}${(item.Url).substring(2) }`}}
                   
-                />
+                    /> 
+                    }
+
                 </View>
                 <View style={{justifyContent:'center',
                  bottom:10,

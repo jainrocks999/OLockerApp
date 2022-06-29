@@ -12,7 +12,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		187E08DA28648BFF00F4EE08 /* Font in Resources */ = {isa = PBXBuildFile; fileRef = 187E08D928648BFF00F4EE08 /* Font */; };
 		187E08DC2864977500F4EE08 /* Acephimere.otf in Resources */ = {isa = PBXBuildFile; fileRef = 187E08DB2864977500F4EE08 /* Acephimere.otf */; };
 		187E08DE2864978000F4EE08 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 187E08DD2864978000F4EE08 /* Roboto-Medium.ttf */; };
 		187E08E12864978D00F4EE08 /* Philosopher-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 187E08DF2864978C00F4EE08 /* Philosopher-Regular.ttf */; };
@@ -46,6 +45,7 @@
 		187E08DD2864978000F4EE08 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "Font/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		187E08DF2864978C00F4EE08 /* Philosopher-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Philosopher-Regular.ttf"; path = "Font/Philosopher-Regular.ttf"; sourceTree = "<group>"; };
 		187E08E02864978D00F4EE08 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "Font/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		188734B9286C4BE900EFE01D /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-OlockerApp-OlockerAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OlockerApp-OlockerAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-OlockerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OlockerApp.debug.xcconfig"; path = "Target Support Files/Pods-OlockerApp/Pods-OlockerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-OlockerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OlockerApp.release.xcconfig"; path = "Target Support Files/Pods-OlockerApp/Pods-OlockerApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +100,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				187E08DB2864977500F4EE08 /* Acephimere.otf */,
 				187E08DF2864978C00F4EE08 /* Philosopher-Regular.ttf */,
+				188734B9286C4BE900EFE01D /* FontAwesome.ttf */,
 				187E08E02864978D00F4EE08 /* Roboto-Regular.ttf */,
 				187E08DD2864978000F4EE08 /* Roboto-Medium.ttf */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -260,7 +261,6 @@
 				187E08DE2864978000F4EE08 /* Roboto-Medium.ttf in Resources */,
 				187E08E22864978D00F4EE08 /* Roboto-Regular.ttf in Resources */,
 				187E08DC2864977500F4EE08 /* Acephimere.otf in Resources */,
-				187E08DA28648BFF00F4EE08 /* Font in Resources */,
 				187E08E12864978D00F4EE08 /* Philosopher-Regular.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
