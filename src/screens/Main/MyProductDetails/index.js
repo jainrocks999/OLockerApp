@@ -160,9 +160,9 @@ const searchFilterFunction = text => {
                  {item.Url==null?  
                  
                     <Image
-                      style={{ width: '100%', height: 120,marginLeft:30}}
+                      style={{ width: 120, height: 100,marginLeft:30}}
                       resizeMode='center'
-                      source={require('../../../assets/Not.png')} /> :
+                      source={require('../../../assets/demo.png')} /> :
                  <Image
                   style={{height: 100, width: 120,marginLeft:30}}
                   resizeMode='stretch'

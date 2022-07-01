@@ -116,12 +116,12 @@ const HomeScreen = () => {
              <TouchableOpacity 
              onPress={()=>manageProfile(item.SupplierSrNo)}
              style={{width:'47%',margin:5,borderRadius:20,height:200,marginTop:0}}>
-               <View style={{backgroundColor:'red',height:120,borderTopRightRadius:10,borderTopLeftRadius:10}}>
+               <View style={{height:120,borderTopRightRadius:10,borderTopLeftRadius:10}}>
               { item.SupplierImage==null?
                  <Image
                    style={{ width: '100%', height: 120, borderTopRightRadius: 10, borderTopLeftRadius: 10}}
                    resizeMode='stretch'
-               source={require('../../../assets/Not.png')} />:
+               source={require('../../../assets/demo.png')} />:
                <Image
                   style={{height: 120, width: '100%',borderTopRightRadius:10,borderTopLeftRadius:10}}
                   resizeMode='stretch'

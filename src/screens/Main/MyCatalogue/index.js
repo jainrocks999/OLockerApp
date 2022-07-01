@@ -20,7 +20,7 @@ const MyCatalogue = ({route}) => {
   const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
   console.log("log102",selector3);
-  console.log('this is user selector data',selector);
+  console.log('this is user selector data210',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
   const [data,setUserdata]=useState()
@@ -287,12 +287,12 @@ const scrollToInitialPosition = () => {
                   onPress={() => manageProfile(item.SupplierSrNo)}
                   style={{ width:120, margin: 5, borderRadius: 20, height: 145, marginTop: 0 }}>
                     {console.log('abvds',item)}
-                  <View style={{ backgroundColor: 'red', height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+                  <View style={{ height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
                     {item.SupplierImage == null ?
                     <Image
-                        style={{ width: '100%', height: 80, borderRadius: 0 }}
+                        style={{ width: 100, height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
                         resizeMode='cover'
-                        source={require('../../../assets/Not.png')} />:
+                        source={require('../../../assets/demo.png')} />:
                     <Image
                       style={{ height: 80, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
                       resizeMode='stretch'
@@ -370,9 +370,9 @@ const scrollToInitialPosition = () => {
                 {item.Url == null ?
 
                   <Image
-                    style={{ width: '100%', height: 160, }}
+                    style={{ width: '30%', height: 100, }}
                     resizeMode='center'
-                    source={require('../../../assets/Not.png')} /> :
+                    source={require('../../../assets/demo.png')} /> :
                   <Image
                     style={{ height: 100, width: 160, }}
                     resizeMode='stretch'

@@ -23,7 +23,7 @@ const HomeScreen = () => {
    const [pending,setPending]=useState(true)
    const [accepted,setAccepted]=useState(false)
 
-console.log('this is selector data1111',selector);
+console.log('this is selector data1111',selector1);
   const manageRequest=()=>{
     setPending(true)
     setAccepted(false)
@@ -116,7 +116,7 @@ console.log('this is selector data1111',selector);
                           <Image
                             style={{ width: 100, height: 80, marginLeft:-10}}
                             resizeMode='cover'
-                            source={require('../../../assets/Not.png')} /> :
+                            source={require('../../../assets/demo.png')} /> :
                           <Image
                             style={{ height: 80, width: 100,marginLeft:30 }}
                             resizeMode='stretch'
@@ -163,7 +163,7 @@ console.log('this is selector data1111',selector);
 
             {accepted==true? <View>
             <View style={{paddingHorizontal:15}}>
-             {selector.length>0? <Text style={{fontFamily:'Acephimere',fontSize:13,color:'#565656',}}>{`${selector.length} Pending Approval`}</Text>:null}
+             {selector1.length>0? <Text style={{fontFamily:'Acephimere',fontSize:13,color:'#565656',}}>{`${selector1.length} Pending Approval`}</Text>:null}
             </View>
             <View style={{marginHorizontal:15}}>
               <FlatList
@@ -216,7 +216,7 @@ console.log('this is selector data1111',selector);
 
             {rejected==true? <View>
             <View style={{paddingHorizontal:15}}>
-             {selector.length>0? <Text style={{fontFamily:'Acephimere',fontSize:13,color:'#565656'}}>{`${selector.length} Pending Approval`}</Text>:null}
+             {selector2.length>0? <Text style={{fontFamily:'Acephimere',fontSize:13,color:'#565656'}}>{`${selector2.length} Pending Approval`}</Text>:null}
             </View>
             <View style={{marginHorizontal:15}}>
               <FlatList

@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Platform,
+  Platform, 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import StatusBar from '../../../components/StatusBar';
@@ -124,7 +124,7 @@ const addProduct=async()=>{
       //url: 'AddCollection',
       PartnerSrno:srno,
       productsrno:0,
-      suppliersrno:482,
+      suppliersrno:12,
       name:"test",
       product_type: "test",
       grosswt: "999",

@@ -23,7 +23,7 @@ const Mycustomer = () => {
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.User)
   const selector1=useSelector(state=>state.PurchaseHistory)
-  console.log('this is selector data',selector1);
+  console.log('this is selector data23',selector);
   const dispatch=useDispatch()
 const manageFeedback=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
@@ -57,12 +57,18 @@ const manageFeedback=async()=>{
           flexDirection: 'row',
         }}>
         <View style={{width: '30%', height: 100, }}>
+            {selector.ImageLocation == "/?v=443" ? 
+           
           <Image 
           style={{height: '100%', width: 100 }}
           source={{
             uri: `${ImagePath.Path}${selector.ImageLocation}`,
           }}
-          />
+              /> : <Image
+                style={{ height: 80, width: 100,}}
+                source={require('../../../assets/demo.png')} />
+              
+          }
         </View>
         <View style={{width: '70%', paddingHorizontal: 10}}>
           <View style={{flexDirection: 'row',alignItems:'center'}}>
@@ -236,7 +242,7 @@ const manageFeedback=async()=>{
                   <Image 
                         style={{height: '100%', width: 100 }}
                         source={{
-                          uri: `${ImagePath.Path}${item.CategoryImage}`,
+                          uri: ` ${ImagePath.Path}${item.CategoryImage}`,
                         }}
                       >
 

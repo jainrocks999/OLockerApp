@@ -38,7 +38,7 @@ export default class Api {
 
   static fetchDataByGET = async (url,data) => {
     try {
-      console.log('dffdfff',data,url);
+      console.log('virendra',data,url);
       const response = await axios({
         method: 'GET',
         headers: { 

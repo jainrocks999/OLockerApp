@@ -37,7 +37,7 @@ const HomeScreen = () => {
    const selector1 = useSelector(state => state.Catalogue)
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
-
+console.log('virendramishra',selector.Images);
   
    
   const manageTab=()=>{
@@ -107,17 +107,19 @@ const addToNetwork=async()=>{
         }}>
           <View style={{flexDirection:'row',padding:15,width:'100%'}}>
             <View style={{backgroundColor:'#fff',height:100,width:'30%',borderRadius:10}}>
-              {selector.Images.map((item)=>
-              item.Type=='Logo'?
-              <Image
+              {selector.Images==[]?
+               <Image
               style={{height: '100%', width: 100 ,borderRadius:10}}
               resizeMode={'stretch'}
               source={{
                 uri: `${ImagePath.Path}${item.ImageUrl}`,
-              }}
-            />:null
-              )}
-            
+              
+               }} /> : <Image
+                style={{ width: '100%', height: 100, borderRadius: 10 }}
+                resizeMode='center'
+                source={require('../../../assets/demo.png')} />
+              }
+             
             </View>
             <View style={{marginLeft:10,width:'60%',marginTop:-4}}>
               <Text style={{color:'#fff',fontSize:19,fontFamily:'Acephimere'}}>{selector.Profile.SupplierName}</Text>

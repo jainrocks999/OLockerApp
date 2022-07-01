@@ -249,7 +249,7 @@ const MyCatalogue = () => {
                <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Loyalty'}</Text>
           </TouchableOpacity>
         </View>  
-        <View style={styles.blog}>
+        {/* <View style={styles.blog}>
           <Image style={{ height: 13, width: 20 }} resizeMode={'contain'}
             source={require('../../../assets/Image/serch.png')}
           />
@@ -283,7 +283,7 @@ const MyCatalogue = () => {
                 <View style={{ height: 40, borderRadius: 20, flexDirection: 'row', alignItems: 'center' }}>
                   <Image
                     style={{ width: 40, height: 40, borderRadius: 20 }}
-                    source={require('../../../assets/user.jpeg')} />
+                    source={require('../../../assets/Not.png')} />
                   <Text
                     style={{
                       marginLeft: 20,
@@ -299,7 +299,7 @@ const MyCatalogue = () => {
               </TouchableOpacity>
             )}
           />
-        </View>
+        </View> */}
         <View style={{height:140}}/>
 
       </ScrollView>

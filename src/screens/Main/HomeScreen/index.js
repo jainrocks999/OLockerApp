@@ -106,7 +106,7 @@ console.log("goldprice......",selector1);
       });
       dispatch({
         type: 'Get_Categories_Request',
-        url: 'GetCatalopartner : gueCategories',
+        url: 'GetCatalogueCategories',
         PartnerSrno:partnerSrNo,
       });
   
@@ -148,11 +148,20 @@ axios(config)
 
  }
 
-  const manageProfile=(id)=>{
+  const manageProfile= async(id)=>{
+
     dispatch({
       type: 'Get_Profile_Request',
       url: 'GetSupplierProfile',
       supplierSrno:id,
+      navigation
+    });
+    //  AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    console.log('storage id for supplier', id);
+    dispatch({
+      type: 'Partner_Catalogue_Request',
+      url: 'GetPartnerCatalogueCategories',
+      SupplierSrNo: id,
       navigation
     });
   }
@@ -284,8 +293,8 @@ axios(config)
                 
                 }}>
                 {item.SupplierImage == null ? <Image
-                  style={{ width: '100%', height: 120, borderRadius: 20 }}
-                  source={require('../../../assets/Not.png')} /> :
+                  style={{ width: 80, height: 60, borderRadius: 0 }}
+                  source={require('../../../assets/demo.png')} /> :
                   <Image
                     style={{ height: 120, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
                     resizeMode='stretch'

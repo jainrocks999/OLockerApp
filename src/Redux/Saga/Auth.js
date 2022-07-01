@@ -74,16 +74,19 @@ function* getProduct(action) {
   }
 }
 function* getSupplierProduct(action) {
+  console.log('virend',action);
   try {
     const data = {
-      partnerSrNo: action.PartnerSrno
+      partnerSrno: action.PartnerSrno
     }
-    
     const response = yield call(Api.fetchDataByGET, action.url, data);
+   
+
     if (response.success == true) {
+      console.log('vire1', response);
       yield put({
         type: 'Get_SupplierProducts_Success',
-        payload: response.SupplierProduct,
+        payload: response,
       });
     } else {
       yield put({
@@ -122,6 +125,7 @@ function* getCollection(action) {
 }
 
 function* getCategories(action) {
+  console.log('virendra2',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno
@@ -722,16 +726,16 @@ function* PartnersCatalogue(action) {
   }
 }
 function* Allsupplier(action) {
-
+  console.log('virenda252', action);
  
   try {
     const data={
-      PartnerSrNo:JSON.stringify(action.PartnerSrNo),
+      PartnerSrno:action.PartnerSrno,
      
     }
        
-    const response = yield call(Api.fetchDataByGET1, action.url,action.PartnerSrno);
-   
+    const response = yield call(Api.fetchDataByGET1, action.url,data);
+    console.log('virenda252', response);
     if (response.success == true) {
       yield put({
         type: 'Get_Allsupplier_Success',

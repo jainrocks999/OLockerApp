@@ -121,7 +121,7 @@ const getSupplier=async(values)=>{
   const data = new FormData()
   axios({
     method: "POST",
-    url:`https://devappapi.olocker.in/api/Supplier/SearchSupplier?Parameters`,
+    url:`https://devappapi.olocker.in/api/Supplier/SearchSupplier`,
     headers: { 
       'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
       "Content-Type":'application/json'

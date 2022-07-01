@@ -87,7 +87,7 @@ const Reject =()=>{
          <Text style={{color:'#565656',fontFamily:'Acephimere'}}>{'3 Pending Requests'}</Text>
          </View>
          <FlatList
-         data={data}
+         data={selector}
          renderItem={({item})=>(
              <View style={{marginTop:20,paddingHorizontal:20,flexDirection:'row'}}>
                  <View style={{width:'38%',height:100,backgroundColor:'#fff',elevation:5,borderRadius:8}}>
