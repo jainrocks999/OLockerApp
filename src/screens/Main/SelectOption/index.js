@@ -68,7 +68,7 @@ const manageOption=(val)=>{
               }}
                 value={type}  
                 useNativeAndroidPickerStyle={false}
-                placeholder={{ label: 'Select Type', value: ''}}
+                placeholder={{ label: 'Select Type', value:''}}
                 Icon={() => (
                   <Image style={styles.rnimg}
                     source={require('../../../assets/F.png')}

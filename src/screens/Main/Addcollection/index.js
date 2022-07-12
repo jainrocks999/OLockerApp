@@ -43,8 +43,10 @@ const Addcollection = () => {
   };
 
 const Addcollection=async()=>{
-  console.log('DataCollectioon');
-  const srno= await AsyncStorage.getItem('Partnersrno')
+
+  const srno = await AsyncStorage.getItem('Partnersrno')
+  const BNo = await AsyncStorage.getItem('BranchNo')
+  console.log('DataCollectioon', srno, BNo);
   if(collection==''){
     Toast.show('Please enter name')
   }
@@ -53,17 +55,17 @@ const Addcollection=async()=>{
   }
   else{
     dispatch({
-      type: 'Add_Collection_Request',
-      url: 'AddCollection',
-      PartnerSrno:srno,
-     Tagline: "Test",
-Description: "Test",
-IsActive: true,
-BranchSrNo: 883,
-CollectionId: "",
-Name: "",
-CollectionImage: "",
-navigation
+       type: 'Add_Collection_Request',
+       url: 'AddCollection',
+       PartnerSrno:srno,
+       Tagline: "Test",
+       Description: "Test",
+       IsActive: true,
+       BranchSrNo:BNo,
+       CollectionId:status,
+       Name:collection,
+       CollectionImage:photo,
+       navigation
     });
   }
         

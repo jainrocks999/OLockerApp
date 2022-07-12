@@ -12,7 +12,7 @@ const Catalogue=()=>{
   const manageCategory=async(id)=>{
       const srno = await AsyncStorage.getItem('Partnersrno')
     const supplierid = await AsyncStorage.getItem('SupplierId')
-  console.log('this is user category details',supplierid)
+  console.log('this is user category details',id)
       dispatch({
         type: 'GetPartners_Catalogue_Request',
          url: 'GetPartnerProductsByCatalogueCategory',

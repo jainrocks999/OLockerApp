@@ -149,17 +149,29 @@ const MyCatalogue = () => {
             borderBottomRightRadius: 60,
             borderBottomLeftRadius: 60,
           }}>
-          <View style={{height: 140}} />
+          <View style={{height: 150}} />
         </View>
         <View
           style={{
-            marginHorizontal: 20,
+            paddingHorizontal: 10,
+             paddingVertical: 20,
             elevation: 5,
             backgroundColor: '#fff',
-            marginTop: -120,
+            marginHorizontal: 20,
             borderRadius: 10,
+            marginTop:-75
           }}>
-          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
+            <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between'}}>
+            <View style={{width:'45%',alignItems:'center'}}>
+              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>23</Text>
+              <Text style={{ fontSize: 13, fontFamily: 'Acephimere', color: '#222027' }}>Today Downloads</Text>
+            </View>
+            <View style={{ width: '45%', alignItems: 'center' }}>
+              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>23076</Text>
+              <Text style={{ fontSize: 13, marginTop: 5, fontFamily: 'Acephimere', color: '#222027' }}>Today Downloads</Text>
+            </View>
+            </View>
+          {/* <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
             <Text style={{fontFamily:'Philosopher-Regular',color:'#032e63',fontSize:16,marginTop:5}}>{'35705 customers '}</Text>
             <View style={{
               borderWidth: 1,
@@ -216,7 +228,7 @@ const MyCatalogue = () => {
             />
             <VictoryAxis dependentAxis tickFormat={x => `${x}`} sty />
             <VictoryBar data={data} x="quarter" y="earnings" />
-          </VictoryChart>
+          </VictoryChart> */}
         </View>
         <View style={{
           backgroundColor:'#fff',
@@ -262,6 +274,10 @@ const MyCatalogue = () => {
              value={search}
             onChangeText={(val) => searchFilterFunction(val)}
           />
+        </View> */}
+
+        <View style={{paddingVertical:10,marginLeft:20}}>
+          <Text style={{ fontSize: 15, fontFamily: 'Acephimere', color: '#222027' }}>Recents downloads</Text>
         </View>
         <View>
           <FlatList
@@ -290,7 +306,7 @@ const MyCatalogue = () => {
                       color: '#032e63',
                       fontFamily: 'Acephimere',
                       fontSize: 14,
-                      width: '60%'
+                      width: '50%'
                     }}>{`${item.FirstName} ${item.LastName}`}</Text>
                 </View>
                 <View>
@@ -299,17 +315,17 @@ const MyCatalogue = () => {
               </TouchableOpacity>
             )}
           />
-        </View> */}
+        </View>
         <View style={{height:140}}/>
 
       </ScrollView>
-      <View style={{backgroundColor:'#032e63',width:60,height:60,
+      {/* <View style={{backgroundColor:'#032e63',width:60,height:60,
           position:'absolute',bottom:80,right:15,borderRadius:30,
           alignItems:'center',
           justifyContent:'center'
         }}>
           <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
-        </View>
+        </View> */}
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <TabView />
       </View>

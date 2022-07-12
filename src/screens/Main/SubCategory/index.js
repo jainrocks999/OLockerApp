@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image,Share} from 'react-native';
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ data.push({
     const [editable,setEditable]=useState(false)
     const [editable1,setEditable1]=useState(false)
     const [editable2,setEditable2]=useState(false)
-
+    const[url,setUrl] =useState('')
     const [keyboardStatus, setKeyboardStatus] = useState(undefined);
     useEffect( ()=>{
       setDescription(selector.description);
@@ -55,9 +55,22 @@ data.push({
        
       })
       setDemo(`${mg} ${metalPurity} - ${metal} ${gm}`);
+
+      selector.productimages.map((item) => {
+        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\ /g,'/')}/${item.ImageName}`)
+        
+        console.log('1vv223366', url);
+
+      })
      },[demo])
      
      console.log('xxx157',demo);
+
+     const share=async()=>{
+       await Share.share({
+         message:`Name:${stockNo} image url : ${url}`
+       })
+     }
   const Detail=async()=>{
     const srno=await AsyncStorage.getItem('Partnersrno')
     var axios = require('axios');
@@ -115,7 +128,9 @@ axios(config)
             <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
           </View>
           <View>
-              <TouchableOpacity onPress={()=>navigation.navigate('Filter')}>
+              <TouchableOpacity onPress={()=>share()}
+              // {()=>navigation.navigate('Filter')}
+              >
               <Image style={{width:24,height:18,marginTop:10}} tintColor={'white'} source={require('../../../assets/Image/share1.png')}/>
               </TouchableOpacity>
           </View>

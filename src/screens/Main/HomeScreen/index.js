@@ -156,7 +156,7 @@ axios(config)
       supplierSrno:id,
       navigation
     });
-    //  AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+     AsyncStorage.setItem('SupplierId', JSON.stringify(id))
     console.log('storage id for supplier', id);
     dispatch({
       type: 'Partner_Catalogue_Request',

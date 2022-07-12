@@ -18,7 +18,7 @@ const HomeScreen = () => {
    const selector=useSelector(state=>state.RequestList)
   const selector2 = useSelector(state => state.RejectedRequestData)
   const selector1 = useSelector(state => state.AcceptedRequestData)
-   console.log('this is selector responserrr',selector);
+   console.log('gjjj',selector);
    
 
    const Accept=()=>{

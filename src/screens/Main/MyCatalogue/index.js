@@ -187,7 +187,7 @@ const scrollToInitialPosition = () => {
         </View>
         <View style={{alignItems:'center',justifyContent:'center',marginTop:20}}>
                 <TouchableOpacity
-                onPress={()=>navigation.navigate('SelectOption')}
+                 onPress={()=>navigation.navigate('SelectOption')}
                 >
                     <LinearGradient
                     style={{
@@ -275,6 +275,9 @@ const scrollToInitialPosition = () => {
               </TouchableOpacity>
             )}
             />:null}
+
+          {partner==true ?<Text style={{ fontFamily: 'Acephimere', fontSize: 16, color: '#032e63',marginBottom:10,marginLeft:15 }}>MY Supplier List</Text>
+          :null}
             {partner==true?  
             <FlatList
               showsHorizontalScrollIndicator={false}
@@ -319,6 +322,10 @@ const scrollToInitialPosition = () => {
               )}
 
             />:null}
+            
+         {partner==true?  <Text style={{ fontFamily: 'Acephimere', fontSize: 16, color: '#032e63', marginBottom: 10, marginLeft: 15 }}>Partner Categories List</Text>
+         :null}
+
           {partner == true ? <FlatList
             data={selector4}
             numColumns={3}

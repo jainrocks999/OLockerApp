@@ -18,7 +18,7 @@ const loginValidationSchema = yup.object().shape({
   homeAddress:yup.string().required('Please enter home address'),
   email: yup.string().required('Please enter your email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid email address'),
   password: yup.string().required('Please enter your password'),
-  companygsTin:yup.string().required('Please enter company gs tin'),
+  companygsTin: yup.string().required('Please enter company gs tin').matches(/^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/,'Please enter valid gstin number'),
   stateName:yup.string(),
   cityName:yup.string(),
   pincode:yup.string().required('Please enter pincode'),

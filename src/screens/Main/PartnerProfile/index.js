@@ -37,8 +37,10 @@ const HomeScreen = () => {
    const selector1 = useSelector(state => state.Catalogue)
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
-console.log('virendramishra',selector.Images);
-  
+  console.log('virendramishra45', selector.Images);
+  selector.Images.map((item)=>{
+    console.log('virendramishra12',`${ImagePath.Path}/${item.ImageUrl}`);
+  })
    
   const manageTab=()=>{
       setProfile(true)
@@ -76,8 +78,8 @@ const addToNetwork=async()=>{
         "Content-Type":'application/json'
       },
       data:JSON.stringify({
-          "PartnerSrno": srno,
-          "SupplierCode": JSON.ScrollView(selector.Profile.SupplierCode)
+          PartnerSrno: srno,
+          SupplierCode: JSON.ScrollView(selector.Profile.SupplierCode)
       })
     })
     .then(res => {
@@ -112,7 +114,7 @@ const addToNetwork=async()=>{
               style={{height: '100%', width: 100 ,borderRadius:10}}
               resizeMode={'stretch'}
               source={{
-                uri: `${ImagePath.Path}${item.ImageUrl}`,
+                uri: `${ImagePath.Path}${selector.ImageUrl}`,
               
                }} /> : <Image
                 style={{ width: '100%', height: 100, borderRadius: 10 }}
@@ -162,7 +164,7 @@ const addToNetwork=async()=>{
                 paddingVertical:10,
                 borderRadius:20
                 }}>
-                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ADD TO NETWORK</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>EDIT TO PROFILE</Text>
               </TouchableOpacity>
           </View>
 

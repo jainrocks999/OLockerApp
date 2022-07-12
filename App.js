@@ -5,8 +5,8 @@ import Store from './src/Redux/Store';
 import RootApp from './src/navigation';
 import StatusBar from './src/components/StatusBar';
 
-LogBox.ignoreLogs(['Warning: ...']);
-LogBox.ignoreAllLogs();
+ LogBox.ignoreLogs(['Warning: ...']);
+ LogBox.ignoreAllLogs();
 
 
 const App = () => {

@@ -486,17 +486,17 @@ function* getFeedback(action) {
 }
 
 function* addCollection(action) {
- 
+ console.log('vire990',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno
     }
-    const response = yield call(Api.fetchDataByPOST, action.url,data);
+    const response = yield call(Api.fetchDataByPOST1, action.url,data);
     if (response.success == true) {
       yield put({
         type: 'Add_Collection_Success',
       });
-      // action.navigation.navigate('Feedback')
+       action.navigation.navigate('Feedback')
     } else {
       yield put({
         type: 'Add_Collection_Error',
@@ -505,12 +505,13 @@ function* addCollection(action) {
   } catch (error) {
     console.log('erreeee',error);
     yield put({
-      type: 'Add_Collection_Error12',
+      type: 'Add_Collection_Error',
     });
   }
 }
 
 function* addProduct(action) {
+
   try {
     const data={
       PartnerSrno:action.PartnerSrno

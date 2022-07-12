@@ -37,8 +37,9 @@ const partnerLogin=async(values)=>{
  //console.log('aaaaaaaa',response.data.LoginDetail.PartnerSrNo);
       if(response.data.success==true){
         setFetching(false)
-        console.log("00000000");
-        AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo))
+        console.log("00000000", JSON.stringify(response.data.LoginDetail.BranchSrNo));
+        AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo));
+        AsyncStorage.setItem('BranchNo', JSON.stringify(response.data.LoginDetail.BranchSrNo))
         navigation.replace('Home')
         Toast.show('Login successful')
       }
@@ -136,7 +137,7 @@ const partnerLogin=async(values)=>{
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
-            keyboardType={'number-pad'}
+            keyboardType={'default'}
             secureTextEntry={true}
             />
             
