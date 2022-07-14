@@ -24,6 +24,7 @@ const Messagebox = () => {
             source1={require('../../../assets/Fo.png')}
             title={'Purchase History '}
             onPress={() => navigation.goBack()}
+          onPress1={() => navigation.navigate('Message')}
             />
             <View>
                 <View style={{paddingHorizontal:20,paddingVertical:6}}>
@@ -33,16 +34,15 @@ const Messagebox = () => {
           data={selector1}
           renderItem={({item}) => (
             <View style={{backgroundColor:'#fff',marginTop:10,flexDirection:'row',paddingHorizontal:15,paddingVertical:15}}>
+              {console.log('xmv1', `${ImagePath.Path}/${item.url.substring(1)}`)}
                 <View style={{width:100,height:90,borderWidth:1}}>
                   
                   <Image 
-                        style={{height: '100%', width: 100 }}
+                        style={{height: '100%', width: 90 }}
                         source={{
-                          uri: `https://api.myjeweller.in/images/OraImages/rss/No_Image_1.png`,
+                          uri: `${ImagePath.Path}${item.url.substring(1)}`,
                         }}
-                      >
-
-                      </Image>
+                      />
                       <View style={{width:'100%',alignItems:'flex-end',marginTop:-89}}>
                     <View style={{
                       backgroundColor:'#24a31e',
@@ -76,9 +76,9 @@ const Messagebox = () => {
         />
             </View>
             <StatusBar />
-            <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+            {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
-      </View>
+      </View> */}
         </View>
     );
 };

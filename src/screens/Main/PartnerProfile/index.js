@@ -7,7 +7,8 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  Linking
+  Linking,
+  Share 
 } from 'react-native';
 import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
@@ -42,6 +43,12 @@ const HomeScreen = () => {
     console.log('virendramishra12',`${ImagePath.Path}/${item.ImageUrl}`);
   })
    
+const share =async()=>{
+  await Share.share({
+    message: `Name:${selector.Profile.SupplierName}  Email Address :${selector.Profile.EmailId} `
+  })
+}
+
   const manageTab=()=>{
       setProfile(true)
       setMessage(false)
@@ -148,9 +155,11 @@ const addToNetwork=async()=>{
                       style={{alignItems:'center',justifyContent:'center'}}>
                        <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/16.png')}/>
                      </TouchableOpacity>
-                     <View style={{alignItems:'center',justifyContent:'center',marginLeft:10}}>
+                     <TouchableOpacity 
+                      onPress={()=>share()}
+                     style={{alignItems:'center',justifyContent:'center',marginLeft:10}}>
                      <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/15.png')}/>
-                     </View>
+                     </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -164,7 +173,7 @@ const addToNetwork=async()=>{
                 paddingVertical:10,
                 borderRadius:20
                 }}>
-                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>EDIT TO PROFILE</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}> Added To Network</Text>
               </TouchableOpacity>
           </View>
 
@@ -233,9 +242,9 @@ const addToNetwork=async()=>{
         </View>
        <View style={{height:70}}/>
       </ScrollView>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

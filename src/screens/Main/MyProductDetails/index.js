@@ -196,7 +196,7 @@ const searchFilterFunction = text => {
         <View style={{height: 70}} />
       </ScrollView>
       <View style={{bottom: 0, left: 0, right: 0, position: 'absolute'}}>
-        <TabView />
+        {/* <TabView /> */}
       </View>
     </View>
   );

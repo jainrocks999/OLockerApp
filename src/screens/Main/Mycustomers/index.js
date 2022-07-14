@@ -14,6 +14,7 @@ import Header from '../../../components/CustomHeader';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import Loader from '../../../components/Loader';
+import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
 const Mycustomer = () => {
   const navigation = useNavigation();
@@ -108,11 +109,13 @@ const userProfile=async(id)=>{
                 alignItems:'center',
                 paddingVertical:10
               }}>
-                {console.log('hmm',item)}
+                {console.log('hmm', `${ImagePath.Path}${item.ProfilePic}`)}
                 <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
                 <Image
                 style={{width:40,height:40,borderRadius:20}}
-                source={require('../../../assets/user.jpeg')}/>
+                    source={{
+                      uri: `${ImagePath.Path}${item.ProfilePic}`,
+                    }}/>
                 <Text 
                 style={{
                   marginLeft:20,
@@ -136,9 +139,9 @@ const userProfile=async(id)=>{
         }}>
         <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
-      </View>
+      </View> */}
      </View>
   );
 };

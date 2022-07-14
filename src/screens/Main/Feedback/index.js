@@ -216,9 +216,9 @@ console.log('this is selector value',selector);
           <View style={{marginBottom:70}}/>
         </ScrollView>
       </View>
-      <View style={{bottom:0,left:0,right:0,position:'absolute'}}>
+      {/* <View style={{bottom:0,left:0,right:0,position:'absolute'}}>
      <Bottum />
-     </View>
+     </View> */}
     </SafeAreaView>
   );
 };

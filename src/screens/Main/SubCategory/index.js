@@ -57,7 +57,7 @@ data.push({
       setDemo(`${mg} ${metalPurity} - ${metal} ${gm}`);
 
       selector.productimages.map((item) => {
-        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\ /g,'/')}/${item.ImageName}`)
+        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\\/g, "/") }/${item.ImageName}`)
         
         console.log('1vv223366', url);
 
@@ -68,7 +68,7 @@ data.push({
 
      const share=async()=>{
        await Share.share({
-         message:`Name:${stockNo} image url : ${url}`
+         message:`Product Name:${stockNo} image url : ${url}`
        })
      }
   const Detail=async()=>{
@@ -260,7 +260,7 @@ axios(config)
       <View style={{height:100}}/>
       </ScrollView>
       <View style={{bottom: 0, left: 0, right: 0, position: 'absolute'}}>
-        <TabView />
+        {/* <TabView /> */}
       </View>
     </View>
   );

@@ -592,7 +592,7 @@ const manageOtherStone=()=>{
         </KeyboardAwareScrollView>
       </ScrollView>
       <StatusBar />
-      <Buttom />
+      {/* <Buttom /> */}
     </View>
   );
 };

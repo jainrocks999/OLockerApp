@@ -44,6 +44,7 @@ const manageFeedback=async()=>{
         source2={require('../../../assets/La.png')}
         title={'My Customers Profile'}
         onPress={() => navigation.goBack()}
+        onPress1={() => navigation.navigate('Message')}
       />
       {isFetching?<Loader/>:null}
       <ScrollView>
@@ -57,7 +58,7 @@ const manageFeedback=async()=>{
           flexDirection: 'row',
         }}>
         <View style={{width: '30%', height: 100, }}>
-            {selector.ImageLocation == "/?v=443" ? 
+            {selector.ImageLocation? 
            
           <Image 
           style={{height: '100%', width: 100 }}
@@ -236,18 +237,22 @@ const manageFeedback=async()=>{
           data={selector1}
           renderItem={({item}) => (
             <View style={{backgroundColor:'#fff',marginTop:10,flexDirection:'row',paddingHorizontal:15,paddingVertical:15}}>
-              {console.log('xmv',item)}
+              {console.log('xmv', `${ImagePath.Path}/${item.url.substring(1)}`)}
                 <View style={{width:100,height:90,borderWidth:1}}>
                   
-                  <Image 
+                  {/* <Image 
                         style={{height: '100%', width: 100 }}
                         source={{
-                          uri: ` ${ImagePath.Path}${item.CategoryImage}`,
+                          uri: ` ${ImagePath.Path}/${item.url.substring(1)}`,
                         }}
-                      >
-
-                      </Image>
-                      <View style={{width:'100%',alignItems:'flex-end',marginTop:-89}}>
+                      /> */}
+                <Image
+                  style={{ width: '100%', height: 80,}}
+                  source={{
+                    uri: `${ImagePath.Path}/${item.url.substring(1)}`
+                  }} />
+                     
+                      <View style={{width:'100%',alignItems:'flex-end',marginTop:-80}}>
                     <View style={{
                       backgroundColor:'#24a31e',
                       borderBottomLeftRadius:13,
@@ -267,7 +272,7 @@ const manageFeedback=async()=>{
                         <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:12}}>{`ITEM ID   ${item.PolicyNo}`}</Text>
                         <View style={{flexDirection:'row'}}>
                         <Image style={{width:16,height:16}} source={require('../../../assets/Image/rupay.png')}/>
-                        <Text style={{color:'#343434',fontFamily:'Acephimere'}}>{item.EstValue}</Text>
+                        <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:15,fontWeight:'700'}}>{item.EstValue}</Text>
                         </View>
                     </View>
                     <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.PurchaseDate}`}</Text>
@@ -281,9 +286,9 @@ const manageFeedback=async()=>{
       </View>
       <View style={{height: 180}} />
       </ScrollView>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
-      </View>
+      </View> */}
     </View>
   );
 };

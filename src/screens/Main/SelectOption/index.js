@@ -81,9 +81,9 @@ const manageOption=(val)=>{
       <View style={{alignItems:'center',justifyContent:'center'}}>
         <Text style={{color:'#7d7d7d',fontFamily:'Acephimere'}}>SELECT OPTION TO ADD FROM DROPDOWN</Text>
       </View>
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

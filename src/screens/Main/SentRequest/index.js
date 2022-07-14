@@ -65,7 +65,7 @@ console.log('this is selector data1111',selector1);
                     }}>
                 <Text style={{fontSize:11,color:pending==true?'#032e63':'#616161',fontFamily:'Acephimere'}}>Pending Approval</Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                 onPress={()=>manageRequest1()}
                 style={{
                     paddingVertical:8,
@@ -90,7 +90,7 @@ console.log('this is selector data1111',selector1);
                     borderColor:rejected==true?'#032e63':'#616161'
                     }}>
                 <Text style={{fontSize:11,color:rejected==true?'#032e63':'#616161',fontFamily:'Acephimere'}}>Rejected</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
            {pending==true? <View>
             <View style={{paddingHorizontal:15}}>
@@ -267,9 +267,9 @@ console.log('this is selector data1111',selector1);
             </View>
             </View>:null}
          </View> 
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

@@ -25,9 +25,9 @@ const Messagebox = () => {
       />
             
             <StatusBar />
-            <View style={{bottom:0,left:0,right:0,position:'absolute'}}>
+            {/* <View style={{bottom:0,left:0,right:0,position:'absolute'}}>
                <BottomTab/>
-            </View>
+            </View> */}
         </View>
     );
 };

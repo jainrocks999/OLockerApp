@@ -162,9 +162,9 @@ const sort=()=>{
           />:null}
         </View>
       </View>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/> 
     </View>
   );

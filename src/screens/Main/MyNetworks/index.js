@@ -150,9 +150,9 @@ const HomeScreen = () => {
          />
          {/* <View style={{height:300}}/> */}
       </View>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

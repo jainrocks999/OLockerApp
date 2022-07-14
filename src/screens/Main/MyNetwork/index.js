@@ -387,9 +387,9 @@ const getSupplier=async(values)=>{
         <View style={{height:70}}/>
 
       </ScrollView>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <TabView />
-      </View>
+      </View> */}
     </View>
   );
 };

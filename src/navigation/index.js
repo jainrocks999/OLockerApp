@@ -1,4 +1,5 @@
 import React from "react";
+import {Image} from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from "../screens/Auth/SplashPage";
@@ -31,6 +32,89 @@ import MyCustomerDetail from '../screens/Main/MyCustomerDetail';
 import CategoryDetails from '../screens/Main/CategoryDetails';
 import SubCategory from '../screens/Main/SubCategory';
 import Filter from '../screens/Main/Filter';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+ const Stack1= createNativeStackNavigator();
+ function HomeScreen1(){
+  return (
+  <Stack1.Navigator initialRouteName="Home" screenOptions={{headerShown:false}}>
+    <Stack1.Screen name="Home" component={HomeScreen} />
+      <Stack1.Screen name="SelectOption" component={SelectOption} />
+      <Stack1.Screen name="Addcategory" component={Addcategory} />
+      <Stack1.Screen name="Addproduct" component={Addproduct} />
+    <Stack1.Screen name="MyCatalogue" component={MyCatalogue} />
+      <Stack1.Screen name="MyProductDetails" component={MyProductDetails} />
+      <Stack1.Screen name="SubCategory" component={SubCategory} />
+      <Stack1.Screen name="Mycustomer" component={Mycustomer} />
+      <Stack1.Screen name="Feedback" component={Feedback} />
+      <Stack1.Screen name="Messagebox" component={Messagebox} />
+      <Stack1.Screen name="Editprofile" component={Edit} />
+      <Stack1.Screen name="Loyalty" component={Loyalty} />
+      <Stack1.Screen name="Loyalty1" component={LoyaltyPage} />
+      <Stack1.Screen name="Purchase" component={Purchase} />
+      <Stack1.Screen name="MyProducts" component={MyProducts} />
+      <Stack1.Screen name="Customers" component={Customers} />
+      {/* <Stack.Screen name="MyNetwork" component={MyNetwork}/> */}
+      {/* <Stack.Screen name="MyCustomerDetail" component={MyCustomerDetail}/> */}
+      <Stack1.Screen name="CategoryDetails" component={CategoryDetails} />
+      <Stack1.Screen name="Filter" component={Filter} />
+
+  </Stack1.Navigator>
+  )
+ }
+const Stack2=createNativeStackNavigator();
+function MyNetwork1(){
+  return(
+    <Stack2.Navigator initialRouteName="MyNetwork" screenOptions={{headerShown:false}}>
+      <Stack2.Screen name="MyNetwork" component={MyNetwork} />
+      <Stack2.Screen name="MyNetworks" component={MyNetworks} />
+      <Stack2.Screen name="PartnerProfile" component={PartnerProfile} />
+      <Stack2.Screen name="PendingRequest" component={PendingRequest} />
+      <Stack2.Screen name="SentRequest" component={SentRequest} />
+      <Stack.Screen name="Chat" component={Chat} />
+    </Stack2.Navigator>
+  )
+}
+const Tab = createBottomTabNavigator();
+function Bottom(){
+return(
+ 
+  <Tab.Navigator 
+  screenOptions={{
+    headerShown:false,
+      tabBarShowLabel: false,
+      tabBarStyle: {
+        backgroundColor: '#01377d',paddingTop:5,paddingBottom:5,
+      }
+  
+  }}>
+    <Tab.Screen name="Home1" component={HomeScreen1} options={{  
+      tabBarIcon: ({ focused }) => {
+       
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey',height:26,width:24 }} source={require('../assets/For.png')} />;
+       },
+     
+    }} />
+    <Tab.Screen name="MyNetwork1" component={MyNetwork1} options={{
+      tabBarIcon: ({ focused }) => {
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 26, width: 24 }} source={require('../assets/Lay.png')} />;
+      },
+
+    }} />
+    <Tab.Screen name="Message" component={MessageList} options={{
+      tabBarIcon: ({ focused }) => {
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 28, width: 24 }} source={require('../assets/noti.png')} />;
+      },
+
+    }} />
+    <Tab.Screen name="MyCustomerDetail" component={MyCustomerDetail} options={{
+      tabBarIcon: ({ focused }) => {
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 26, width: 24 }} source={require('../assets/Sh.png')} />;
+      },
+
+    }} />
+    
+  </Tab.Navigator>
+)}
 
 const Stack = createNativeStackNavigator();
 function Navigate() {
@@ -38,36 +122,10 @@ function Navigate() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Splash" component={SplashScreen}/>
-        <Stack.Screen name="Home" component={HomeScreen}/>
-        <Stack.Screen name="Message" component={MessageList}/>
+        <Stack.Screen name="Home" component={Bottom}/>
         <Stack.Screen name="Login" component ={Login}/>
         <Stack.Screen name="RegisterPage" component={RegisterPage}/>
-        <Stack.Screen name="Addcategory" component ={Addcategory}/>
-        <Stack.Screen name="Addproduct" component ={Addproduct}/>
-        <Stack.Screen name="Addcollection" component ={Addcollection}/>
-        <Stack.Screen name="Mycustomer" component ={Mycustomer}/>
-        <Stack.Screen name="Feedback" component ={Feedback}/>
-        <Stack.Screen name="Messagebox" component ={Messagebox}/>
-        <Stack.Screen name="Editprofile" component ={Edit}/>
-        <Stack.Screen name="Loyalty" component ={Loyalty}/>
-        <Stack.Screen name="Loyalty1"  component ={LoyaltyPage}/>
-        <Stack.Screen name="Purchase" component={Purchase}/>
-        <Stack.Screen name="Chat" component ={Chat}/>
-        <Stack.Screen name="MyCatalogue" component={MyCatalogue}/>
-        <Stack.Screen name="MyProducts" component={MyProducts}/>
-        <Stack.Screen name="MyProductDetails" component={MyProductDetails}/>
-        <Stack.Screen name="SelectOption" component={SelectOption}/>
-        <Stack.Screen name="Customers" component={Customers}/>
-        <Stack.Screen name="MyNetwork" component={MyNetwork}/>
-        <Stack.Screen name="PendingRequest" component={PendingRequest}/>
-        <Stack.Screen name="SentRequest" component={SentRequest}/>
-        <Stack.Screen name="MyNetworks" component={MyNetworks}/>
-        <Stack.Screen name="PartnerProfile" component={PartnerProfile}/>
-        <Stack.Screen name="MyCustomerDetail" component={MyCustomerDetail}/>
-        <Stack.Screen name="CategoryDetails" component={CategoryDetails}/>
-        <Stack.Screen name="SubCategory" component={SubCategory}/>
-        <Stack.Screen name="Filter" component={Filter}/>
-
+       
       </Stack.Navigator>
     </NavigationContainer>
   );

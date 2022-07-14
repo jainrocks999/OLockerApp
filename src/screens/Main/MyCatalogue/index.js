@@ -369,27 +369,27 @@ const scrollToInitialPosition = () => {
                 // width: '100%%',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: 180,
+                height: 300,
                 // backgroundColor:'#fff',
                 borderWidth:.5
               }}>
-
-                {item.Url == null ?
+                <Text style={{fontWeight:'700',fontSize:15,marginTop:5}}>{item.Name}</Text>
+                {item.CollectionImage == null ?
 
                   <Image
                     style={{ width: '30%', height: 100, }}
                     resizeMode='center'
                     source={require('../../../assets/demo.png')} /> :
                   <Image
-                    style={{ height: 100, width: 160, }}
-                    resizeMode='stretch'
-                    source={{ uri: `${ImagePath.Path}${(item.Url).substring(2)}` }}
+                    style={{ height: 270, width: "100%", }}
+                     resizeMode='contain'
+                    source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
 
                   />
                 }
 
-                {console.log('jkkk',item)} 
-                 <Text>{item.Name}</Text>
+                {console.log('jkkk',`${ImagePath.Path}${item.CollectionImage}`)} 
+                
                 {/* <Image
                   style={{height: 160, width: '100%', }}
                   resizeMode={'stretch'}
@@ -407,7 +407,7 @@ const scrollToInitialPosition = () => {
 
       </ScrollView>
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
-        <TabView />
+        {/* <TabView /> */}
       </View>
     </View>
   );

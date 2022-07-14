@@ -326,9 +326,9 @@ const MyCatalogue = () => {
         }}>
           <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View> */}
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <TabView />
-      </View>
+      </View> */}
     </View>
   );
 };

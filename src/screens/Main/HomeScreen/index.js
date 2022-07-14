@@ -481,7 +481,7 @@ axios(config)
           />
         </View>
       </ScrollView>
-      <TabView />
+      {/* <TabView /> */}
     </View>
   );
 };

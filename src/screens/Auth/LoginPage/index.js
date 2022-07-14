@@ -40,7 +40,7 @@ const partnerLogin=async(values)=>{
         console.log("00000000", JSON.stringify(response.data.LoginDetail.BranchSrNo));
         AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo));
         AsyncStorage.setItem('BranchNo', JSON.stringify(response.data.LoginDetail.BranchSrNo))
-        navigation.replace('Home')
+        navigation.navigate('Home')
         Toast.show('Login successful')
       }
       // response.data.LoginDetail.PartnerSrNo

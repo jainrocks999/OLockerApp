@@ -83,7 +83,7 @@ const Loyalty = () => {
       </View>
       </ScrollView>
       <StatusBar />
-      <Bottum />
+      {/* <Bottum /> */}
     </View>
   );
 };
