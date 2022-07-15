@@ -68,7 +68,7 @@ data.push({
 
      const share=async()=>{
        await Share.share({
-         message:`Product Name:${stockNo} image url : ${url}`
+         message:`Product Name : ${stockNo} \nImage Url : ${url}`
        })
      }
   const Detail=async()=>{

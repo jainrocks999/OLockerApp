@@ -447,7 +447,7 @@ function* getProfile(action) {
         type: 'Get_Profile_Success',
         payload: response,
       });
-      action.navigation.navigate('PartnerProfile')
+      action.navigation.navigate('MyNetwork1',{screen:'PartnerProfile'})
     } else {
       yield put({
         type: 'Get_Profile_Error',

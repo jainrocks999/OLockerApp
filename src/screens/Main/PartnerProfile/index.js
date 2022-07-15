@@ -45,7 +45,7 @@ const HomeScreen = () => {
    
 const share =async()=>{
   await Share.share({
-    message: `Name:${selector.Profile.SupplierName}  Email Address :${selector.Profile.EmailId} `
+    message: `Supplier Name : ${selector.Profile.SupplierName}  Email Address : ${selector.Profile.EmailId} `
   })
 }
 

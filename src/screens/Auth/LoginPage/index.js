@@ -40,7 +40,7 @@ const partnerLogin=async(values)=>{
         console.log("00000000", JSON.stringify(response.data.LoginDetail.BranchSrNo));
         AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo));
         AsyncStorage.setItem('BranchNo', JSON.stringify(response.data.LoginDetail.BranchSrNo))
-        navigation.navigate('Home')
+        navigation.replace('Home')
         Toast.show('Login successful')
       }
       // response.data.LoginDetail.PartnerSrNo
@@ -99,7 +99,7 @@ const partnerLogin=async(values)=>{
           <View
             style={{
               borderBottomWidth: 1,
-              marginHorizontal:Platform.OS=='android'?270:293,
+              marginHorizontal:Platform.OS=='android'?265:293,
               marginLeft: 12,
             }}
           />
@@ -112,6 +112,7 @@ const partnerLogin=async(values)=>{
             <TextInput 
             style={styles.input1}
             placeholder="Enter your Email"
+            placeholderTextColor={'grey'}
             // value={email}
             // onChangeText={(val)=>setEmail(val)}
             keyboardType='email-address'
@@ -134,6 +135,7 @@ const partnerLogin=async(values)=>{
             <TextInput 
             style={styles.input1} 
             placeholder="Enter your Password" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
@@ -168,7 +170,7 @@ const partnerLogin=async(values)=>{
                 
              
               }>
-              <Text>Login</Text>
+              <Text style={{color: '#474747'}}>Login</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 40}} />
@@ -189,7 +191,7 @@ const partnerLogin=async(values)=>{
               flexDirection: 'row',
               paddingVertical: 4,
             }}>
-            <Text style={{fontWeight: '700'}}>{`Don't have account? `}</Text>
+            <Text style={{fontWeight: '700',color: '#474747'}}>{`Don't have account? `}</Text>
             <TouchableOpacity onPress={()=>navigation.navigate('RegisterPage')}>
             <Text style={{color: '#e9056b', marginLeft: 3}}>
               {'Create Your Account'}

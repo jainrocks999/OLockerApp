@@ -80,14 +80,14 @@ const userProfile=async(id)=>{
       /> 
       {isFetching?<Loader/>:null}
        <View style={styles.blog}>
-            <Image style={{height:13,width:20}} resizeMode={'contain'}
+            <Image style={{height:13,width:20,tintColor:'#474747' }} resizeMode={'contain'}
               source={require('../../../assets/Image/serch.png')}
             />
             <TextInput
-            //  style={{marginLeft: 10}}
+              // style={{marginLeft: 10}}
               placeholder="Search by Name or Phone Number"
-              placeholderTextColor='9a9a9a'
-              style={{color: '9a9a9a', width: '100%',marginLeft:10,fontFamily:'Roboto-Regular'}}
+              placeholderTextColor='grey'
+              style={{color:'#474747' , width: '100%',marginLeft:10,fontFamily:'Roboto-Regular'}}
               returnKeyType="done"
               value={search}
               onChangeText={(val)=>searchFilterFunction(val)}

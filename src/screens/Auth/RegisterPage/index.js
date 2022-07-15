@@ -18,7 +18,7 @@ const loginValidationSchema = yup.object().shape({
   homeAddress:yup.string().required('Please enter home address'),
   email: yup.string().required('Please enter your email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid email address'),
   password: yup.string().required('Please enter your password'),
-  companygsTin: yup.string().required('Please enter company GSTIN').matches(/^([0-9]){2}([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}([0-9]){1}([a-zA-Z]){1}([0-9]){1}?$/,'Please enter valid GSTIN number'),
+  companygsTin: yup.string().required('Please enter company GSTIN').matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,'Please enter valid GSTIN number'),
   stateName:yup.string(),
   cityName:yup.string(),
   pincode:yup.string().required('Please enter pincode'),
@@ -144,6 +144,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1}
             placeholder="Enter Company Name"
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('companyName')}
             onBlur={handleBlur('companyName')}
             value={values.companyName}
@@ -159,6 +160,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Display Name" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('displayName')}
             onBlur={handleBlur('displayName')}
             value={values.displayName}
@@ -174,6 +176,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Owner Name" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('ownerName')}
             onBlur={handleBlur('ownerName')}
             value={values.ownerName}
@@ -189,6 +192,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Home Address" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('homeAddress')}
             onBlur={handleBlur('homeAddress')}
             value={values.homeAddress}
@@ -203,6 +207,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Email Address" 
+            placeholderTextColor={'grey'}
             keyboardType='email-address'
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
@@ -219,6 +224,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Password" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
@@ -233,7 +239,8 @@ console.log('this is values detail',values);
           
             <TextInput 
             style={styles.input1} 
-            placeholder="Enter CompanyGsTin" 
+            placeholder="Enter Company GSTIN" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('companygsTin')}
             onBlur={handleBlur('companygsTin')}
             value={values.companygsTin}
@@ -322,9 +329,11 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Pincode" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('pincode')}
             onBlur={handleBlur('pincode')}
             value={values.pincode}
+            keyboardType='number-pad'
             />
           </View>
           <View style={styles.error}>
@@ -336,9 +345,11 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Mobile Number" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('mobile')}
             onBlur={handleBlur('mobile')}
             value={values.mobile}
+            keyboardType='number-pad'
             />
           </View>
           <View style={styles.error}>
@@ -358,7 +369,7 @@ console.log('this is values detail',values);
                 width: '80%',
                 height: 45,
               }}>
-              <Text>Register New</Text>
+              <Text style={{color: '#474747'}}>Register New</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 40}} />

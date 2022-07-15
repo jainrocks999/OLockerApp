@@ -86,7 +86,7 @@ console.log('this is photo data form render',photo);
             <Text style={styles.Text1}>Collection</Text>
             <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747' }}
                 placeholder='Enter name'
                 placeholderTextColor='#474747'
                 value={collection}
@@ -154,7 +154,7 @@ console.log('this is photo data form render',photo);
         </View>
       </ScrollView>
       <StatusBar />
-      <Buttom />
+      {/* <Buttom /> */}
     </View>
   );
 };

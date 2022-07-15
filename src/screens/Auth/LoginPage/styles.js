@@ -19,6 +19,8 @@ main:{
 },
 text:{
     fontSize:20,
+    color: '#474747'
+  //  color: '#949494'
    // marginTop:-100,
    
 
@@ -45,7 +47,7 @@ card: {
     
     marginLeft: 0,
     paddingVertical: 10,
-    
+    color: '#474747'
     //color: colors.textColor,
   },
   input: {

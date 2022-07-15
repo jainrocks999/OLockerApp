@@ -322,7 +322,7 @@ const manageOtherStone=()=>{
             <Text style={styles.Text1}>Stock number</Text>
             <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747' }}
                 placeholder='Enter Id'
                 placeholderTextColor='#474747'
                 value={stock_number}
@@ -371,7 +371,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}>Purity</Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0 ,color:'#474747' }}
                 placeholder='Purity %'
                 placeholderTextColor='#474747'
                 value={purity}
@@ -383,7 +383,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}>Gross weight</Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0 ,color:'#474747' }}
                 placeholder='Enter weight in gm'
                 placeholderTextColor='#474747'
                 value={grossWeight}
@@ -395,7 +395,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}>Net weight</Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747'  }}
                 placeholder='Enter weight in gm'
                 placeholderTextColor='#474747'
                 value={netWeight}
@@ -437,7 +437,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747'  }}
                 placeholder=''
                 placeholderTextColor='#474747'
 
@@ -476,7 +476,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0 ,color:'#474747' }}
                 placeholder='Stone name'
                 placeholderTextColor='#474747'
                 value={stone}
@@ -488,7 +488,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747'  }}
                 placeholder='Diam value'
                 placeholderTextColor='#474747'
                 value={diam}
@@ -500,7 +500,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0 ,color:'#474747' }}
                 placeholder='Stone weight'
                 placeholderTextColor='#474747'
                 value={stoneWeight}
@@ -512,7 +512,7 @@ const manageOtherStone=()=>{
           <Text style={styles.Text1}></Text>
           <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747'  }}
                 placeholder='Stone value'
                 placeholderTextColor='#474747'
                 value={sValue}
@@ -525,7 +525,7 @@ const manageOtherStone=()=>{
           <View style={[styles.main1,{alignItems:'center',flexDirection:'row'}]}>
           <Image style={{width:16,height:20,marginBottom:3}} source={require('../../../assets/Image/rupay.png')}/>
               <TextInput
-                style={{ width: '90%', marginLeft: 0 }}
+                style={{ width: '90%', marginLeft: 0,color:'#474747'  }}
                 placeholder='Enter amount'
                 placeholderTextColor='#474747'
                 value={price}

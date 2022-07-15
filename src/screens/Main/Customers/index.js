@@ -77,7 +77,7 @@ const MyCatalogue = () => {
 
   axios(config)
     .then(function (response) {
-      console.log('wwwwccc', JSON.stringify(response.data.Downloads));
+      console.log('wwwwccc23', JSON.stringify(response.data.Downloads.length));
       setUserdata(response.data.Downloads);
     })
     .catch(function (error) {
@@ -162,13 +162,13 @@ const MyCatalogue = () => {
             marginTop:-75
           }}>
             <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between'}}>
-            <View style={{width:'45%',alignItems:'center'}}>
+            <View style={{width:'49%',alignItems:'center'}}>
               <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>23</Text>
               <Text style={{ fontSize: 13, fontFamily: 'Acephimere', color: '#222027' }}>Today Downloads</Text>
             </View>
-            <View style={{ width: '45%', alignItems: 'center' }}>
-              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>23076</Text>
-              <Text style={{ fontSize: 13, marginTop: 5, fontFamily: 'Acephimere', color: '#222027' }}>Today Downloads</Text>
+            <View style={{ width: '49%', alignItems: 'center' }}>
+              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>{data1.length}</Text>
+              <Text style={{ fontSize: 13, marginTop: 0, fontFamily: 'Acephimere', color: '#222027' }}>Total Downloads</Text>
             </View>
             </View>
           {/* <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
@@ -299,7 +299,7 @@ const MyCatalogue = () => {
                 <View style={{ height: 40, borderRadius: 20, flexDirection: 'row', alignItems: 'center' }}>
                   <Image
                     style={{ width: 40, height: 40, borderRadius: 20 }}
-                    source={require('../../../assets/Not.png')} />
+                    source={require('../../../assets/user.jpeg')} />
                   <Text
                     style={{
                       marginLeft: 20,

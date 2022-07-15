@@ -37,29 +37,35 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  function HomeScreen1(){
   return (
   <Stack1.Navigator initialRouteName="Home" screenOptions={{headerShown:false}}>
-    <Stack1.Screen name="Home" component={HomeScreen} />
+      <Stack1.Screen name="Home" component={HomeScreen} />
       <Stack1.Screen name="SelectOption" component={SelectOption} />
       <Stack1.Screen name="Addcategory" component={Addcategory} />
       <Stack1.Screen name="Addproduct" component={Addproduct} />
-    <Stack1.Screen name="MyCatalogue" component={MyCatalogue} />
+      <Stack1.Screen name ="Addcollection" component={Addcollection}/>
+      <Stack1.Screen name="MyCatalogue" component={MyCatalogue} />
       <Stack1.Screen name="MyProductDetails" component={MyProductDetails} />
-      <Stack1.Screen name="SubCategory" component={SubCategory} />
-      <Stack1.Screen name="Mycustomer" component={Mycustomer} />
-      <Stack1.Screen name="Feedback" component={Feedback} />
-      <Stack1.Screen name="Messagebox" component={Messagebox} />
-      <Stack1.Screen name="Editprofile" component={Edit} />
-      <Stack1.Screen name="Loyalty" component={Loyalty} />
-      <Stack1.Screen name="Loyalty1" component={LoyaltyPage} />
-      <Stack1.Screen name="Purchase" component={Purchase} />
+      <Stack1.Screen name="SubCategory" component={SubCategory} /> 
       <Stack1.Screen name="MyProducts" component={MyProducts} />
-      <Stack1.Screen name="Customers" component={Customers} />
-      {/* <Stack.Screen name="MyNetwork" component={MyNetwork}/> */}
-      {/* <Stack.Screen name="MyCustomerDetail" component={MyCustomerDetail}/> */}
       <Stack1.Screen name="CategoryDetails" component={CategoryDetails} />
       <Stack1.Screen name="Filter" component={Filter} />
-
   </Stack1.Navigator>
   )
+ }
+ const Stack3=createNativeStackNavigator();
+ function Customer1(){
+   return(
+     <Stack3.Navigator initialRouteName="Customers" screenOptions={{headerShown:false}}>
+        <Stack3.Screen name="Customers" component={Customers} />
+        <Stack3.Screen name="Mycustomer" component={Mycustomer} />
+        <Stack3.Screen name="Feedback" component={Feedback} />
+        <Stack3.Screen name="MyCustomerDetail" component={MyCustomerDetail} />
+        <Stack3.Screen name="Messagebox" component={Messagebox} />
+        <Stack3.Screen name="Purchase" component={Purchase} />
+        <Stack3.Screen name="Editprofile" component={Edit} />
+      <Stack3.Screen name="Loyalty" component={Loyalty} />
+      <Stack3.Screen name="Loyalty1" component={LoyaltyPage} />
+     </Stack3.Navigator>
+   )
  }
 const Stack2=createNativeStackNavigator();
 function MyNetwork1(){
@@ -89,29 +95,24 @@ return(
   }}>
     <Tab.Screen name="Home1" component={HomeScreen1} options={{  
       tabBarIcon: ({ focused }) => {
-       
         return <Image style={{ tintColor: focused ? '#fff' : 'grey',height:26,width:24 }} source={require('../assets/For.png')} />;
        },
-     
-    }} />
+      }} />
     <Tab.Screen name="MyNetwork1" component={MyNetwork1} options={{
       tabBarIcon: ({ focused }) => {
-        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 26, width: 24 }} source={require('../assets/Lay.png')} />;
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 26, width: 26 }} source={require('../assets/Lay.png')} />;
       },
-
-    }} />
+     }} />
     <Tab.Screen name="Message" component={MessageList} options={{
       tabBarIcon: ({ focused }) => {
-        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 28, width: 24 }} source={require('../assets/noti.png')} />;
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 28, width: 28 }} source={require('../assets/noti.png')} />;
       },
-
-    }} />
-    <Tab.Screen name="MyCustomerDetail" component={MyCustomerDetail} options={{
+      }} />
+    <Tab.Screen name="Customer1" component={Customer1} options={{
       tabBarIcon: ({ focused }) => {
-        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 26, width: 24 }} source={require('../assets/Sh.png')} />;
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 28, width: 26 }} source={require('../assets/Sh.png')} />;
       },
-
-    }} />
+     }} />
     
   </Tab.Navigator>
 )}

@@ -166,7 +166,7 @@ const manageFeedback=async()=>{
               }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
-                  style={{height: 35, width: 35,tintColor:'#032e63'}}
+                  style={{height: 35, width: 35,}}
                   source={require('../../../assets/Image/handFeed.png')}
                 />
               </View>
@@ -269,10 +269,10 @@ const manageFeedback=async()=>{
                 </View>
                 <View style={{width:'70%',paddingHorizontal:8}}>
                     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:12}}>{`ITEM ID   ${item.PolicyNo}`}</Text>
+                        <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:12}}>{`ITEM ID  ${item.PolicyNo}`}</Text>
                         <View style={{flexDirection:'row'}}>
-                        <Image style={{width:16,height:16}} source={require('../../../assets/Image/rupay.png')}/>
-                        <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:15,fontWeight:'700'}}>{item.EstValue}</Text>
+                        <Image style={{width:14,height:14}} source={require('../../../assets/Image/rupay.png')}/>
+                        <Text style={{marginTop:-1,color:'#343434',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.EstValue}</Text>
                         </View>
                     </View>
                     <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.PurchaseDate}`}</Text>

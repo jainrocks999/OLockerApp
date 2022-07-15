@@ -97,10 +97,11 @@ const HomeScreen = () => {
                 alignItems:'center',
                 height:35,
                 }}>
-                <Image style={{height:13,width:20,marginBottom:0}} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
+                <Image style={{height:13,width:20,marginBottom:0,tintColor:'#474747' }} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
                 <TextInput
                  placeholder='Search'
-                 style={{fontFamily:'Acephimere',fontSize:13,height:34,marginTop:4,width:'100%'}}
+                 placeholderTextColor={'#474747'}
+                 style={{fontFamily:'Acephimere',fontSize:13,height:34,marginTop:4,width:'100%',color:'#474747' }}
                  value={search}
                  onChangeText={(val)=>searchFilterFunction(val)}
                 />

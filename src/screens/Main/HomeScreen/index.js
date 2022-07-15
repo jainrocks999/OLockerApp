@@ -344,7 +344,7 @@ axios(config)
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Customers')}
+              onPress={() => navigation.navigate('Customer1',{screen:'Customers'})}
               style={{alignItems: 'center'}}>
               <View
                 style={{
@@ -368,7 +368,7 @@ axios(config)
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('MyNetwork')}
+              onPress={() => navigation.navigate('MyNetwork1',{screen:'MyNetwork'})}
               style={{alignItems: 'center'}}>
               <View
                 style={{
