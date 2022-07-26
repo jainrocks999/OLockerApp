@@ -14,8 +14,32 @@ export default StyleSheet.create({
         backgroundColor: '#f0eeee'
 
     },
-
-
+    scroll: { 
+         flex: 1, 
+         paddingHorizontal: 15,
+         paddingVertical: 20 
+        },
+    input: { 
+        width: '90%', 
+        marginLeft: 0, 
+        color: '#474747' 
+    },
+    bottom1: {
+         alignItems: 'center',
+         marginBottom: 30, 
+         marginTop: -10 
+        },
+    bottom1t: { 
+        fontSize: 13, 
+        color: '#757575', 
+        fontFamily: 'Acephimere' 
+    },  
+    bottom2: { 
+        marginTop: 20, 
+        alignItems: 'center', 
+        justifyContent: 'center' 
+    },  
+    img1:{ height: 103, width: 100,},
     Text1:
     {
         fontWeight: '500',

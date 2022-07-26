@@ -11,6 +11,7 @@ import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
+import styles from './styles';
 
 const MyCatalogue = ({route}) => {
   const selector4 = useSelector(state => state.Catalogue.Categories)
@@ -19,7 +20,7 @@ const MyCatalogue = ({route}) => {
   const selector1=useSelector(state=>state.CollectionList)
   const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
-  console.log("log102",selector3);
+  console.log("log102",selector4);
   console.log('this is user selector data210',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
@@ -135,14 +136,8 @@ const scrollToInitialPosition = () => {
       <ScrollView 
        ref={scrollRef}
       >
-      <View
-          style={{
-            backgroundColor: '#032e63',
-            width: '100%',
-            borderBottomRightRadius: 60,
-            borderBottomLeftRadius:60,
-          }}>
-         <View style={{alignItems: 'center', height: 200,marginTop:5}}>
+      <View style={styles.container}>
+         <View style={styles.container1}>
            <FlatListSlider
             data={images}
             height={200}
@@ -160,7 +155,7 @@ const scrollToInitialPosition = () => {
             loop={false}
         />
         </View>
-        <View style={{flexDirection:'row',marginTop:40,alignItems:'center',justifyContent:'center'}}>
+        <View style={styles.main}>
             <TouchableOpacity style={{alignItems:'center'}}
              onPress={()=>
               onPressTouch()
@@ -168,43 +163,31 @@ const scrollToInitialPosition = () => {
 
             }
              >
-            <View style={{width:100,height:100,borderRadius:50,backgroundColor:'#fff',borderWidth:1}}>
-              <Image style={{height:100,width:100}} source={require('../../../assets/Image/my.png')}/>
+            <View style={styles.main1}>
+              <Image style={styles.img} source={require('../../../assets/Image/my.png')}/>
             </View>
-             <Text style={{color:'#fff',marginTop:10,
-             fontFamily:'Acephimere'
-             }}>{'MY PRODUCTS'}</Text>
+             <Text style={styles.tt}>{'MY PRODUCTS'}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={()=>onPressTouch1()}            
-            style={{marginLeft:40,alignItems:'center'}}>
-            <View style={{width:100,height:100,borderRadius:50,backgroundColor:'#fff',borderWidth:1}}>
-            <Image style={{height:100,width:95}} source={require('../../../assets/Image/neck.png')}/>
+            style={styles.touch}>
+            <View style={styles.main1}>
+            <Image style={styles.img1} source={require('../../../assets/Image/neck.png')}/>
             </View>
-              <Text style={{color:'#fff',marginTop:10,fontFamily:'Acephimere'}}>{'MY COLLECTIONS'}</Text>
+              <Text style={styles.tt}>{'MY COLLECTIONS'}</Text>
             </TouchableOpacity>
             
         </View>
-        <View style={{alignItems:'center',justifyContent:'center',marginTop:20}}>
+        <View style={styles.main2}>
                 <TouchableOpacity
                  onPress={()=>navigation.navigate('SelectOption')}
                 >
                     <LinearGradient
-                    style={{
-                      paddingHorizontal:15,
-                      paddingVertical:9,
-                      borderRadius:25,
-                      }}
+                    style={styles.liner}
                      colors={['#da062f', '#a90022']} >
-                  <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                  <View style={styles.linerview}>
                   <Image style={{height:22,width:30}} source={require('../../../assets/plus.png')}/>
-                    <Text style={{
-                      color:'#fff',
-                      marginLeft:8,
-                      fontFamily:'Roboto-Medium',
-                      fontWeight:'700',
-                      fontSize:16
-                      }}>{'ADD'}</Text>
+                    <Text style={styles.linert}>{'ADD'}</Text>
                     <View style={{width:30}}/>
                   </View>
                   </LinearGradient>
@@ -213,34 +196,16 @@ const scrollToInitialPosition = () => {
          <View style={{height:28}}/>
         </View>
       
-        <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between',paddingHorizontal:15,marginTop:20}}>
+        <View style={styles.card}>
              <TouchableOpacity
              onPress={()=>manageProduct()}
-              style={{
-                 backgroundColor:product==true?'#032e63':'#fff',
-                 width:'48%',
-                 alignItems:'center',
-                 justifyContent:'center',
-                 borderRadius:20,
-                 paddingVertical:8,
-                 borderColor:'#032e63',
-                 borderWidth:1
-                 }}>
-                 <Text style={{color:product==true?'#fff':'#032e63',fontFamily:'Philosopher-Regular',fontSize:16}}>My Products</Text>
+            style={[styles.cardtouch, { backgroundColor: product == true ? '#032e63' : '#fff', }]}>
+            <Text style={[styles.tcard, { color: product == true ? '#fff' : '#032e63' }]}>My Products</Text>
              </TouchableOpacity>
              <TouchableOpacity
              onPress={()=>tabCategory()}
-             style={{
-                 borderColor:'#032e63',
-                 width:'48%',
-                 alignItems:'center',
-                 justifyContent:'center',
-                 borderRadius:20,
-                 paddingVertical:8,
-                 borderWidth:1,
-                 backgroundColor:partner==true?'#032e63':'#fff'
-                 }}>
-                 <Text style={{color:partner==true?'#fff':'#032e63',fontFamily:'Philosopher-Regular',fontSize:16}}>Partner Categories</Text>
+            style={[styles.cardtouch, { backgroundColor: partner == true ? '#032e63' : '#fff', }]}>
+            <Text style={[styles.tcard, { color: partner == true ? '#fff' : '#032e63' }]}>Partner Categories</Text>
              </TouchableOpacity>
         </View>
         {console.log('axxmmx',data)}
@@ -253,30 +218,24 @@ const scrollToInitialPosition = () => {
                 <TouchableOpacity
                 onPress={()=>manageCategory(item.Id)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
-              style={{
-                width: '33.3%',
-                alignItems: 'center',
-                height: 160,
-                backgroundColor:'#fff',
-                borderWidth:0.3
-              }}>
+              style={styles.card1}>
                 {console.log('zzz',item)}
                  <Image
-                style={{height: 100, width: '100%', }}
+                style={styles.card1img}
                 // resizeMode={'stretch'}
                 source={{
                   uri: `${ImagePath.Path}${item.CategoryImage}`,
                 }}
               />
-              <View style={{marginTop:5,alignItems:'center'}}>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#032e63',fontWeight:'700'}}>{item.CategoryName}</Text>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#0d0d0d'}}>{`${item.TotalItems} Items`}</Text>
+              <View style={styles.card1v}>
+              <Text style={[styles.card1t,{color:'#032e63',fontWeight:'700'}]}>{item.CategoryName}</Text>
+                  <Text style={[styles.card1t, {color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
               </View>
               </TouchableOpacity>
             )}
             />:null}
 
-          {partner==true ?<Text style={{ fontFamily: 'Acephimere', fontSize: 16, color: '#032e63',marginBottom:10,marginLeft:15 }}>MY Supplier List</Text>
+          {partner==true ?<Text style={styles.partnert}>MY Supplier List</Text>
           :null}
             {partner==true?  
             <FlatList
@@ -288,32 +247,24 @@ const scrollToInitialPosition = () => {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => manageProfile(item.SupplierSrNo)}
-                  style={{ width:120, margin: 5, borderRadius: 20, height: 145, marginTop: 0 }}>
+                  style={styles.card2}>
                     {console.log('abvds',item)}
-                  <View style={{ height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+                  <View style={styles.card2v}>
                     {item.SupplierImage == null ?
                     <Image
-                        style={{ width: 100, height: 80, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+                        style={styles.card2img}
                         resizeMode='cover'
                         source={require('../../../assets/demo.png')} />:
                     <Image
-                      style={{ height: 80, width: '100%', borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+                        style={styles.card2img}
                       resizeMode='stretch'
                       source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
                       /> 
                   }
                   </View>
-                  <View style={{
-                    backgroundColor: '#fff',
-                    //  height:80,
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 10,
-                    padding: 10,
-                    justifyContent: 'center',
-
-                  }}>
+                  <View style={styles.card2v1}>
                     <Text
-                      style={{ color: '#032e63', fontSize: 15, fontFamily: 'Acephimere', }}
+                      style={styles.card2v1t}
                     >{item.SupplierName}</Text>
                     {/* <Text style={{ fontFamily: 'Acephimere', color: '#666666', fontSize: 12 }}>{item.CityName}</Text> */}
                   </View>
@@ -323,7 +274,7 @@ const scrollToInitialPosition = () => {
 
             />:null}
             
-         {partner==true?  <Text style={{ fontFamily: 'Acephimere', fontSize: 16, color: '#032e63', marginBottom: 10, marginLeft: 15 }}>Partner Categories List</Text>
+         {partner==true?  <Text style={styles.partnert}>Partner Categories List</Text>
          :null}
 
           {partner == true ? <FlatList
@@ -333,47 +284,33 @@ const scrollToInitialPosition = () => {
               <TouchableOpacity
                 onPress={() => manageCategory1(item.Id)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
-                style={{
-                  width: '33.3%',
-                  alignItems: 'center',
-                  height: 160,
-                  backgroundColor: '#fff',
-                  borderWidth: 0.3
-                }}>
+                style={styles.card1}>
                 {console.log('zzz', item)}
                 <Image
-                  style={{ height: 100, width: '100%', }}
+                  style={styles.card1img}
                   // resizeMode={'stretch'}
                   source={{
                     uri: `${ImagePath.Path}${item.CategoryImage}`,
                   }}
                 />
-                <View style={{ marginTop: 5, alignItems: 'center' }}>
-                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#032e63', fontWeight: '700' }}>{item.CategoryName}</Text>
-                  <Text style={{ fontFamily: 'Acephimere', fontSize: 14, color: '#0d0d0d' }}>{`${item.TotalItems} Items`}</Text>
+                <View style={styles.card1v}>
+                  <Text style={[styles.card1t, { color: '#032e63', fontWeight: '700' }]}>{item.CategoryName}</Text>
+                  <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
                 </View>
               </TouchableOpacity>
             )}
           /> : null}
         </View>
         <View style={{backgroundColor:'#fff'}}>
-          <View style={{alignItems:'center',paddingVertical:20}}>
-             <Text style={{fontSize:20,fontFamily:'Philosopher-Regular',color:'#032e63'}}>My Collections</Text>
+          <View style={styles.card3}>
+             <Text style={styles.card3t}>My Collections</Text>
           </View>
           <View style={{marginTop:10}}>
           <FlatList
             data={selector1}
             renderItem={({item})=>(
-              <View
-              style={{
-                // width: '100%%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 300,
-                // backgroundColor:'#fff',
-                borderWidth:.5
-              }}>
-                <Text style={{fontWeight:'700',fontSize:15,marginTop:5}}>{item.Name}</Text>
+              <View style={styles.card3v}>
+                <Text style={styles.card3vt}>{item.Name}</Text>
                 {item.CollectionImage == null ?
 
                   <Image
@@ -381,14 +318,14 @@ const scrollToInitialPosition = () => {
                     resizeMode='center'
                     source={require('../../../assets/demo.png')} /> :
                   <Image
-                    style={{ height: 270, width: "100%", }}
+                    style={styles.card3vimg}
                      resizeMode='contain'
                     source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
 
                   />
                 }
 
-                {console.log('jkkk',`${ImagePath.Path}${item.CollectionImage}`)} 
+                {/* {console.log('jkkk',`${ImagePath.Path}${item.CollectionImage}`)}  */}
                 
                 {/* <Image
                   style={{height: 160, width: '100%', }}

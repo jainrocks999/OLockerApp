@@ -19,8 +19,8 @@ const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Please enter your email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid email address'),
   password: yup.string().required('Please enter your password'),
   companygsTin: yup.string().required('Please enter company GSTIN').matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,'Please enter valid GSTIN number'),
-  stateName:yup.string(),
-  cityName:yup.string(),
+  stateName: yup.string().required('Please select State'),
+  cityName: yup.string().required('Please select City'),
   pincode:yup.string().required('Please enter pincode'),
   mobile:yup.string().required('Please enter mobile number')
 });
@@ -115,13 +115,7 @@ console.log('this is values detail',values);
             contentContainerStyle={{flex: 1}}>
 
       <View
-        style={{
-          backgroundColor: '#052a47',
-          paddingVertical: 50,
-          alignItems: 'center',
-          borderBottomEndRadius: 100,
-          borderBottomStartRadius: 100,
-        }}>
+        style={styles.headerimg}>
         <Image
           style={{marginTop: 40}}
           source={require('../../../assets/ol.png')}
@@ -133,11 +127,7 @@ console.log('this is values detail',values);
             <Text style={styles.text}>Register</Text>
           </View>
           <View
-            style={{
-              borderBottomWidth: 1,
-              marginHorizontal: 240,
-              marginLeft: 12,
-            }}
+            style={styles.line}
           />
           <View style={[styles.input, {marginTop: 20}]}>
            
@@ -267,7 +257,7 @@ console.log('this is values detail',values);
                     color: '#474747', 
                     width: '100%', 
                     fontSize: 14, 
-                    marginBottom: -1,
+                    marginBottom: 10,
                     fontFamily:'Acephimere' 
                   },
                   placeholder: { color: 'grey', 
@@ -303,7 +293,7 @@ console.log('this is values detail',values);
                     color: '#474747', 
                     width: '100%', 
                     fontSize: 14, 
-                    marginBottom: -1,
+                    marginBottom: 10,
                     fontFamily:'Acephimere' 
                   },
                   placeholder: { 

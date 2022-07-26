@@ -79,13 +79,7 @@ const partnerLogin=async(values)=>{
             contentContainerStyle={{flex: 1}}>
 
       <View
-        style={{
-          backgroundColor: '#052a47',
-          paddingVertical: 50,
-          alignItems: 'center',
-          borderBottomEndRadius: 100,
-          borderBottomStartRadius: 100,
-        }}>
+        style={styles.headerimg}>
         <Image
           style={{marginTop: 40}}
           source={require('../../../assets/ol.png')}
@@ -97,11 +91,7 @@ const partnerLogin=async(values)=>{
             <Text style={styles.text}>Login</Text>
           </View>
           <View
-            style={{
-              borderBottomWidth: 1,
-              marginHorizontal:Platform.OS=='android'?265:293,
-              marginLeft: 12,
-            }}
+            style={styles.line}
           />
           <View style={[styles.input, {marginTop: 20}]}>
             <Image
@@ -151,24 +141,13 @@ const partnerLogin=async(values)=>{
                     </View>
           <View style={{paddingHorizontal: 20}}>
             <TouchableOpacity
-              style={{
-                backgroundColor: 'pink',
-                alignItems: 'center',
-                borderRadius: 45,
-                justifyContent: 'center',
-                marginTop: 30,
-                width: '80%',
-                height: 45,
-              }}
+              style={styles.button}
               onPress={() => {
                 // AsyncStorage.setItem('Partnersrno',)
                // navigation.replace('Home')    
                 // partnerLogin()  
                  handleSubmit()  
-              }
-             
-                
-             
+              }    
               }>
               <Text style={{color: '#474747'}}>Login</Text>
             </TouchableOpacity>
@@ -181,16 +160,7 @@ const partnerLogin=async(values)=>{
         </View>
         <View style={{alignItems: 'center'}}>
           <View
-            style={{
-              borderLeftWidth: 1,
-              borderRightWidth: 1,
-              borderBottomWidth: 1,
-              width: '90%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              paddingVertical: 4,
-            }}>
+            style={styles.bottom}>
             <Text style={{fontWeight: '700',color: '#474747'}}>{`Don't have account? `}</Text>
             <TouchableOpacity onPress={()=>navigation.navigate('RegisterPage')}>
             <Text style={{color: '#e9056b', marginLeft: 3}}>

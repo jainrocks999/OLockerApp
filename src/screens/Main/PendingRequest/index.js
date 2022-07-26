@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector } from 'react-redux';
+import styles from './styles';
 const HomeScreen = () => {
    const navigation=useNavigation()
    const selector=useSelector(state=>state.RequestList)

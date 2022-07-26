@@ -80,13 +80,13 @@ console.log('this is photo data form render',photo);
         title={'Add Collection '}
         onPress={() => navigation.goBack()}
       />
-      <ScrollView style={{ flex: 1, paddingHorizontal: 15, paddingVertical: 20 }}>
+      <ScrollView style={styles.scroll}>
         <View style={styles.card}>
           <View style={styles.main}>
             <Text style={styles.Text1}>Collection</Text>
             <View style={styles.main1}>
               <TextInput
-                style={{ width: '90%', marginLeft: 0,color:'#474747' }}
+                style={styles.input}
                 placeholder='Enter name'
                 placeholderTextColor='#474747'
                 value={collection}
@@ -128,24 +128,24 @@ console.log('this is photo data form render',photo);
              <View style={styles.bottom}>
              <TouchableOpacity onPress={()=>uploadPhoto()}>
                {photo?<Image
-                style={{height:103,width:100,borderRadius:10}}
+                style={[styles.img1,{borderRadius:10}]}
                 source={{uri:photo}}
                />
                :<Image 
-               style={{height:103,width:100}} 
+               style={styles.img1} 
                source={require('../../../assets/Image/add_photo.png')}/>}
              </TouchableOpacity>
              <TouchableOpacity>
-             <Image style={{height:103,width:100,marginLeft:30}} source={require('../../../assets/Image/select_tmp.png')}/>
+             <Image style={[styles.img1,{marginLeft:30}]} source={require('../../../assets/Image/select_tmp.png')}/>
              </TouchableOpacity>
              </View>
 
            </View>
-           <View style={{alignItems:'center',marginBottom:30,marginTop:-10}}>
-           <Text style={{fontSize:13,color:'#757575',fontFamily:'Acephimere'}}>Upload banner in 0000(H) * 0000(W) Dimention</Text>
+           <View style={styles.bottom1}>
+           <Text style={styles.bottom1t}>Upload banner in 0000(H) * 0000(W) Dimention</Text>
            </View>
         </View>
-        <View style={{ marginTop: 20,alignItems:'center',justifyContent:'center'}}>
+        <View style={styles.bottom2}>
           <TouchableOpacity
             onPress={() => Addcollection()}
             style={styles.button}>

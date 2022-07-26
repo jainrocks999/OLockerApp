@@ -7,6 +7,7 @@ import { useSelector,useDispatch} from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
+import styles from './styles';
 const MyProducts = ({route}) => {
     const navigation=useNavigation()
     const dispatch=useDispatch()
@@ -59,7 +60,7 @@ const searchFilterFunction = text => {
 
      // `${ImageLocation}${ImageName}`
   return (
-    <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
+    <View style={styles.container}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
@@ -69,16 +70,9 @@ const searchFilterFunction = text => {
         onPress1={() => navigation.navigate('Message')}
       />
       <ScrollView>
-        <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            marginTop: 20,
-          }}>
+        <View style={styles.main}>
           <View>
-            <Text style={{ fontFamily: 'Acephimere', fontSize: 14 }}>{partner ?`${selector1.length} Items`:`${selector.length} Items`}</Text>
+            <Text style={styles.text}>{partner ?`${selector1.length} Items`:`${selector.length} Items`}</Text>
           </View>
           {/* <View style={{flexDirection:'row',alignItems:'center'}}>
               <TouchableOpacity  onPress={()=>navigation.navigate('Filter')}>
@@ -109,7 +103,7 @@ const searchFilterFunction = text => {
               </View>
           </View> */}
         </View>
-        <View style={{marginTop: 10,paddingHorizontal:5,}}>
+        <View style={styles.card}>
           <FlatList
             data={partner ? selector1:filteredDataSource}
             numColumns={2}
@@ -120,51 +114,28 @@ const searchFilterFunction = text => {
                 manageCategory(item.SrNo ):null}
                 // ()=>navigation.navigate('SubCategory')
               
-                style={{
-                  height: 190,
-                  backgroundColor: '#fff',
-                  // flex:1,
-                  margin:6,
-                  borderRadius:10,
-                  elevation:3,
-                  width:'46.5%',
-                }}>
+                style={styles.cardview}>
                    {console.log('////',item)}
-                    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={styles.cardview1}>
                     <View style={{padding:15}}>
                        <Image style={{width:21,height:18}} source={require('../../../assets/Image/dil.png')}/>
                        <Image style={{width:20,height:14,marginTop:10}} source={require('../../../assets/Image/share1.png')}/>
                     </View>
-                 <View style={{
-                   borderTopRightRadius:10,
-                   borderBottomLeftRadius:10,
-                   paddingHorizontal:10,
-                   backgroundColor:'#24a31e',
-                   paddingVertical:2,
-                   alignSelf:'flex-start'
-                   }}>
+                 <View style={styles.cardview2}>
                     
-                     <Text style={{
-                       fontFamily:'Roboto-Medium',
-                       fontSize:12,
-                       color:'#fff'
-                     }}>{`${item.GrossWt} GM`}</Text>
+                     <Text style={styles.cardview2text}>{`${item.GrossWt} GM`}</Text>
 
                    </View>
                    </View>
-                <View style={{
-                  width:'100%',
-                  alignItems:'center',
-                  marginTop:-40
-                  }}>
+                <View style={styles.cardview3}>
                  {item.Url==null?  
                  
                     <Image
-                      style={{ width: 120, height: 100,marginLeft:30}}
+                      style={styles.cardview3img}
                       resizeMode='center'
                       source={require('../../../assets/demo.png')} /> :
                  <Image
-                  style={{height: 100, width: 120,marginLeft:30}}
+                  style={styles.cardview3img}
                   resizeMode='stretch'
                       source={{ uri: `${ImagePath.Path}${(item.Url).substring(2) }`}}
                   
@@ -172,19 +143,13 @@ const searchFilterFunction = text => {
                     }
 
                 </View>
-                <View style={{justifyContent:'center',
-                 bottom:10,
-                 position:'absolute',
-                 left:0,
-                 right:0,
-                 paddingHorizontal:20
-              }}>
-                  <Text style={{color:'#050505',fontFamily:'Acephimere',fontSize:13}}>
+                <View style={styles.cardbottom}>
+                  <Text style={styles.cardbottomtext}>
                     {`ID# ${item.ProductSKU}`}
                   </Text>
-                  <View style={{flexDirection:'row',alignItems:'center',marginLeft:-5}}>
+                  <View style={styles.cardbottom1}>
                     <Image style={{width:16,height:20}} source={require('../../../assets/Image/rupay.png')}/>
-                  <Text style={{color:'#050505',fontFamily:'Roboto-Medium'}}>
+                  <Text style={styles.cardbottom1text}>
                     {item.Price}
                   </Text>
                   </View>

@@ -489,14 +489,25 @@ function* addCollection(action) {
  console.log('vire990',action);
   try {
     const data={
-      PartnerSrno:action.PartnerSrno
+      PartnerSrno:action.PartnerSrno,
+      Tagline:action.Tagline,
+      Description:action.Description,
+      IsActive:action.IsActive,
+      BranchSrNo:action.BranchSrNo,
+      CollectionId:action.CollectionId,
+      Name:action.Name,
+      CollectionImage:action.CollectionImage
+
+
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
-    if (response.success == true) {
+    console.log("virend",response);
+    if (response.data.success == true) {
       yield put({
         type: 'Add_Collection_Success',
       });
-       action.navigation.navigate('Feedback')
+      action.navigation.navigate( "Home1" , { screen:'MyCatalogue'
+        })
     } else {
       yield put({
         type: 'Add_Collection_Error',
@@ -511,7 +522,7 @@ function* addCollection(action) {
 }
 
 function* addProduct(action) {
-
+console.log('virreeeee',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno

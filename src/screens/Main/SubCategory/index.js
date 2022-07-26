@@ -9,6 +9,7 @@ import Banner from '../../../components/Banner';
 import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
+import styles from './styles';
 const SubCategory = ({route}) => {
     const navigation=useNavigation()
 
@@ -105,7 +106,7 @@ axios(config)
      // Detail();
   }
   return (
-    <View style={{flex: 1,backgroundColor:'#032e63'}}>
+    <View style={styles.container}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
@@ -116,14 +117,7 @@ axios(config)
       />
       <ScrollView>
         <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            marginTop: 5,
-            flex:1
-          }}>
+          style={styles.main}>
           <View>
             <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
           </View>
@@ -131,7 +125,7 @@ axios(config)
               <TouchableOpacity onPress={()=>share()}
               // {()=>navigation.navigate('Filter')}
               >
-              <Image style={{width:24,height:18,marginTop:10}} tintColor={'white'} source={require('../../../assets/Image/share1.png')}/>
+              <Image style={styles.img}  source={require('../../../assets/Image/share1.png')}/>
               </TouchableOpacity>
           </View>
         </View>
@@ -157,32 +151,16 @@ axios(config)
       {/* })} */}
       </View>
       
-        <View style={{alignItems:'center',marginTop:20,flexDirection:'row',justifyContent:'center'}}>
-        <Image style={{tintColor:'#fff',width:22,height:22,marginTop:12}} source={require('../../../assets/Image/rupay.png')}/>
-        <Text style={{color:'#fff',fontFamily:'Acephimere',marginLeft:2,marginTop:12,fontSize:20,fontWeight:'700'}}>{price}</Text>
-        <Text style={{color:'#fff',fontFamily:'Acephimere',marginLeft:6,marginTop:16,fontSize:14,fontWeight:'600'}}>( Approximate Price )</Text>
+        <View style={styles.view}>
+        <Image style={styles.img1} source={require('../../../assets/Image/rupay.png')}/>
+        <Text style={styles.text}>{price}</Text>
+        <Text style={styles.text1}>( Approximate Price )</Text>
         </View>
         <View style={{padding:20}}>
-          <View style={{
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowRadius: 8,
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 5,
-        borderRadius: 10,
-        backgroundColor: 'white',
-        paddingVertical: 20,
-        width:'100%',
-        paddingHorizontal:10
-        }}>
-          <View style={{
-            //alignItems:'center',
-            justifyContent:'space-between',
-            flexDirection:'row',
-            width:'100%'
-            }}>
-<View style={{alignItems:'center',width:'80%'}}>
-        <Text style={{fontSize:15,color:'#052a47',fontFamily:'Acephimere',marginLeft:25,fontWeight:'700'}}>{description=={description}?{description}:'PRODUCT DESCRIPTION'}</Text>
+          <View style={styles.main1}>
+          <View style={styles.main1view}>
+<View style={styles.main1view1}>
+        <Text style={styles.main1view1text}>{description=={description}?{description}:'PRODUCT DESCRIPTION'}</Text>
         </View>
         <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
         <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
@@ -190,7 +168,7 @@ axios(config)
         </View>
         <View style={{marginLeft:20,marginTop:8}}>
         <View style={{flexDirection:'row',alignItems:'center',}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:15,fontWeight:'700'}}>{'Name       :      '}</Text>
+             <Text style={styles.cardtext}>{'Name       :      '}</Text>
              <TextInput
              style={{height:40,color:'#052a47'}}
              value={stockNo}
@@ -199,7 +177,7 @@ axios(config)
              />
           </View>
           <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:15,fontWeight:'700'}}>{'Stock No :      '}</Text>
+             <Text style={styles.cardtext}>{'Stock No :      '}</Text>
              <TextInput
              style={{height:40,color:'#052a47'}}
              value={collection}
@@ -212,7 +190,7 @@ axios(config)
            
         
           <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:15,fontWeight:'700'}}>{'Metal        :     '}</Text>
+                <Text style={styles.cardtext}>{'Metal        :     '}</Text>
              {/* {selector.metaldetails.map((item)=> */}
             {/* <Text style={{marginTop:10,color:'#052a47'}}>{item.MetalPurity}</Text>  */}
                <TextInput

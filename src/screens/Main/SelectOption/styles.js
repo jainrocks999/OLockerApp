@@ -8,16 +8,25 @@ export default StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 20,
     },
-    container1: {
-        flex: 1,
-        backgroundColor: '#f0eeee'
-    }, 
+    container1: 
+      { 
+        flex: 1, 
+        backgroundColor: '#f0eeef' 
+    }
+    , 
     img: {
         height: 25,
         width: 25,
         marginTop: 20
     },
-
+    outcard: { 
+        alignItems: 'center', 
+        justifyContent: 'center' 
+    },
+    outcardtext: { 
+        color: '#7d7d7d', 
+        fontFamily: 'Acephimere' 
+    },
     Text1:
     {
         fontWeight: '500',
@@ -46,6 +55,15 @@ export default StyleSheet.create({
         fontSize: 25,
         marginTop: 17,
         fontWeight:'600'
+    },
+    main2: {
+        paddingHorizontal: 20, 
+        paddingVertical: 40,
+        elevation: 5,
+        backgroundColor: '#fff',
+        marginVertical: 15,
+        marginHorizontal: 20,
+        borderRadius: 10
     },
     main: {
         flexDirection: 'row',

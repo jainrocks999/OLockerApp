@@ -22,6 +22,29 @@ import { useDispatch,useSelector } from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
 const Addproduct = () => {
   const dispatch=useDispatch()
+  const selector1 = useSelector(state => state.CollectionList)
+  const selector2 = useSelector(state => state.Myproduct)
+  console.log('deepu',selector2);
+  const data1 = []
+  selector2.map((item) => {
+    console.log('vire', item.CategoryName);
+    const name = item.CategoryName
+    data1.push({
+      label: name, value: name
+    })
+    console.log('1vv22', data1);
+
+  })
+  const data = []
+  selector1.map((item) => {
+    // console.log('vire',item.Name);
+    const name= item.Name
+    data.push({
+      label: name, value: name
+    })
+    // console.log('1vv22', data);
+
+  })
   const navigation = useNavigation();
   const [type,setType]=useState('')
   const [category,setCategory]=useState('')
@@ -48,6 +71,8 @@ const Addproduct = () => {
   const [diamond,setDiamond]=useState(false)
   const [otherStone,setOtherStone]=useState(false)
   const [photo, setPhoto] = useState('')
+  const [photo1, setPhoto1] = useState('')
+  const [photo2, setPhoto2] = useState('')
   const uploadPhoto = async () => {
     try {
       const res = await DocumentPicker.pickMultiple({
@@ -61,8 +86,36 @@ const Addproduct = () => {
       }
     }
   };
+  const uploadPhoto1 = async () => {
+    try {
+      const res = await DocumentPicker.pickMultiple({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+      });
+      setPhoto1(res[0].uri);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+      } else {
+        throw err;
+      }
+    }
+  };
+  const uploadPhoto2 = async () => {
+    try {
+      const res = await DocumentPicker.pickMultiple({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+      });
+      setPhoto2(res[0].uri);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+      } else {
+        throw err;
+      }
+    }
+  };
 const addProduct=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
+  const supplierid = await AsyncStorage.getItem('SupplierId')
+
   if(type==''){
     Toast.show('Please select type')
   }
@@ -124,7 +177,7 @@ const addProduct=async()=>{
       //url: 'AddCollection',
       PartnerSrno:srno,
       productsrno:0,
-      suppliersrno:12,
+      suppliersrno: supplierid,
       name:"test",
       product_type:type,
       grosswt: "999",
@@ -148,7 +201,7 @@ const addProduct=async()=>{
      mrpbasis: 0,
      charges: 0,
      wastage_percent: 0,
-     gender: "",
+     gender: "male",
      product_status: "good",
      estimate_delivery_days: 0,
      metaldetails: [
@@ -285,7 +338,7 @@ const manageOtherStone=()=>{
             <View style={styles.main1}>
               <RNPickerSelect
                 onValueChange={(value) => setCategory(value)}
-                items={dataCategory}
+                items={data1}
                 style={styles.rn}
                 value={category}
                 useNativeAndroidPickerStyle={false}
@@ -302,7 +355,7 @@ const manageOtherStone=()=>{
             <Text style={styles.Text1}>Collection</Text>
             <View style={styles.main1}>
               <RNPickerSelect
-                items={dataCollection}
+                items={data}
                 style={styles.rn}
                 value={collection}
                 onValueChange={(val)=>setCollection(val)}
@@ -568,12 +621,30 @@ const manageOtherStone=()=>{
             {/* <View style={styles.btview} >
                <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
             </View> */}
-            <View style={styles.btview} >             
+              <TouchableOpacity onPress={() => uploadPhoto1()}>
+                {photo1 ? <Image
+                  style={{ height: 93, width: 90, borderRadius: 10 }}
+                  source={{ uri: photo1 }}
+                />
+                  : <Image
+                    style={{ height: 93, width: 90 }}
+                    source={require('../../../assets/Image/add_photo.png')} />}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadPhoto2()}>
+                {photo2 ? <Image
+                  style={{ height: 93, width: 90, borderRadius: 10 }}
+                  source={{ uri: photo2 }}
+                />
+                  : <Image
+                    style={{ height: 93, width: 90 }}
+                    source={require('../../../assets/Image/add_photo.png')} />}
+              </TouchableOpacity>
+            {/* <View style={styles.btview} >             
             <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
             </View>
             <View style={styles.btview} >             
             <Image style={{height:93,width:90}} source={require('../../../assets/Image/add_photo.png')}/>
-            </View>
+            </View> */}
           </View>
           <View style={{ marginTop: 30 }} />
         </View>

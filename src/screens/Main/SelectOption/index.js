@@ -39,7 +39,7 @@ const manageOption=(val)=>{
   }
 }
   return (
-    <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
+    <View style={styles.container1}>
      <Header
       source1={require('../../../assets/Fo.png')}
       source={require('../../../assets/L.png')}
@@ -47,14 +47,7 @@ const manageOption=(val)=>{
       title={'Select option to add '}
       onPress={() => navigation.goBack()}
       />  
-      <View style={{
-          paddingHorizontal:20,paddingVertical:40,
-          elevation:5,
-          backgroundColor:'#fff',
-          marginVertical:15,
-          marginHorizontal:20,
-          borderRadius:10
-      }}>
+      <View style={styles.main2}>
           <View style={[styles.main,{alignItems:'center'}]}>
             <Text style={styles.Text1}>Select Type</Text>
             <View style={styles.main1}>
@@ -78,8 +71,8 @@ const manageOption=(val)=>{
             </View>
           </View>
       </View>   
-      <View style={{alignItems:'center',justifyContent:'center'}}>
-        <Text style={{color:'#7d7d7d',fontFamily:'Acephimere'}}>SELECT OPTION TO ADD FROM DROPDOWN</Text>
+      <View style={styles.outcard}>
+        <Text style={styles.outcardtext}>SELECT OPTION TO ADD FROM DROPDOWN</Text>
       </View>
        {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>

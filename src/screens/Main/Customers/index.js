@@ -28,35 +28,7 @@ const MyCatalogue = () => {
   const [status,setStatus]=useState('')
   const isFetching=useSelector(state=>state.isFetching)
   const dispatch=useDispatch()
-  const [data1,setUserdata]=useState()
-  const [search, setSearch] = useState('')
-  const [filteredDataSource, setFilteredDataSource] = useState(data1);
-  const [masterDataSource, setMasterDataSource] = useState(data1);
-
-  const searchFilterFunction = text => {
-   
-    if (text) {
-      const newData = masterDataSource.filter(function (item) {
-        const itemData = `${item.FirstName} ${item.LastName} ${item.Mobile}`
-          ? `${item.FirstName} ${item.LastName} ${item.Mobile}`.toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-     
-      setFilteredDataSource(newData);
-      setSearch(text);
-    } else {
-      setFilteredDataSource(masterDataSource);
-      setSearch(text);
-    }
-  };
-
-  const handleSearch = () => {
-    setSearch('');
-    setFilteredDataSource(masterDataSource);
-  };
-
+  const [data1,setUserdata]=useState('')
  useEffect( ()=>{
   var axios = require('axios');
 
@@ -68,25 +40,21 @@ const MyCatalogue = () => {
       'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
       'Content-Type': 'application/json'
     },
-    // params:{
-    //   PartnerSrNo:575,
-    //   FromDate:1/1/2010,
-    //   ToDate:1/1/2022
-    // }
   };
 
   axios(config)
     .then(function (response) {
       console.log('wwwwccc23', JSON.stringify(response.data.Downloads.length));
+      if (response.data.success==true){
       setUserdata(response.data.Downloads);
+      }
     })
     .catch(function (error) {
       console.log(error);
     });
  
 },[])
-  console.log('wwwww', data1);
-
+//console.log('avtr',(data1.length));
   const manageCustomer=async()=>{
     const srno=await AsyncStorage.getItem('Partnersrno')
     dispatch({
@@ -143,32 +111,19 @@ const MyCatalogue = () => {
       {isFetching?<Loader/>:null}
       <ScrollView>
         <View
-          style={{
-            backgroundColor: '#032e63',
-            width: '100%',
-            borderBottomRightRadius: 60,
-            borderBottomLeftRadius: 60,
-          }}>
+          style={styles.main}>
           <View style={{height: 150}} />
         </View>
         <View
-          style={{
-            paddingHorizontal: 10,
-             paddingVertical: 20,
-            elevation: 5,
-            backgroundColor: '#fff',
-            marginHorizontal: 20,
-            borderRadius: 10,
-            marginTop:-75
-          }}>
-            <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between'}}>
-            <View style={{width:'49%',alignItems:'center'}}>
-              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>23</Text>
-              <Text style={{ fontSize: 13, fontFamily: 'Acephimere', color: '#222027' }}>Today Downloads</Text>
+          style={styles.card}>
+            <View style={styles.cardV}>
+            <View style={styles.cardV1}>
+              <Text style={styles.cardV1t}>3</Text>
+              <Text style={styles.cardV1tt}>Today Downloads</Text>
             </View>
-            <View style={{ width: '49%', alignItems: 'center' }}>
-              <Text style={{ fontSize: 35, fontFamily: 'Acephimere', color: '#032e63' ,fontWeight:'700'}}>{data1.length}</Text>
-              <Text style={{ fontSize: 13, marginTop: 0, fontFamily: 'Acephimere', color: '#222027' }}>Total Downloads</Text>
+            <View style={styles.cardV1}>
+              <Text style={styles.cardV1t}>{data1.length}</Text>
+              <Text style={styles.cardV1tt}>Total Downloads</Text>
             </View>
             </View>
           {/* <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
@@ -230,35 +185,27 @@ const MyCatalogue = () => {
             <VictoryBar data={data} x="quarter" y="earnings" />
           </VictoryChart> */}
         </View>
-        <View style={{
-          backgroundColor:'#fff',
-          marginTop:20,
-          flexDirection:'row',
-          justifyContent:'space-between',
-          paddingHorizontal:20,
-          alignItems:'center',
-          paddingVertical:10
-          }}>
+        <View style={styles.card2}>
           <TouchableOpacity onPress={()=>manageCustomer()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/myCustomerImage.png')}/>
+                 <Image style={styles.card2img} source={require('../../../assets/Image/myCustomerImage.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'My Customers'}</Text>
+               <Text style={styles.card2t}>{'My Customers'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>manageFeedback()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/feedbackI.png')}/>
+              <Image style={styles.card2img} source={require('../../../assets/Image/feedbackI.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Feedback'}</Text>
+               <Text style={styles.card2t}>{'Feedback'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>Loyalty()}
            style={{alignItems:'center'}}>
                <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/heart.png')}/>
+              <Image style={styles.card2img} source={require('../../../assets/Image/heart.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Loyalty'}</Text>
+               <Text style={styles.card2t}>{'Loyalty'}</Text>
           </TouchableOpacity>
         </View>  
         {/* <View style={styles.blog}>
@@ -276,8 +223,8 @@ const MyCatalogue = () => {
           />
         </View> */}
 
-        <View style={{paddingVertical:10,marginLeft:20}}>
-          <Text style={{ fontSize: 15, fontFamily: 'Acephimere', color: '#222027' }}>Recents downloads</Text>
+        <View style={styles.bottom}>
+          <Text style={styles.bottomt}>Recents downloads</Text>
         </View>
         <View>
           <FlatList
@@ -286,31 +233,17 @@ const MyCatalogue = () => {
               <TouchableOpacity
                // onPress={() => userProfile(item.SrNo)}
                 //  onPress={()=>navigation.navigate('MyCustomerDetail')}
-                style={{
-                  backgroundColor: '#fff',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 20,
-                  alignItems: 'center',
-                  paddingVertical: 10
-                }}>
-                {console.log('hmm1234567', item)}
-                <View style={{ height: 40, borderRadius: 20, flexDirection: 'row', alignItems: 'center' }}>
+                style={styles.cardView}>
+                {console.log('hmm1234567', item.length)}
+                <View style={styles.carditem}>
                   <Image
-                    style={{ width: 40, height: 40, borderRadius: 20 }}
+                    style={styles.carditemimg}
                     source={require('../../../assets/user.jpeg')} />
                   <Text
-                    style={{
-                      marginLeft: 20,
-                      color: '#032e63',
-                      fontFamily: 'Acephimere',
-                      fontSize: 14,
-                      width: '50%'
-                    }}>{`${item.FirstName} ${item.LastName}`}</Text>
+                    style={styles.carditemt}>{`${item.FirstName} ${item.LastName}`}</Text>
                 </View>
                 <View>
-                  <Text style={{ fontFamily: 'Roboto-Regular', color: '#313131', fontSize: 15 }}>{item.Mobile}</Text>
+                  <Text style={styles.carditemtt}>{item.Mobile}</Text>
                 </View>
               </TouchableOpacity>
             )}
