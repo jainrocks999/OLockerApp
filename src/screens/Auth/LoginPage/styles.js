@@ -5,6 +5,18 @@ flex:1,
 backgroundColor:'#f7f7f7'
 
 },
+  headerimg: {
+    backgroundColor: '#052a47',
+    paddingVertical: 50,
+    alignItems: 'center',
+    borderBottomEndRadius: 100,
+    borderBottomStartRadius: 100,
+  },
+  line: {
+    borderBottomWidth: 1,
+    marginHorizontal: Platform.OS == 'android' ? 265 : 293,
+    marginLeft: 12,
+  },
 view:{
   paddingVertical:10,
   borderWidth:1,
@@ -15,10 +27,18 @@ view:{
 main:{
   marginTop:0,
   marginLeft:13,
-  paddingHorizontal:-5,   
+  paddingHorizontal:-5, 
+  // width:'15%',
+  // borderBottomWidth:1 
 },
 text:{
     fontSize:20,
+    color: '#474747',
+  // textDecorationLine: 'underline',
+  // textDecorationStyle: 'solid',
+  // textDecorationColor: '#000',
+  // textShadowOffset:{height:1,width:0}
+  // //  color: '#949494'
    // marginTop:-100,
    
 
@@ -45,7 +65,7 @@ card: {
     
     marginLeft: 0,
     paddingVertical: 10,
-    
+    color: '#474747'
     //color: colors.textColor,
   },
   input: {
@@ -70,4 +90,23 @@ card: {
         fontSize:12,
         color:'red'
     },
+  button: {
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    borderRadius: 45,
+    justifyContent: 'center',
+    marginTop: 30,
+    width: '80%',
+    height: 45,
+  },
+  bottom: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingVertical: 4,
+  }
 })

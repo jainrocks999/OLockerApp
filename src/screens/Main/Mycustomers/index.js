@@ -14,6 +14,8 @@ import Header from '../../../components/CustomHeader';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import Loader from '../../../components/Loader';
+import ImagePath from '../../../components/ImagePath';
+import AsyncStorage from '@react-native-community/async-storage';
 const Mycustomer = () => {
   const navigation = useNavigation();
   const selector=useSelector(state=>state.CustomerList)
@@ -46,11 +48,20 @@ const handleSearch = () => {
     setFilteredDataSource(masterDataSource);
   };
 
-const userProfile=(id)=>{
+const userProfile=async(id)=>{
+  const srno=await AsyncStorage.getItem('Partnersrno')
   dispatch({
     type: 'Get_User_Request',
     url: 'GetUserProfile',
     customerId:id,
+    navigation
+  });
+
+  dispatch({
+    type: 'Get_Purchase_Request',
+    url: 'GetPurchaseHistoryByPartnerId',
+    CustomerId:id,
+    PartnerId:srno,
     navigation
   });
 }
@@ -69,14 +80,14 @@ const userProfile=(id)=>{
       /> 
       {isFetching?<Loader/>:null}
        <View style={styles.blog}>
-            <Image style={{height:13,width:20}} resizeMode={'contain'}
+            <Image style={{height:13,width:20,tintColor:'#474747' }} resizeMode={'contain'}
               source={require('../../../assets/Image/serch.png')}
             />
             <TextInput
-              style={{marginLeft: 10}}
+              // style={{marginLeft: 10}}
               placeholder="Search by Name or Phone Number"
-              placeholderTextColor='9a9a9a'
-              style={{color: '9a9a9a', width: '100%',fontFamily:'Roboto-Regular'}}
+              placeholderTextColor='grey'
+              style={{color:'#474747' , width: '100%',marginLeft:10,fontFamily:'Roboto-Regular'}}
               returnKeyType="done"
               value={search}
               onChangeText={(val)=>searchFilterFunction(val)}
@@ -98,10 +109,13 @@ const userProfile=(id)=>{
                 alignItems:'center',
                 paddingVertical:10
               }}>
+                {console.log('hmm', `${ImagePath.Path}${item.ProfilePic}`)}
                 <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
                 <Image
                 style={{width:40,height:40,borderRadius:20}}
-                source={require('../../../assets/user.jpeg')}/>
+                    source={{
+                      uri: `${ImagePath.Path}${item.ProfilePic}`,
+                    }}/>
                 <Text 
                 style={{
                   marginLeft:20,
@@ -125,21 +139,13 @@ const userProfile=(id)=>{
         }}>
         <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
-      </View>
+      </View> */}
      </View>
   );
 };
 export default Mycustomer ;
-const User=[
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-]
 Data = [
   { label: 'Milind Sethia', value: '+918765467834' },
   { label: 'Manish Ranka', value: '+918765467834' },

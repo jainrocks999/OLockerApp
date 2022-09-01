@@ -28,7 +28,45 @@ const MyCatalogue = () => {
   const [status,setStatus]=useState('')
   const isFetching=useSelector(state=>state.isFetching)
   const dispatch=useDispatch()
+  const [data1,setUserdata]=useState('')
+ useEffect( ()=>{
+ recentData()
+ 
+},[])
+const recentData=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno');
+  var axios = require('axios');
 
+  var config = {
+    method: 'get',
+    url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
+    // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
+    headers: {
+      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+      'Content-Type': 'application/json'
+    },
+    params:{
+      PartnerSrNo:srno,
+      FromDate:"1/1/2010",
+      ToDate:"1/1/2022"
+    }
+  };
+
+  axios(config)
+    .then(function (response) {
+      // console.log('wwwwccc23', (response.data.Downloads.map((item)=>{
+      //   console.log('cccccs',item.PartnerAddDate);
+      // })));
+      if (response.data.success==true){
+      setUserdata(response.data.Downloads);
+      }
+    })
+    .catch(function (error) {
+      console.log('sssmssmsms',error);
+    });
+ 
+}
+//console.log('avtr',(data1.length));
   const manageCustomer=async()=>{
     const srno=await AsyncStorage.getItem('Partnersrno')
     dispatch({
@@ -77,7 +115,7 @@ const MyCatalogue = () => {
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        // source2={require('../../../assets/La.png')}
         title={'My Customers '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
@@ -85,25 +123,23 @@ const MyCatalogue = () => {
       {isFetching?<Loader/>:null}
       <ScrollView>
         <View
-          style={{
-            backgroundColor: '#032e63',
-            width: '100%',
-            borderBottomRightRadius: 60,
-            borderBottomLeftRadius: 60,
-          }}>
-          <View style={{height: 140}} />
+          style={styles.main}>
+          <View style={{height: 150}} />
         </View>
         <View
-          style={{
-            marginHorizontal: 20,
-            elevation: 5,
-            backgroundColor: '#fff',
-            // height: 200,
-            marginTop: -120,
-            borderRadius: 10,
-          }}>
-          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
-            <Text style={{fontFamily:'Philosopher-Regular',color:'#032e63',fontSize:16}}>{'35705 customers '}</Text>
+          style={styles.card}>
+            <View style={styles.cardV}>
+            <View style={styles.cardV1}>
+              <Text style={styles.cardV1t}>3</Text>
+              <Text style={styles.cardV1tt}>Today Downloads</Text>
+            </View>
+            <View style={styles.cardV1}>
+              <Text style={styles.cardV1t}>{data1.length}</Text>
+              <Text style={styles.cardV1tt}>Total Downloads</Text>
+            </View>
+            </View>
+          {/* <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
+            <Text style={{fontFamily:'Philosopher-Regular',color:'#032e63',fontSize:16,marginTop:5}}>{'35705 customers '}</Text>
             <View style={{
               borderWidth: 1,
               borderRadius: 30,
@@ -159,53 +195,84 @@ const MyCatalogue = () => {
             />
             <VictoryAxis dependentAxis tickFormat={x => `${x}`} sty />
             <VictoryBar data={data} x="quarter" y="earnings" />
-          </VictoryChart>
+          </VictoryChart> */}
         </View>
-        <View style={{
-          backgroundColor:'#fff',
-          marginTop:20,
-          flexDirection:'row',
-          justifyContent:'space-between',
-          paddingHorizontal:20,
-          alignItems:'center',
-          paddingVertical:10
-          }}>
+        <View style={styles.card2}>
           <TouchableOpacity onPress={()=>manageCustomer()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/myCustomerImage.png')}/>
+                 <Image style={styles.card2img} source={require('../../../assets/Image/myCustomerImage.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'My Customers'}</Text>
+               <Text style={styles.card2t}>{'My Customers'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>manageFeedback()}
            style={{alignItems:'center'}}>
                 <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/feedbackI.png')}/>
+              <Image style={styles.card2img} source={require('../../../assets/Image/feedbackI.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Feedback'}</Text>
+               <Text style={styles.card2t}>{'Feedback'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>Loyalty()}
            style={{alignItems:'center'}}>
                <View style={{}}>
-                 <Image style={{height:60,width:60,}} source={require('../../../assets/Image/heart.png')}/>
+              <Image style={styles.card2img} source={require('../../../assets/Image/heart.png')}/>
                </View>
-               <Text style={{fontSize:13,marginTop:5,fontFamily:'Acephimere',color:'#222027'}}>{'Loyalty'}</Text>
+               <Text style={styles.card2t}>{'Loyalty'}</Text>
           </TouchableOpacity>
         </View>  
+        {/* <View style={styles.blog}>
+          <Image style={{ height: 13, width: 20 }} resizeMode={'contain'}
+            source={require('../../../assets/Image/serch.png')}
+          />
+          <TextInput
+            //  style={{marginLeft: 10}}
+            placeholder="Search by Name or Phone Number"
+            placeholderTextColor='9a9a9a'
+            style={{ color: '9a9a9a', width: '100%', marginLeft: 10, fontFamily: 'Roboto-Regular' }}
+            returnKeyType="done"
+             value={search}
+            onChangeText={(val) => searchFilterFunction(val)}
+          />
+        </View> */}
 
+        <View style={styles.bottom}>
+          <Text style={styles.bottomt}>Recents downloads</Text>
+        </View>
+        <View>
+          <FlatList
+            data={data1}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+               // onPress={() => userProfile(item.SrNo)}
+                //  onPress={()=>navigation.navigate('MyCustomerDetail')}
+                style={styles.cardView}>
+                <View style={styles.carditem}>
+                  <Image
+                    style={styles.carditemimg}
+                    source={require('../../../assets/user.jpeg')} />
+                  <Text
+                    style={styles.carditemt}>{`${item.FirstName} ${item.LastName}`}</Text>
+                </View>
+                <View>
+                  <Text style={styles.carditemtt}>{item.Mobile}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
         <View style={{height:140}}/>
 
       </ScrollView>
-      <View style={{backgroundColor:'#032e63',width:60,height:60,
+      {/* <View style={{backgroundColor:'#032e63',width:60,height:60,
           position:'absolute',bottom:80,right:15,borderRadius:30,
           alignItems:'center',
           justifyContent:'center'
         }}>
           <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
-        </View>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+        </View> */}
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <TabView />
-      </View>
+      </View> */}
     </View>
   );
 };

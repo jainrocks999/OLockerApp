@@ -29,62 +29,85 @@ const HomeScreen = () => {
   const [collections,setCollecions]=useState()
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.NetworkList1)
+  const BannerData=[]
+  const[sliderdata,setSlider]=useState()
+  console.log('networklist21',selector);  
   const selector1=useSelector(state=>state.Gold)
-  console.log('this is gold location ',selector1);
   const BannerWidth = (Dimensions.get('window').width * 15) / 16;
   const BannerHeight = 180;
-  // const images = [
-  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU',
-  //   'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
-  //   'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg',
-  // ];
+const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Notifications)
+ console.log('graphical Notification........e.e',GraphicalNotification);
+ GraphicalNotification.map((item)=>{
+  const url= `${ImagePath.Path}${(item.ImageLocation).substring(1)}${item.ImageName}`
+  BannerData.push({
+    image:url,desc:'Red fort', 
+ }) 
 
-  const [data1, setData1] = useState([
-    {
-      id:   1,
-      name: 'john',
-      gender: 'm'
-    },
-    {
-      id:   2,
-      name: 'mary',
-      gender: 'f'
-    }
-  ]);
 
-  var object = {
-    dataAttribute: [
-    {
-      id: 1,
-      title: 'A',
-      data: [
-        { id: '1', name: 'First Name', type: 'text' },
-        { id: '2', name: 'Last Name', type: 'text' },
-      ],
-    },
-    {
-      id: 2,
-      title: 'B',
-      data: [
-        { id: '1', name: 'Twitter', type: 'text' },
-        { id: '2', name: 'Twitter follower', type: 'number' },
-      ],
-    }
-  ]
-  }
+ })
+   useEffect( ()=>{
+     Demo()
+  //  banner();
+     dispatch({
+      type:'Get_LookupData_Request',
+      url:'GetLookupData',
+      GroupName:'MetalTypes'
+    })
+     dispatch({
+      type:'Get_State_Request',
+      url:'GetStates'
+    });
+    // dispatch({
+    //   type: 'Get_Graphical_Request',
+    //   url: 'GetGraphicalNotifications',
+    // });
+   
+ },[]);
+ const Demo=async()=>{
+  
+    const partnerSrNo=await AsyncStorage.getItem('Partnersrno');
+    const Supplier=await AsyncStorage.getItem('SuppliesnrNo')
+    // console.log('fffhhhf',partnerSrNo);
+    // console.log("aaahhaaa",Supplier);
 
-   // add statusSelected to the first item of the nested data array
-   object.dataAttribute[0].data[0].statusSelected = true;
-console.log('this is new array',object.dataAttribute[0].data[0]);
-
-  useEffect(async()=>{
-  const partnerSrNo=await AsyncStorage.getItem('Partnersrno')
-  console.log('this is partner no',partnerSrNo);
     dispatch({
-      type: 'Get_Product_Request',
-      url: 'GetPartnerCatalogueCategories',
+      type:'Get_PartnerFavProduct_Request',
+      url:'GetPartnerFavProduct',
+      PartnerId:partnerSrNo,
+     // navigation
+    })
+
+    dispatch({
+      type: 'Get_Allsupplier_Request',
+      url:'GetAllSupplier',
+      PartnerSrno:partnerSrNo
+    });
+    dispatch({
+      type:'Get_SupplierProducts_Request',
+      url:'GetSupplierProducts',
+      PartnerSrno:partnerSrNo
+    })
+    dispatch({
+      type:'Get_Products_Request',
+      url:'GetProducts',
+      PartnerSrno:partnerSrNo
+    });
+    dispatch({
+      type:'Get_Catalogcategories_Request',
+      url:'GetCatalogueCategories',
       PartnerSrno:partnerSrNo,
     });
+   
+    dispatch({
+      type: 'Get_Allnotification_Request',
+      url: 'GetAllNotification',
+      PartnerSrno: partnerSrNo
+    });
+    // dispatch({
+    //   type: 'Get_Product_Request',
+    //   url: 'GetPartnerCatalogueCategories',
+    //   SupplierSrNo:12,
+    // });
     dispatch({
       type: 'Get_Collection_Request',
       url: 'GetCollections',
@@ -108,63 +131,90 @@ console.log('this is new array',object.dataAttribute[0].data[0]);
       partnerSrNo:partnerSrNo,
       navigation
     });
-  },[])
+} 
+const banner =()=>{
 
-  const manageProfile=(id)=>{
+  var axios = require('axios');
+
+var config = {
+  method: 'get',
+  url: 'https://devappapi.olocker.in/api/Partner/GetGraphicalNotifications',
+  headers: { 
+    'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5', 
+    'Content-Type': 'application/json'
+  }
+};
+
+axios(config)
+.then(function (response) {
+  if (response.data.success==true){
+  // console.log('graphical notificationss.....',JSON.stringify(response.data.Notifications.map((item)=>{
+  //   console.log('Notifications 232......',item); })));
+    response.data.Notifications.map((item)=>{
+
+    const url= `${ImagePath.Path}${(item.ImageLocation).substring(1)}${item.ImageName}`
+     BannerData.push({
+       image:url,desc:'Red fort', 
+    }) })
+ 
+
+}
+ setSlider(BannerData);
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+}
+// console.log('data banner image  showsss',sliderdata);
+//   console.log('data banner imagesssssss  showsss',images);
+
+ 
+
+  const manageProfile= async(id)=>{
+   
+    
     dispatch({
       type: 'Get_Profile_Request',
       url: 'GetSupplierProfile',
       supplierSrno:id,
       navigation
     });
+     AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    // console.log('storage id for supplier', id);
+    dispatch({
+      type: 'Partner_Catalogue_Request',
+      url: 'GetPartnerCatalogueCategories',
+      SupplierSrNo: id,
+      navigation
+    });
   }
 
-  const renderPage = (image, index) => {
-    return (
-      <View style={{width: '100%'}} key={index}>
-        <Image
-          style={{
-            width: BannerWidth,
-            height: BannerHeight,
-            borderRadius: 15,
-          }}
-          source={{uri: image}}
-        />
-      </View>
-    );
-  };
   return (
     <View style={{flex: 1}}>
       {isFetching?<Loader/>:null}
-      <ScrollView style={{flex: 1, backgroundColor: '#f0eeef'}}>
+      <ScrollView style={styles.scroll}>
         <ImageBackground
-          style={{
-            height: 260,
-            width: '100%',
-          }}
+          style={styles.imgback}
           source={require('../../../assets/Image/1.png')}>
           <View style={styles.container}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                justifyContent: 'flex-end',
-              }}>
+              style={styles.headertouch}>
               <TouchableOpacity onPress={() => navigation.navigate('Message')}>
                 <Image
                   style={styles.img1}
                   source={require('../../../assets/Fo.png')}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={{marginLeft: 15}}>
+              {/* <TouchableOpacity style={{marginLeft: 15}}>
                 <Image
                   style={styles.img2}
                   source={require('../../../assets/La.png')}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity>
                 <Image
-                  style={{width: 34, height: 22, marginLeft: 15}}
+                  style={styles.img3}
                   source={require('../../../assets/Image/menu-icon.png')}
                 />
               </TouchableOpacity>
@@ -172,71 +222,45 @@ console.log('this is new array',object.dataAttribute[0].data[0]);
           </View>
           <View style={{paddingHorizontal: 10}}>
             <Text
-              style={{
-                color: '#c6e0ff',
-                fontFamily: 'Roboto-Medium',
-              }}>
+              style={styles.text1}>
               Welcome to MyJeweller
             </Text>
             <Text
-              style={{
-                color: '#ffffff',
-                fontSize: 24,
-                fontFamily: 'Roboto-Medium',
-              }}>
+              style={styles.text2}>
               {'Onestop solution\nfor you'}
             </Text>
           </View>
         </ImageBackground>
         <View
-          style={{alignItems: 'center', height: 200, marginTop: -115}}>
+          style={styles.main}>
+            {/* {console.log('list datafbddfgfdgdfag',sliderdata)} */}
             <FlatListSlider
-            data={images}
+            data={BannerData}
             height={200}
-            timer={5000}
-            // onPress={item => alert(JSON.stringify(item))}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:50}}
+            timer={3000}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
             indicatorActiveColor={'#032e63'}
-            indicatorInActiveColor={'#ffffff'}
+            indicatorInActiveColor={'red'}
             indicatorActiveWidth={5}
             animation
             component={<Banner/>}
             separatorWidth={15}
             width={300}
             autoscroll={false}
+            loop={false}
         />
-          {/* <Carousel
-            autoplay
-            autoplayTimeout={5000}
-            loop
-            index={0}
-            pageSize={BannerWidth}>
-            {images.map((image, index) => renderPage(image, index))}
-          </Carousel> */}
-        </View>
-        <View style={{marginTop: 10, paddingHorizontal: 12}}>
-          <View
-            style={{
-              paddingHorizontal: 8,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
+</View>
+        <View style={styles.itemview}>
+          <View style={styles.itemview1}>
             <Image
               style={{width: 102, height: 22, tintColor: '#032e63'}}
               source={require('../../../assets/Image/myjewlery.png')}
             />
-            <TouchableOpacity onPress={()=>updateFieldChanged('1')}>
-            <Text
-              style={{
-                marginLeft: 5,
-                marginTop: 5,
-                color: '#032e63',
-                fontSize: 17,
-                fontWeight: '700',
-                fontStyle: 'italic',
-                fontFamily:'Roboto-Medium'
-              }}>
+            <TouchableOpacity
+            //  onPress={()=>updateFieldChanged('1')}
+             >
+            <Text style={styles.text4}>
               Network
             </Text>
             </TouchableOpacity>
@@ -249,173 +273,82 @@ console.log('this is new array',object.dataAttribute[0].data[0]);
             renderItem={({item}) => (
               <TouchableOpacity
               onPress={()=>manageProfile(item.SupplierSrNo)}
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 4},
-                  shadowOpacity: 0.6,
-                  shadowRadius: 8,
-                  elevation: 3,
-                  borderRadius: 10,
-                  width: 120,
-                  margin: 5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 120,
-                  backgroundColor:'#fff'
-                
-                }}>
-                <Image
-                  style={{height: 120, width: '100%',borderRadius:15}}
-                  resizeMode='stretch'
-                  source={{uri: `${ImagePath.Path}${item.SupplierImage}`}}
-                />
+                style={styles.cardview}>
+                {item.SupplierImage == null ? <Image
+                  style={{ width: 80, height: 60, borderRadius: 0 }}
+                  source={require('../../../assets/demo.png')} /> :
+                  <Image
+                    style={styles.cardimg}
+                    resizeMode='stretch'
+                    source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
+                  />
+                }
               </TouchableOpacity>
             )}
           />
         </View>
-        <View style={{paddingHorizontal: 20, marginTop: 10}}>
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              paddingVertical: 10,
-            }}>
+        <View style={styles.middle1}>
+          <View style={styles.middle}>
             <TouchableOpacity
               onPress={() => navigation.navigate('MyCatalogue',{
                 data:data,
                 collections:collections
               })}
               style={{alignItems: 'center'}}>
-              <View
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                }}>
-                <Image
-                  style={{height: 100, width: 100}}
+              <View style={styles.card1}>
+                <Image style={styles.img4}
                   source={require('../../../assets/Image/services.png')}
                 />
               </View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop: 6,
-                  color: '#032e63',
-                  fontFamily: 'Roboto-Medium',
-                }}>
+              <Text style={styles.textc}>
                 {'Catalogue'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Customers')}
+              onPress={() => navigation.navigate('Customer1',{screen:'Customers'})}
               style={{alignItems: 'center'}}>
-              <View
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                }}>
-                <Image
-                  style={{height: 100, width: 100}}
+              <View style={styles.card1}>
+                <Image style={styles.img4}
                   source={require('../../../assets/Image/custmer.png')}
                 />
               </View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop: 6,
-                  color: '#032e63',
-                  fontFamily: 'Roboto-Medium',
-                }}>
+              <Text style={styles.textc}>
                 {'Customers'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('MyNetwork')}
+              onPress={() => navigation.navigate('MyNetwork1',{screen:'MyNetwork'})}
               style={{alignItems: 'center'}}>
-              <View
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 50,
-                }}>
-                <Image
-                  style={{height: 100, width: 100}}
+              <View style={styles.card1}>
+                <Image style={styles.img4}
                   source={require('../../../assets/Image/partner.png')}
                 />
               </View>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginTop: 6,
-                  color: '#032e63',
-                  fontFamily: 'Roboto-Medium',
-                }}>
+              <Text style={styles.textc}>
                 {'My Network'}
               </Text>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{width: 35, height: 30,marginBottom:2}}
+          <View style={styles.bottom}>
+            <View style={styles.Gold}>
+              <Image style={styles.Goldimg}
                 source={require('../../../assets/Image/gold.png')}
               />
-              <View
-                style={{
-                  marginLeft: 7,
-                  marginTop: 9,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-
-                }}>
-                <Text
-                  style={{
-                    fontSize: 17,
-                    color: '#000',
-                    fontStyle: 'italic',
-                    fontFamily:'Roboto-Medium',
-                    fontWeight:'700',
-                  }}>
+              <View  style={styles.Goldview}>
+                <Text style={styles.Goldt}>
                   {'Gold '}
                 </Text>
-                <Text
-                  style={{
-                    color: '#032e63',
-                    fontSize: 17,
-                    fontStyle: 'italic',
-                    fontFamily: 'Roboto-Medium',
-                    fontWeight:'700'
-                  }}>
+                <Text style={styles.Goldtt}>
                   {'Price '}
                 </Text>
               </View>
             </View>
-            <TouchableOpacity
-              style={{
-                paddingVertical: 4,
-                paddingHorizontal: 14,
-                backgroundColor: '#032e63',
-                borderRadius: 12,
-              }}>
+            <TouchableOpacity style={styles.touch}>
               <Text style={{color: '#fff', fontSize: 12}}>MORE</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{marginBottom: 30, paddingHorizontal: 12}}>
+        <View style={styles.bottomv}>
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
@@ -423,55 +356,22 @@ console.log('this is new array',object.dataAttribute[0].data[0]);
             renderItem={({item}) => (
               <ImageBackground
               source={require('../../../assets/PartnerImage/goldIcon.png')}
-                style={{
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 4},
-                  shadowOpacity: 0.6,
-                  shadowRadius: 8,
-                  elevation: 3,
-                  borderRadius: 15,
-                  width: 120,
-                  marginVertical: 10,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 160,
-                  marginHorizontal:5,
-                  backgroundColor:'#fff'
-                }}>
-                 <Text style={{fontFamily:'Roboto-Medium',fontSize:16,marginBottom:20,fontWeight:'700'}}>{`${((item.Purity)*24/1000).toFixed(0)} K`}</Text>
-                 <View style={{bottom:15,position:'absolute',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                style={styles.Bimg}>
+                 <Text style={styles.Bt}>{`${((item.Purity)*24/1000).toFixed(0)} K`}</Text>
+                 <View style={styles.Bv}>
                    <Image style={{height:16,width:20}} source={require('../../../assets/Image/rupay.png')}/>
-                 <Text style={{fontFamily:'Roboto-Medium',fontSize:18,fontWeight:'700',marginTop:3}}>{item.PM}</Text>
+                 <Text style={styles.Btt}>{item.PM}</Text>
                  </View>
               </ImageBackground>
             )}
           />
         </View>
       </ScrollView>
-      <TabView />
+      {/* <TabView /> */}
     </View>
   );
 };
 export default HomeScreen;
-const data2 = [
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-  {title: require('../../../assets/Image/myjewlery.png')},
-];
-const data1 = [
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-  {source: require('../../../assets/Image/gold.png')},
-];
 
 
 const images = [
@@ -506,9 +406,33 @@ const images = [
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
 {
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  image:'https://devappapi.olocker.in/images/rss/no-image.jpg',
   desc:
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
 
  ]
+
+
+
+ var object = {
+  dataAttribute: [
+  {
+    id: 1,
+    title: 'A',
+    data: [
+      { id: '1', name: 'First Name', type: 'text' },
+      { id: '2', name: 'Last Name', type: 'text' },
+    ],
+  },
+  {
+    id: 2,
+    title: 'B',
+    data: [
+      { id: '1', name: 'Twitter', type: 'text' },
+      { id: '2', name: 'Twitter follower', type: 'number' },
+    ],
+  }
+]
+}
+ object.dataAttribute[0].data[0].statusSelected = true;

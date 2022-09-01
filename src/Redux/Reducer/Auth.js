@@ -1,3 +1,5 @@
+import Addproduct from "../../screens/Main/Addproduct";
+
 initialstate = {
   ProductList:[],
   CollectionList:[],
@@ -6,6 +8,7 @@ initialstate = {
   NetworkList:[],
   ProfileData:'',
   SentRequestData:[],
+  removesentrequest:[],
   AcceptedRequestData:[],
   RejectedRequestData:[],
   CategoryDetail:[],
@@ -16,11 +19,63 @@ initialstate = {
   Categories:[],
   User:'',
   Loyalty:[],
-  RequestList:[]
+  RequestList:[],
+  PurchaseHistory:[],
+  GraphicalNotification:[],
+  Catalogue:[],
+  Collection:[],
+  Addproduct:[],
+  Allsupplier:[],
+  Myproduct:[],
+  Detail:[],
+  Product1Detail:[],
+  PartnerC:[],
+  AllNotification:[],
+  Products:[],
+  SupplierProduct:[],
+  PartnerCatalog:[],
+  States:[],
+  citys:[],
+  metalType:[],
+  categoryDetailData1:[]
 };
 export default (state = initialstate, action) => {
   switch (action.type) {
 
+    case 'Get_LookupData_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_LookupData_Success':
+      return { ...state, isFetching: false, metalType: action.payload };
+    case 'Get_LookupData_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_CitiesByState_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_CitiesByState_Success':
+      return { ...state, isFetching: false, citys: action.payload };
+    case 'Get_CitiesByState_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_State_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_State_Success':
+      return { ...state, isFetching: false, States: action.payload };
+    case 'Get_State_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_SupplierProducts_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_SupplierProducts_Success':
+      return { ...state, isFetching: false, SupplierProduct: action.payload };
+    case 'Get_SupplierProducts_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_Products_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Products_Success':
+      return { ...state, isFetching: false, Products: action.payload };
+    case 'Get_Products_Error':
+      return { ...state, isFetching: false };
     case 'Get_Product_Request':
       return { ...state, isFetching: true };
     case 'Get_Product_Success':
@@ -33,6 +88,13 @@ export default (state = initialstate, action) => {
     case 'Get_User_Success':
       return { ...state, isFetching: false, User: action.payload };
     case 'Get_User_Error':
+      return { ...state, isFetching: false };
+    
+    case 'Get_Purchase_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Purchase_Success':
+      return { ...state, isFetching: false, PurchaseHistory: action.payload };
+    case 'Get_Purchase_Error':
       return { ...state, isFetching: false };
 
     case 'Get_Loyalty_Request':
@@ -79,12 +141,12 @@ export default (state = initialstate, action) => {
     case 'Get_Category1_Error':
      return { ...state, isFetching: false };
 
-    case 'Get_Network_Request':
-      return { ...state, isFetching: true };
-    case 'Get_Network_Success':
-      return { ...state, isFetching: false, NetworkList: action.payload };
-    case 'Get_Network_Error':
-     return { ...state, isFetching: false };
+    // case 'Get_Network_Request':
+    //   return { ...state, isFetching: true };
+    // case 'Get_Network_Success':
+    //   return { ...state, isFetching: false, NetworkList: action.payload };
+    // case 'Get_Network_Error':
+    //  return { ...state, isFetching: false };
     
      case 'Get_Network1_Request':
       return { ...state, isFetching: true };
@@ -122,6 +184,14 @@ export default (state = initialstate, action) => {
     case 'Get_Rejected_Error':
     return { ...state, isFetching: false };
 
+
+    case 'get_RemoveSupplierFromNetwork_Request':
+      return { ...state, isFetching: true };
+    case 'get_RemoveSupplierFromNetwork_Success':
+      return { ...state, isFetching: false, removesentrequest: action.payload };
+    case 'get_RemoveSupplierFromNetwork_Error':
+    return { ...state, isFetching: false };
+
     case 'Get_Feedback_Request':
       return { ...state, isFetching: true };
     case 'Get_Feedback_Success':
@@ -132,14 +202,14 @@ export default (state = initialstate, action) => {
     case 'Add_Collection_Request':
       return { ...state, isFetching: true };
     case 'Add_Collection_Success':
-      return { ...state, isFetching: false };
+      return { ...state, isFetching: false ,Collection: action.payload};
     case 'Add_Collection_Error':
       return { ...state, isFetching: false };
     
     case 'Add_Product_Request':
       return { ...state, isFetching: true };
     case 'Add_Product_Success':
-      return { ...state, isFetching: false };
+      return { ...state, isFetching: false ,Addproduct: action.payload};
     case 'Add_Product_Error':
       return { ...state, isFetching: false };
 
@@ -170,8 +240,77 @@ export default (state = initialstate, action) => {
       return { ...state, isFetching: false, RequestList: action.payload };
     case 'Get_Pending_Error':
       return { ...state, isFetching: false };
+
+    case 'Get_Graphical_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Graphical_Success':
+      return { ...state, isFetching: false, GraphicalNotification: action.payload };
+    case 'Get_Graphical_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_Allnotification_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Allnotification_Success':
+      return { ...state, isFetching: false, AllNotification: action.payload };
+    case 'Get_Allnotification_Error':
+      return { ...state, isFetching: false };
+    case 'GetPartners_Catalogue_Request':
+      return { ...state, isFetching: true };
+    case 'GetPartners_Catalogue_Success':
+      return { ...state, isFetching: false, PartnerCatalog: action.payload };
+    case 'GetPartners_Catalogue_Error':
+      return { ...state, isFetching: false };
+
+    case 'Partner_Catalogue_Request':
+      return { ...state, isFetching: true };
+    case 'Partner_Catalogue_Success':
+      return { ...state, isFetching: false, Catalogue: action.payload };
+    case 'Partner_Catalogue_Error':
+    return { ...state, isFetching: false };
     
-   
+    case 'Get_Allsupplier_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Allsupplier_Success':
+      return { ...state, isFetching: false, Allsupplier: action.payload };
+    case 'Get_Allsupplier_Error':
+    return { ...state, isFetching: false };
+
+    case 'Get_Catalogcategories_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Catalogcategories_Success':
+      return { ...state, isFetching: false, Myproduct: action.payload };
+    case 'Get_Catalogcategories_Error':
+      return { ...state, isFetching: false };
+
+      case 'Get_Detail_Request':
+      return { ...state, isFetching: true };
+    case 'Get_Detail_Success':
+      return { ...state, isFetching: false, Detail: action.payload };
+    case 'Get_Detail_Error':
+      return { ...state, isFetching: false };
+      
+
+      case 'Get_GetProductDetail_Request':
+        return { ...state, isFetching: true };
+      case 'Get_GetProductDetail_Success':
+        return { ...state, isFetching: false, Product1Detail: action.payload };
+      case 'Get_GetProductDetail_Error':
+        return { ...state, isFetching: false };
+
+      case 'Get_PartnerC_Request':
+      return { ...state, isFetching: true };
+    case 'Get_PartnerC_Success':
+      return { ...state, isFetching: false, PartnerC: action.payload };
+    case 'Get_PartnerC_Error':
+      return { ...state, isFetching: false };
+
+      case 'Get_PartnerFavProduct_Request':
+        return { ...state, isFetching: true };
+     case 'Get_PartnerFavProduct_Success':
+      return { ...state, isFetching: false, categoryDetailData1: action.payload };
+      case 'Get_PartnerFavProduct_Error':
+        return { ...state, isFetching: false };
+     
     default:
       return state;
   }

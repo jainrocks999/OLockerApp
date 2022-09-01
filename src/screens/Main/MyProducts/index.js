@@ -16,6 +16,7 @@ const MyProducts = ({route}) => {
 
 const manageCategory=async(id)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
+  console.log('1111~~~',id,srno);
   dispatch({
     type: 'Get_Category_Request',
     url: 'GetPartnerProductsByCatalogueCategory',

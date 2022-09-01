@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput,ScrollView} from 'react-native';
+import {View, Text, Image, TouchableOpacity, TextInput,ScrollView, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import axios from 'axios';
@@ -9,6 +9,8 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../../components/Loader';
+import { join } from 'redux-saga/effects';
+import { useDispatch } from 'react-redux';
 
 const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Please enter your Email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid Email Address'),
@@ -20,8 +22,13 @@ const loginValidationSchema = yup.object().shape({
 const Login = () => {
   const navigation = useNavigation();
   const [fetching,setFetching]=useState(false)
-
+  const dispatch=useDispatch()
+  useEffect(()=>{
+     
+  },[] );
 const partnerLogin=async(values)=>{
+
+
   setFetching(true)
   var axios = require('axios');
     var config = {
@@ -34,12 +41,16 @@ const partnerLogin=async(values)=>{
     axios(config)
     .then(function (response) {
       console.log('yoyoyoyo',JSON.stringify(response.data));
+ //console.log('aaaaaaaa',response.data.LoginDetail.PartnerSrNo);
       if(response.data.success==true){
         setFetching(false)
-        AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo))
+        console.log("00000000", JSON.stringify(response.data.LoginDetail.BranchSrNo));
+        AsyncStorage.setItem('Partnersrno',JSON.stringify(response.data.LoginDetail.PartnerSrNo));
+        AsyncStorage.setItem('BranchNo', JSON.stringify(response.data.LoginDetail.BranchSrNo))
         navigation.replace('Home')
         Toast.show('Login successful')
       }
+      // response.data.LoginDetail.PartnerSrNo
       else if(response.data.success==false){
       Toast.show(response.data.error_info.description)
       setFetching(false)
@@ -75,13 +86,7 @@ const partnerLogin=async(values)=>{
             contentContainerStyle={{flex: 1}}>
 
       <View
-        style={{
-          backgroundColor: '#052a47',
-          paddingVertical: 50,
-          alignItems: 'center',
-          borderBottomEndRadius: 100,
-          borderBottomStartRadius: 100,
-        }}>
+        style={styles.headerimg}>
         <Image
           style={{marginTop: 40}}
           source={require('../../../assets/ol.png')}
@@ -93,11 +98,7 @@ const partnerLogin=async(values)=>{
             <Text style={styles.text}>Login</Text>
           </View>
           <View
-            style={{
-              borderBottomWidth: 1,
-              marginHorizontal: 270,
-              marginLeft: 12,
-            }}
+            style={styles.line}
           />
           <View style={[styles.input, {marginTop: 20}]}>
             <Image
@@ -108,12 +109,14 @@ const partnerLogin=async(values)=>{
             <TextInput 
             style={styles.input1}
             placeholder="Enter your Email"
+            placeholderTextColor={'grey'}
             // value={email}
             // onChangeText={(val)=>setEmail(val)}
             keyboardType='email-address'
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
             value={values.email}
+            returnKeyType="go"
              />
           </View>
           <View style={styles.error}>
@@ -130,11 +133,13 @@ const partnerLogin=async(values)=>{
             <TextInput 
             style={styles.input1} 
             placeholder="Enter your Password" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
-            keyboardType={'number-pad'}
+            keyboardType={'default'}
             secureTextEntry={true}
+            // returnKeyType="done"
             />
             
           </View>
@@ -145,21 +150,15 @@ const partnerLogin=async(values)=>{
                     </View>
           <View style={{paddingHorizontal: 20}}>
             <TouchableOpacity
-              style={{
-                backgroundColor: 'pink',
-                alignItems: 'center',
-                borderRadius: 45,
-                justifyContent: 'center',
-                marginTop: 30,
-                width: '80%',
-                height: 45,
-              }}
-              onPress={() => 
-                // partnerLogin()
-                handleSubmit()
-              // navigation.navigate('Home')
+              style={styles.button}
+              onPress={() => {
+                // AsyncStorage.setItem('Partnersrno',)
+               // navigation.replace('Home')    
+                // partnerLogin()  
+                 handleSubmit()  
+              }    
               }>
-              <Text>Login</Text>
+              <Text style={{color: '#474747'}}>Login</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 40}} />
@@ -170,17 +169,8 @@ const partnerLogin=async(values)=>{
         </View>
         <View style={{alignItems: 'center'}}>
           <View
-            style={{
-              borderLeftWidth: 1,
-              borderRightWidth: 1,
-              borderBottomWidth: 1,
-              width: '90%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              paddingVertical: 4,
-            }}>
-            <Text style={{fontWeight: '700'}}>{`Don't have account? `}</Text>
+            style={styles.bottom}>
+            <Text style={{fontWeight: '700',color: '#474747'}}>{`Don't have account? `}</Text>
             <TouchableOpacity onPress={()=>navigation.navigate('RegisterPage')}>
             <Text style={{color: '#e9056b', marginLeft: 3}}>
               {'Create Your Account'}

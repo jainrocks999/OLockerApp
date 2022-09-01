@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  Dimensions
 } from 'react-native';
 
 const Preview = ({
@@ -17,6 +18,8 @@ const Preview = ({
   active,
   local,
 }) => {
+  const BannerWidth = (Dimensions.get('window').width * 15) / 18;
+  const BannerHeight = 180;
   return (
       <View style={{alignItems:'center',justifyContent:'center',borderRadius:15}}>
     <TouchableOpacity
@@ -24,7 +27,7 @@ const Preview = ({
       >
       <View style={[styles.imageContainer]}>
         <Image
-          style={{height:180,width:300,borderRadius:15}}
+          style={{height:180,width:BannerWidth,borderRadius:15}}
           source={{uri: item[imageKey]}}
         />
       </View>

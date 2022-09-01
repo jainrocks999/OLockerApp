@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image,Share} from 'react-native';
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
@@ -7,155 +7,246 @@ import {FlatListSlider} from 'react-native-flatlist-slider';
 import Preview from "../../../components/Preview";
 import Banner from '../../../components/Banner';
 import { TextInput } from 'react-native-gesture-handler';
-
+import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
+import styles from './styles';
 const SubCategory = ({route}) => {
     const navigation=useNavigation()
-    const [collection,setCollection]=useState('Kangan')
-    const [stockNo,setStock]=useState('373800-UQYB18')
-    const [metal,setMetal]=useState('Gold 999 - 50.00 gms')
+
+    const selector=useSelector(state=>state.Detail.GetProductModel)
+    const selector2 =useSelector(state=>state.Product1Detail.GetProductModel)
+    const Details=route.params.Network
+    console.log('1111120',selector2);
+    const data=[]
+  { Details ?  selector.productimages.map((item)=>{
+      const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+data.push({
+  image:url,desc:'abcsd'
+})   
+  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+    }):
+    selector2.productimages.map((item)=>{
+      const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+data.push({
+  image:url,desc:'abcsd'
+})   
+  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+    })
+    // selector2.RetailerFavProduct.map((item)=>{
+    //   item.ProductDetails.ProductImageList.map((item1)=>{
+    //     // console.log('1vv122344444',`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`);
+    //     const url=`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`
+    //     data.push({
+    //       image:url,desc:'abcsd'
+    //     }) 
+    //   })
+
+    // })
+  }
+    // console.log('image data areeeapush ....',data);
+  //  selector.metaldetails.map((item)=>{
+  //    const metal1=item.MetalPurity
+  //     console.log('1111vvv12dd0',item.MetalPurity);
+
+  //   })
+    const [collection,setCollection]=useState('')
+    const [stockNo,setStock]=useState('')
+    const [metal,setMetal]=useState('')
+    const[gm,setGm]=useState('')
+    const[demo ,setDemo]=useState('')
+   const [price,setPrice]=useState('')
+   const[mg,setMg]=useState('')
+   const[metalPurity,setMetalPurity]=useState('')
+   const [description,setDescription]=useState('')
     const [editable,setEditable]=useState(false)
     const [editable1,setEditable1]=useState(false)
     const [editable2,setEditable2]=useState(false)
+    const[url,setUrl] =useState('')
     const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+    useEffect( ()=>{
+     { Details ? setDescription(selector.description): setDescription(selector2.description)
+      
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //   setDescription(item.ProductDetails.Description)
+    //  })
+    }
+     
+     {Details? setStock(selector.name):setStock(selector2.name)
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //   setStock(item.ProductDetails.ProductTypeName)
+    //  })
+    }
+      {Details ? setPrice(selector.price):setPrice(selector2.price)
+      //   selector2.RetailerFavProduct.map((item)=>{
+      //   setPrice(item.ProductDetails.FullPayment)
+      //  })
+      }
+     {Details ? setCollection(selector.productsku): setCollection(selector2.productsku)
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //  setCollection(item.ProductDetails.ProductSku)
+    //  })
+    }
+      {Details ? selector.metaldetails.map((item)=>{
+        setMetal(item.MetalWt);
+        setGm(item.UnitMetalWt);
+        setMg(item.MetalType);
+        setMetalPurity(item.MetalPurity);
+       
+      }):selector2.metaldetails.map((item)=>{
+        setMetal(item.MetalWt);
+        setGm(item.UnitMetalWt);
+        setMg(item.MetalType);
+        setMetalPurity(item.MetalPurity);
+       
+      })
+      // selector2.RetailerFavProduct.map((item)=>{
+      //   item.ProductDetails.metaldetails.map((item1)=>{
+      //     setMetal(item1.MetalWt);
+      //     setGm(item1.UnitMetalWt);
+      //     setMg(item1.MetalType);
+      //     setMetalPurity(item1.MetalPurity);
 
+      //   })
+      // })
+    }
+      setDemo(`${mg} ${metalPurity} - ${metal} ${gm}`);
+
+    {Details?  selector.productimages.map((item) => {
+        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\\/g, "/") }/${item.ImageName}`)
+        
+        // console.log('1vv223366', url);
+
+      }):
+      selector2.productimages.map((item) => {
+        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\\/g, "/") }/${item.ImageName}`)
+        
+        // console.log('1vv223366', url);
+
+      })
+      // selector2.RetailerFavProduct.map((item)=>{
+      //   item.ProductDetails.ProductImageList.map((item1)=>{
+      //     // console.log('ghghgsdsdgsf',`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`);
+      //     setUrl(`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`)
+      //     // console.log('1vvfegehge6', url);
+
+      //   })
+  
+      // })
+    }
+     },[demo])
+     
+    //  console.log('xxx157',demo);
+
+     const share=async()=>{
+       await Share.share({
+         message:`Product Name : ${stockNo} \nProduct Url : ${url}`
+       })
+     }
+ 
 
   const manageEdit=()=>{
       setEditable(true)
       setEditable1(true)
       setEditable2(true)
+     // Detail();
   }
   return (
-    <View style={{flex: 1,backgroundColor:'#032e63'}}>
+    <View style={styles.container}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
         source2={require('../../../assets/La.png')}
-        title={'Necklace'}
+        title={stockNo}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
       <ScrollView>
         <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            marginTop: 5,
-            flex:1
-          }}>
-          <View>
+          style={styles.main}>
+        { Details? <View/>:<View>
             <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
-          </View>
+          </View>}
           <View>
-              <TouchableOpacity onPress={()=>navigation.navigate('Filter')}>
-              <Image style={{width:24,height:18,marginTop:10}} tintColor={'white'} source={require('../../../assets/Image/share1.png')}/>
+              <TouchableOpacity onPress={()=>share()}
+              // {()=>navigation.navigate('Filter')}
+              >
+              <Image style={styles.img}  source={require('../../../assets/Image/share1.png')}/>
               </TouchableOpacity>
           </View>
         </View>
         <View style={{marginTop:10}}>
-        {/* <FlatListSlider
-          data={images}
-          width={205}
-          timer={5000}
-          component={<Banner />}
-          onPress={item => alert(JSON.stringify(item))}
-          indicatorActiveWidth={40}
-          contentContainerStyle={{paddingHorizontal: 16}}
-          animation
-          indicator={false}
-          autoscroll={false}
-        /> */}
-         {/* <FlatListSlider
-            data={images}
-            height={200}
-            timer={5000}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:100}}
-            indicatorContainerStyle={{position:'absolute', bottom: 10}}
-            indicatorActiveColor={'#032e63'}
-            indicatorInActiveColor={'#ffffff'}
-            indicatorActiveWidth={5}
-            animation
-            component={<Preview/>}
-            separatorWidth={15}
-            width={200}
-            autoscroll={false}
-        /> */}
+       {/* { selector.productimages.map((item)=>{
+      console.log('1vvvv',item.ImageName);
+    */}
          <FlatListSlider
-            data={images}
+            data={data}
             height={200}
             timer={5000}
-            // onPress={item => alert(JSON.stringify(item))}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:50}}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
             indicatorContainerStyle={{position:'absolute', bottom: -20}}
-            indicatorActiveColor={'#032e63'}
-            indicatorInActiveColor={'#ffffff'}
+            indicatorActiveColor={'#ffffff'}
+            indicatorInActiveColor={'grey'}
             indicatorActiveWidth={5}
-            // animation
             component={<Preview/>}
             separatorWidth={15}
             width={310}
             autoscroll={false}
             loop={false}
         />
+      {/* })} */}
       </View>
       
-        <View style={{alignItems:'center',marginTop:20,flexDirection:'row',justifyContent:'center'}}>
-        <Image style={{tintColor:'#fff',width:16,height:16,marginTop:8}} source={require('../../../assets/Image/rupay.png')}/>
-        <Text style={{color:'#fff',fontFamily:'Acephimere',marginLeft:2,marginTop:12}}>{'5,25,000.00 (Approximate price)'}</Text>
+        <View style={styles.view}>
+        <Image style={styles.img1} source={require('../../../assets/Image/rupay.png')}/>
+        <Text style={styles.text}>{price}</Text>
+        <Text style={styles.text1}>( Approximate Price )</Text>
         </View>
         <View style={{padding:20}}>
-          <View style={{
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowRadius: 8,
-        shadowOffset: { height: 2, width: 0 },
-        elevation: 5,
-        borderRadius: 10,
-        backgroundColor: 'white',
-        paddingVertical: 20,
-        width:'100%',
-        paddingHorizontal:10
-        }}>
-          <View style={{
-            alignItems:'center',
-            justifyContent:'space-between',
-            flexDirection:'row',
-            width:'100%'
-            }}>
-        <Text style={{fontSize:15,color:'#052a47',fontFamily:'Acephimere',marginLeft:20}}>PRODUCT DESCRIPTION</Text>
-        <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
-        <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
-        </TouchableOpacity>
+          <View style={styles.main1}>
+          <View style={styles.main1view}>
+<View style={styles.main1view1}>
+        <Text style={styles.main1view1text}>{description=={description}?{description}:'PRODUCT DESCRIPTION'}</Text>
+        </View>
+   { Details? <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
+    <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
+    </TouchableOpacity>:null}
         </View>
         <View style={{marginLeft:20,marginTop:8}}>
-          <View style={{flexDirection:'row',alignItems:'center'}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Collection :'}</Text>
-             <TextInput
-             style={{height:40,color:'#052a47'}}
-             value={collection}
-             editable={editable}
-             onChangeText={(val)=>setCollection(val)}
-            
-             />
-          </View>
-          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Stock No :'}</Text>
+        <View style={{flexDirection:'row',alignItems:'center',}}>
+             <Text style={styles.cardtext}>{'Name       :      '}</Text>
              <TextInput
              style={{height:40,color:'#052a47'}}
              value={stockNo}
              editable={editable1}
-             onChangeText={(val)=>setStock(val)}
+            onChangeText={(val)=>setStock(val)}
              />
           </View>
           <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
-             <Text style={{color:'#052a47',marginTop:0,fontFamily:'Acephimere',fontSize:13}}>{'Metal :'}</Text>
+             <Text style={styles.cardtext}>{'Stock No :      '}</Text>
              <TextInput
              style={{height:40,color:'#052a47'}}
-             value={metal}
-             editable={editable2}
-             onChangeText={(val)=>setMetal(val)}
+             value={collection}
+            editable={editable}
+             onChangeText={(val)=>setCollection(val)}
+            
              />
+          </View>
+         
+           
+        
+          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
+                <Text style={styles.cardtext}>{'Metal        :     '}</Text>
+             {/* {selector.metaldetails.map((item)=> */}
+            {/* <Text style={{marginTop:10,color:'#052a47'}}>{item.MetalPurity}</Text>  */}
+               <TextInput
+               style={{height:40,color:'#052a47'}}
+               value={demo}
+              editable={editable2}
+              onChangeText={(val)=>setDemo(val)}
+              /> 
+             {/* )} */}
           </View>
         </View>
           </View>
@@ -194,7 +285,7 @@ const SubCategory = ({route}) => {
       <View style={{height:100}}/>
       </ScrollView>
       <View style={{bottom: 0, left: 0, right: 0, position: 'absolute'}}>
-        <TabView />
+        {/* <TabView /> */}
       </View>
     </View>
   );
@@ -233,3 +324,32 @@ const images = [
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
  ]
+
+
+
+
+
+//  const selector2=useSelector(state=>state.categoryDetailData)
+//  const deatails=route.params.Network
+//  console.log('get Product Deatail .....',selector);
+//  console.log('1111120',selector2);
+
+ 
+// //  {deatails?selector:selector2}
+//  const data=[]
+// { deatails? selector.productimages.map((item)=>{
+//    const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+// data.push({
+// image:url,desc:'abcsd'
+// })   
+// console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+//  }):selector2.RetailerFavProduct.map((item)=>{
+//    console.log('categories Details  ........',item);
+//    console.log('1virenddra22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+//    const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+//    data.push({
+//      image:url,desc:'abcsd'
+//    })   
+//  })}

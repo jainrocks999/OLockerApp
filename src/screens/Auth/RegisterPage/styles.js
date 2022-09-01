@@ -5,6 +5,18 @@ flex:1,
 backgroundColor:'#f7f7f7'
 
 },
+  headerimg: {
+    backgroundColor: '#052a47',
+    paddingVertical: 50,
+    alignItems: 'center',
+    borderBottomEndRadius: 100,
+    borderBottomStartRadius: 100,
+  },
+  line: {
+    borderBottomWidth: 1,
+    marginHorizontal:Platform.OS=='android'?240:270,
+    marginLeft: 12,
+  },
 view:{
   paddingVertical:10,
   borderWidth:1,
@@ -19,6 +31,7 @@ main:{
 },
 text:{
     fontSize:20,
+    color: '#474747'
    // marginTop:-100,
    
 
@@ -45,7 +58,8 @@ card: {
     
     marginLeft: 0,
     paddingVertical: 10,
-    width:'100%'
+    width:'100%',
+    color: '#474747'
     //color: colors.textColor,
   },
   input: {

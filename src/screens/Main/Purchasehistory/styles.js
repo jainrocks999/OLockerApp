@@ -14,8 +14,51 @@ export default StyleSheet.create({
         backgroundColor: '#f0eeee'
 
     },
-
-
+    Main: { 
+        paddingHorizontal: 20, 
+        paddingVertical: 6 
+    },
+    Maintext: { 
+        marginTop: 4, 
+        color: '#565656', 
+        fontFamily: 'Acephimere', 
+    },
+    cardv: { 
+        backgroundColor: '#fff', 
+        marginTop: 10, 
+        flexDirection: 'row', 
+        paddingHorizontal: 15, 
+        paddingVertical: 15 
+    },
+    cardvi: { 
+        width: 100, 
+        height: 90, 
+        borderWidth: 1 
+    },
+    cardviimg: { 
+        height: '100%', 
+        width: '100%' 
+    },
+    bottom1: { 
+        width: '100%', 
+        alignItems: 'flex-end', 
+        marginTop: -89 ,
+        marginLeft:0,
+    },
+    bottom1View: {
+        backgroundColor: '#24a31e',
+        borderBottomLeftRadius: 13,
+        paddingVertical: 2,
+        paddingHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    bottom1Viewtext: { 
+        fontFamily: 'Roboto-Medium', 
+        fontSize: 11, 
+        color: '#fff',
+         marginBottom: 1 
+    },
     Text1:
     {
        fontWeight: '400',

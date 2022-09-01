@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 const Loyalty = () => {
   const navigation = useNavigation();
   const selector=useSelector(state=>state.Loyalty)
+  console.log('selector12data',selector);
 
   return (
     <View style={styles.container1}>
@@ -27,6 +28,7 @@ const Loyalty = () => {
       source1={require('../../../assets/Fo.png')}
       title={'Loyalty '}
       onPress={() => navigation.goBack()}
+        onPress1={() => navigation.navigate('Message')}
       />
       <ScrollView style={{ flex: 1,paddingHorizontal:10 }}>
         {selector.length>0?<FlatList
@@ -104,9 +106,9 @@ const Loyalty = () => {
           <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
         </View>
       <StatusBar />
-      <View style={{position:'absolute',left:0,right:0,bottom:0}}>
+      {/* <View style={{position:'absolute',left:0,right:0,bottom:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Platform,
+  PermissionsAndroid,
   FlatList,
   Linking
 } from 'react-native';
@@ -17,12 +19,13 @@ import { useSelector,useDispatch } from "react-redux";
 import Loader from '../../../components/Loader';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import RNFetchBlob from 'rn-fetch-blob'
 const Mycustomer = () => {
   const navigation = useNavigation();
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.User)
-  console.log('this is selector data',selector);
+  const selector1=useSelector(state=>state.PurchaseHistory)
+  console.log('this is selector data23',selector);
   const dispatch=useDispatch()
 const manageFeedback=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
@@ -33,7 +36,61 @@ const manageFeedback=async()=>{
       navigation
     });
   }
+  const actualDownload = () => {
+    const { dirs } = RNFetchBlob.fs;
+    const date=new Date();
+    const configOptions = Platform.select({
+      // ios: {
+      //   fileCache: true,
+      //   title: `data.pdf`,
+      //   path: `${dirs.DocumentDir}/data.pdf`,
+      //   appendExt: 'pdf',
+      // },
+      android: {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          mediaScannable: true,
+          title: `data34.pdf`,
+          path:  `${dirs.DownloadDir+"/me_" +Math.floor(date.getTime() + date.getSeconds() / 2)}.pdf`          // path: `${dirs.DownloadDir}/data.pdf`,
+     //   path: `${dirs.DocumentDir}/data.pdf`,
 
+        },
+      },
+    });
+{console.log('hghghmhlkrhlkrhr',configOptions);}
+try{
+    RNFetchBlob.config(configOptions)
+    .fetch('GET', `http://samples.leanpub.com/thereactnativebook-sample.pdf`, {})
+      // .fetch('GET', `https:\/\/ekyatraterapanth.com\/adminpanel\/assets\/doc\/terapanth_ka_itihaas_part_1.pdf`, {})
+      .then((res) => {
+
+        console.log('higiidgdigzigz',res.path());
+
+      })
+    } catch(e) {
+        console.log('ffflkkf',e);
+      };
+  }
+
+  const downloadFile = async () => {
+    if (Platform.OS == 'ios') {
+      actualDownload();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('ggergewg',granted);
+          actualDownload();
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.log('sdbmkbmksglbm',err);
+      }
+    }
+  }
 
   return (
     <View style={styles.container1}>
@@ -43,6 +100,7 @@ const manageFeedback=async()=>{
         source2={require('../../../assets/La.png')}
         title={'My Customers Profile'}
         onPress={() => navigation.goBack()}
+        onPress1={() => navigation.navigate('Message')}
       />
       {isFetching?<Loader/>:null}
       <ScrollView>
@@ -56,12 +114,18 @@ const manageFeedback=async()=>{
           flexDirection: 'row',
         }}>
         <View style={{width: '30%', height: 100, }}>
+            {selector.ImageLocation? 
+           
           <Image 
           style={{height: '100%', width: 100 }}
           source={{
             uri: `${ImagePath.Path}${selector.ImageLocation}`,
           }}
-          />
+              /> : <Image
+                style={{ height: 80, width: 100,}}
+                source={require('../../../assets/demo.png')} />
+              
+          }
         </View>
         <View style={{width: '70%', paddingHorizontal: 10}}>
           <View style={{flexDirection: 'row',alignItems:'center'}}>
@@ -158,7 +222,7 @@ const manageFeedback=async()=>{
               }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
-                  style={{height: 35, width: 35,tintColor:'#032e63'}}
+                  style={{height: 35, width: 35,}}
                   source={require('../../../assets/Image/handFeed.png')}
                 />
               </View>
@@ -188,16 +252,16 @@ const manageFeedback=async()=>{
               </View>
               <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Message Box</Text>
             </TouchableOpacity>
-            <View
+            {/* <View
               style={{
                 borderWidth: 0.3,
                 height: '100%',
                 borderColor: 'grey',
                 marginTop: 0,
               }}
-            />
+            /> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               //    onPress={()=>navigation.navigate('SentRequest')}
               style={{
                 paddingVertical: 20,
@@ -212,7 +276,7 @@ const manageFeedback=async()=>{
                 />
               </View>
               <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Edit Profile</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <View style={{marginTop: 20,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
@@ -226,11 +290,25 @@ const manageFeedback=async()=>{
       </View>
       <View>
         <FlatList
-          data={data}
+          data={selector1}
           renderItem={({item}) => (
             <View style={{backgroundColor:'#fff',marginTop:10,flexDirection:'row',paddingHorizontal:15,paddingVertical:15}}>
-                <View style={{width:'30%',height:90,borderWidth:1}}>
-                  <View style={{width:'100%',alignItems:'flex-end'}}>
+              {console.log('xmv', `${ImagePath.Path}/${item.url.substring(1)}`)}
+                <View style={{width:100,height:90,borderWidth:1}}>
+                  
+                  {/* <Image 
+                        style={{height: '100%', width: 100 }}
+                        source={{
+                          uri: ` ${ImagePath.Path}/${item.url.substring(1)}`,
+                        }}
+                      /> */}
+                <Image
+                  style={{ width: '100%', height: '100%',}}
+                  source={{
+                    uri: `${ImagePath.Path}/${item.url.substring(1)}`
+                  }} />
+                     
+                      <View style={{width:'100%',alignItems:'flex-end',marginTop:-89}}>
                     <View style={{
                       backgroundColor:'#24a31e',
                       borderBottomLeftRadius:13,
@@ -240,21 +318,25 @@ const manageFeedback=async()=>{
                       justifyContent:'center'
                     }}>
                       <Text style={{fontFamily:'Roboto-Medium',fontSize:11,color:'#fff',marginBottom:1}}>INSURED</Text>
+                      
                     </View>
+
                   </View>
                 </View>
                 <View style={{width:'70%',paddingHorizontal:8}}>
                     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={{color:'#343434',fontFamily:'Acephimere'}}>{`ITEM ID   ${item.itemId}`}</Text>
+                        <Text style={{color:'#343434',fontFamily:'Acephimere',fontSize:12}}>{`ITEM ID  ${item.PolicyNo}`}</Text>
                         <View style={{flexDirection:'row'}}>
-                        <Image style={{width:16,height:16}} source={require('../../../assets/Image/rupay.png')}/>
-                        <Text style={{color:'#343434',fontFamily:'Acephimere'}}>{item.price}</Text>
+                        <Image style={{width:14,height:14}} source={require('../../../assets/Image/rupay.png')}/>
+                        <Text style={{marginTop:-1,color:'#343434',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.EstValue}</Text>
                         </View>
                     </View>
-                    <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.date}`}</Text>
-                    <View style={{justifyContent:'flex-end',alignItems:'flex-end'}}>
+                    <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.PurchaseDate}`}</Text>
+                  {Platform.OS=='android'?  <TouchableOpacity style={{justifyContent:'flex-end',alignItems:'flex-end'}}
+                    onPress={()=>downloadFile()}
+                    >
                         <Image style={{height:60,width:40}} source={require('../../../assets/Image/pdf.png')}/>
-                    </View>
+                    </TouchableOpacity>:<View/>}
                 </View>
             </View>
           )}
@@ -262,9 +344,9 @@ const manageFeedback=async()=>{
       </View>
       <View style={{height: 180}} />
       </ScrollView>
-      <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
+      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
-      </View>
+      </View> */}
     </View>
   );
 };

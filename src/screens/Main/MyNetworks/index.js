@@ -16,15 +16,15 @@ import { useSelector,useDispatch } from 'react-redux';
 import Loader from "../../../components/Loader";
 import { TextInput } from 'react-native-gesture-handler';
 import ImagePath from '../../../components/ImagePath';
+import AsyncStorage from '@react-native-community/async-storage';
 const HomeScreen = () => {
    const navigation=useNavigation()
-   const selector=useSelector(state=>state.NetworkList)
-   console.log('this is selector data',selector);
+  const selector = useSelector(state => state.NetworkList1)
    const isFetching=useSelector(state=>state.isFetching)
    const [search,setSearch]=useState('')
    const [filteredDataSource, setFilteredDataSource] = useState(selector);
    const [masterDataSource, setMasterDataSource] = useState(selector);
- 
+    console.log('vmm',selector);
    const searchFilterFunction = text => {
      if (text) {
        const newData = masterDataSource.filter(function (item) {
@@ -49,8 +49,16 @@ const HomeScreen = () => {
  
 
    const dispatch=useDispatch()
-  const manageProfile=(id)=>{
-    console.log('this is id for supplier',id);
+  const manageProfile=async(id)=>{ 
+    AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    console.log('storage id for supplier',id);
+      dispatch({
+        type: 'Partner_Catalogue_Request',
+        url:'GetPartnerCatalogueCategories',
+        SupplierSrNo:id,
+        navigation
+      });
+    
     dispatch({
       type: 'Get_Profile_Request',
       url: 'GetSupplierProfile',
@@ -89,10 +97,11 @@ const HomeScreen = () => {
                 alignItems:'center',
                 height:35,
                 }}>
-                <Image style={{height:13,width:20,marginBottom:0}} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
+                <Image style={{height:13,width:20,marginBottom:0,tintColor:'#474747' }} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
                 <TextInput
                  placeholder='Search'
-                 style={{fontFamily:'Acephimere',fontSize:13,height:34,marginTop:4,width:'100%'}}
+                 placeholderTextColor={'#474747'}
+                 style={{fontFamily:'Acephimere',fontSize:13,height:34,marginTop:4,width:'100%',color:'#474747' }}
                  value={search}
                  onChangeText={(val)=>searchFilterFunction(val)}
                 />
@@ -108,12 +117,18 @@ const HomeScreen = () => {
              <TouchableOpacity 
              onPress={()=>manageProfile(item.SupplierSrNo)}
              style={{width:'47%',margin:5,borderRadius:20,height:200,marginTop:0}}>
-               <View style={{backgroundColor:'red',height:120,borderTopRightRadius:10,borderTopLeftRadius:10}}>
+               <View style={{height:120,borderTopRightRadius:10,borderTopLeftRadius:10}}>
+              { item.SupplierImage==null?
+                 <Image
+                   style={{ width: '100%', height: 120, borderTopRightRadius: 10, borderTopLeftRadius: 10}}
+                   resizeMode='stretch'
+               source={require('../../../assets/demo.png')} />:
                <Image
                   style={{height: 120, width: '100%',borderTopRightRadius:10,borderTopLeftRadius:10}}
                   resizeMode='stretch'
                   source={{uri: `${ImagePath.Path}${item.SupplierImage}`}}
                 />
+              }
                </View>
                <View style={{
                  backgroundColor:'#fff',
@@ -129,14 +144,16 @@ const HomeScreen = () => {
                  >{item.SupplierName}</Text>
                  <Text style={{fontFamily:'Acephimere',color:'#666666',fontSize:12}}>{item.CityName}</Text>
                </View>
+             {console.log('supplier id', item)}
              </TouchableOpacity>
          )}
+        
          />
          {/* <View style={{height:300}}/> */}
       </View>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

@@ -91,9 +91,9 @@ const HomeScreen = () => {
            <Text style={{color:'#fff',fontSize:16,fontFamily:'Roboto-Medium'}}>Send new message</Text>
          </TouchableOpacity>
       </View>  
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );

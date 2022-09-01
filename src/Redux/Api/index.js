@@ -2,6 +2,24 @@ import axios from 'axios';
 import Constants from '../Constants';
 
 export default class Api {
+  static fetchDataByPOST1 = async (url, data) => {
+    try {
+      console.log('ssaaaaa',url,data);
+      const response = await axios({
+        method: 'POST',
+        headers: { 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl + url,
+        data:data,
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+
   static fetchDataByPOST = async (url, data) => {
     try {
       const response = await axios({
@@ -20,6 +38,7 @@ export default class Api {
 
   static fetchDataByGET = async (url,data) => {
     try {
+      console.log('virendra',data,url);
       const response = await axios({
         method: 'GET',
         headers: { 
@@ -50,17 +69,67 @@ export default class Api {
   };
 
   static fetchDataByGET1 = async (url,data) => {
+    console.log("bbbb",url,data);
+    console.log('aaaaa',Constants.MainUrl1 + url);
     try {
       const response = await axios({
         method: 'GET',
         headers: { 
+          'Content-Type': 'application/json', 
           'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
         },
         url: Constants.MainUrl1 + url,
-        params:data        
+        params:data 
+               
       });
       return response.data;
-    } catch (error) {
+      
+    } 
+    catch (error) {
+      console.log('vvvvv',error);
+      throw error;
+    }
+  };
+  static fetchDataByGET3 = async (url) => {
+    // console.log("vkm",url);
+    // console.log('vkm12300',Constants.MainUrl3 + url);
+    try {
+      const response = await axios({
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl3 + url,
+               
+      });
+      return response;
+      
+    } 
+    catch (error) {
+      console.log('vvvvv',error);
+      throw error;
+    }
+  };
+  static fetchDataByGET4 = async (url,data) => {
+    console.log("vkm2211",url,data);
+    console.log('vkm00',Constants.MainUrl3 + url);
+    try {
+      const response = await axios({
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl3 + url,
+        params:data     
+      });
+      console.log('virendra',response.data);
+      return response;
+      
+    } 
+    catch (error) {
+      console.log('vvvvv',error);
       throw error;
     }
   };

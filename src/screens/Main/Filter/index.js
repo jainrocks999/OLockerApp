@@ -1,15 +1,13 @@
 import React, {useState, useCallback} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-// import RangeSlider from 'rn-range-slider';
-// import RangeSlider from 'react-native-range-slider'
 import {useNavigation} from '@react-navigation/native';
 import Label from '../../../components/Slider/Label';
 import Notch from '../../../components/Slider/Notch';
 import Rail from '../../../components/Slider/Rail';
 import RailSelected from '../../../components/Slider/RailSelected';
 import Thumb from '../../../components/Slider/Thumb';
-import Slider from 'rn-range-slider';
+
 import styles from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -220,7 +218,7 @@ const Filter = () => {
           Value
         </Text>
         <View style={[styles.root]}>
-          <Slider
+          {/* <Slider
             style={styles.slider}
             min={min}
             max={max}
@@ -231,7 +229,7 @@ const Filter = () => {
             renderLabel={renderLabel}
             renderNotch={renderNotch}
             onValueChanged={handleValueChange}
-          />
+          /> */}
         </View>
         <Text
           style={{
@@ -244,7 +242,7 @@ const Filter = () => {
           Weight
         </Text>
         <View style={[styles.root]}>
-          <Slider
+          {/* <Slider
             style={styles.slider}
             min={min}
             max={max}
@@ -255,7 +253,7 @@ const Filter = () => {
             renderLabel={renderLabel}
             renderNotch={renderNotch}
             onValueChanged={handleValueChange}
-          />
+          /> */}
         </View>
         <Text
           style={{
@@ -268,7 +266,7 @@ const Filter = () => {
           Making Percentage
         </Text>
         <View style={[styles.root]}>
-          <Slider
+          {/* <Slider
             style={styles.slider}
             min={min}
             max={max}
@@ -279,7 +277,7 @@ const Filter = () => {
             renderLabel={renderLabel}
             renderNotch={renderNotch}
             onValueChanged={handleValueChange}
-          />
+          /> */}
         </View>
       </View>
       <View style={{height:100}}/>

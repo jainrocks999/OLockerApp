@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,52 +7,48 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  Linking
+  Linking,
+  Share 
 } from 'react-native';
 import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
 import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
-import Carousel from 'react-native-banner-carousel';
 import Stars from 'react-native-stars';
 import styles from './styles';
 import Catalogue from '../../../components/Catalogue';
 import Profile from '../../../components/Profile';
 import Setting from '../../../components/Settings';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import Loader from '../../../components/Loader';
-import Banner from '../../../components/Banner';
-import {FlatListSlider} from 'react-native-flatlist-slider';
 import ImagePath from '../../../components/ImagePath';
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const HomeScreen = () => {
    const navigation=useNavigation()
+   const dispatch=useDispatch()
    const [profile,setProfile]=useState(true)
    const [message,setMessage]=useState(false)
    const [catalogue,setCatalogue]=useState(false)
    const [setting,setSetting]=useState(false)
    const isFetching=useSelector(state=>state.isFetching)
    const selector=useSelector(state=>state.ProfileData)
-   console.log('this is selector response',selector);
+   const selector1 = useSelector(state => state.Catalogue)
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
+  console.log('virendramishra45', selector);
+  selector.Images.map((item)=>{
+    console.log('virendramishra1254',`${ImagePath.Path}/${item.ImageUrl}`);
+  })
+   
+const share =async()=>{
+  await Share.share({
+    message: `Supplier Name : ${selector.Profile.SupplierName}  Email Address : ${selector.Profile.EmailId} `
+  })
+}
 
-   const renderPage = (image, index) => {
-    return (
-      <View style={{width: '100%'}} key={index}>
-        <Image
-          style={{
-            width: BannerWidth,
-            height: BannerHeight,
-            borderWidth: 1,
-            borderRadius: 15,
-          }}
-          source={{uri: image}}
-        />
-      </View>
-    );
-  };
   const manageTab=()=>{
       setProfile(true)
       setMessage(false)
@@ -78,6 +74,32 @@ const manageTab3=()=>{
   setSetting(true)
 }
 
+const addToNetwork=async()=>{
+
+  const srno=await AsyncStorage.getItem('Partnersrno')
+    axios({
+      method: "POST",
+      url:`https://api.myjeweller.in/api/Partner/AddSupplier`,
+      headers: { 
+        'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+        "Content-Type":'application/json'
+      },
+      data:JSON.stringify({
+          PartnerSrno: srno,
+          SupplierCode: JSON.ScrollView(selector.Profile.SupplierCode)
+      })
+    })
+    .then(res => {
+      console.log('this is ressxddsfgds  g  fadf   ',res.data);
+      if(res.data.success==true){
+     console.log('this isi response data from rerndrs',res.data);
+      }
+    })
+    .catch(err => {
+      console.log("error in request", err);
+    }); 
+  }
+
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
@@ -94,17 +116,25 @@ const manageTab3=()=>{
         }}>
           <View style={{flexDirection:'row',padding:15,width:'100%'}}>
             <View style={{backgroundColor:'#fff',height:100,width:'30%',borderRadius:10}}>
-              {selector.Images.map((item)=>
-              item.Type=='Logo'?
-              <Image
-              style={{height: '100%', width: 100 ,borderRadius:10}}
-              resizeMode={'stretch'}
-              source={{
-                uri: `${ImagePath.Path}${item.ImageUrl}`,
-              }}
-            />:null
+              {/* {selector.Images==[]? */}
+              {selector.Images.map((item) =>
+                item.Type == 'Logo' ?
+                  <Image
+                    style={{ height: '100%', width: '100%', borderRadius: 10 }}
+                    resizeMode={'stretch'}
+                    source={{
+                      uri: `${ImagePath.Path}${item.ImageUrl}`,
+                    }}
+                  /> : null
               )}
-            
+
+              {/* //  :
+              //   <Image
+              //   style={{ width: '100%', height: 100, borderRadius: 10 }}
+              //   resizeMode='center'
+              //   source={require('../../../assets/demo.png')} />
+              // }
+              */}
             </View>
             <View style={{marginLeft:10,width:'60%',marginTop:-4}}>
               <Text style={{color:'#fff',fontSize:19,fontFamily:'Acephimere'}}>{selector.Profile.SupplierName}</Text>
@@ -131,49 +161,30 @@ const manageTab3=()=>{
                       style={{alignItems:'center',justifyContent:'center'}}>
                        <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/16.png')}/>
                      </TouchableOpacity>
-                     <View style={{alignItems:'center',justifyContent:'center',marginLeft:10}}>
+                     <TouchableOpacity 
+                      onPress={()=>share()}
+                     style={{alignItems:'center',justifyContent:'center',marginLeft:10}}>
                      <Image style={{width:30,height:30}} source={require('../../../assets/PartnerImage/15.png')}/>
-                     </View>
+                     </TouchableOpacity>
                 </View>
               </View>
             </View>
           </View>
           <View style={{alignItems:'center',justifyContent:'center',marginTop:10}}>
-              <TouchableOpacity style={{
+              <TouchableOpacity
+              // onPress={()=>addToNetwork()}
+               style={{
                 backgroundColor:'#ea056c',
                 paddingHorizontal:20,
                 paddingVertical:10,
                 borderRadius:20
                 }}>
-                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>ADD TO NETWORK</Text>
+                <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}> Added To Network</Text>
               </TouchableOpacity>
           </View>
 
           <View style={{alignItems: 'center', height: 0,marginTop:15}}>
-          {/* <Carousel
-            autoplay
-            autoplayTimeout={5000}
-            loop
-            index={0}
-            pageSize={BannerWidth}>
-            {images.map((image, index) => renderPage(image, index))}
-          </Carousel> */}
-          {/* <FlatListSlider
-            data={images}
-            height={200}
-            timer={5000}
-            // onPress={item => alert(JSON.stringify(item))}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:50}}
-            indicatorContainerStyle={{position:'absolute', bottom: 10}}
-            indicatorActiveColor={'#032e63'}
-            indicatorInActiveColor={'#ffffff'}
-            indicatorActiveWidth={5}
-            animation
-            component={<Banner/>}
-            separatorWidth={15}
-            width={300}
-            autoscroll={false}
-        /> */}
+
         </View>
        
           <View style={{height:20}}/>
@@ -231,63 +242,19 @@ const manageTab3=()=>{
         </View>
         <View style={{marginTop:10}}>
           {profile==true?<Profile/>:null}
-          {/* {message==true?<Message/>:null} */}
           {catalogue==true?<Catalogue/>:null}
           {setting==true?<Setting/>:null}
 
         </View>
        <View style={{height:70}}/>
       </ScrollView>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
+      </View> */}
       <StatusBar/>
     </View>
   );
 };
 export default HomeScreen;
-const data=[
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
-    {image:'',name:'RC Bafna Jewllers',city:'Mumbai',time:'17 Minutes ago'},
-]
 
 
-const images = [
-  {
-    image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-    desc:
-      'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-  },
- {
-   image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-   desc:
-     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
- },
- {
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-  desc:
-    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-},
-{
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-  desc:
-    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-},
-{
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-  desc:
-    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-},
-{
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-  desc:
-    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-},
-{
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-  desc:
-    'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-},
-
- ]

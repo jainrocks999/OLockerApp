@@ -37,7 +37,7 @@ const Profile=()=>{
                </TouchableOpacity>
                <View style={{flexDirection:'row'}}>
               {selector.Images.map((item)=>
-                  item.Type=='Owner Image'?
+               item.Type == 'Owner Image' ?
                    <View style={{
                     flexDirection:'row',
                     justifyContent:'space-between',
@@ -45,10 +45,12 @@ const Profile=()=>{
                     width:'35%',
                     paddingVertical:20
                     }}>
+                    {console.log('bire', `${ImagePath.Path}/${item.ImageUrl}`)}
+
                     <View style={{width:'90%',alignItems:'center'}}>
                         <View style={{height:100,width:'100%',borderWidth:1}}>
                         <Image 
-                        style={{height:97,width:'100%'}}
+                        style={{height:'100%',width:'100%'}}
                         resizeMode={'stretch'}
                         source={{
                           uri: `${ImagePath.Path}${item.ImageUrl}`,

@@ -62,7 +62,7 @@ const Settings=()=>{
                     </View>
                 </View>                
             </View>
-            <View style={{
+            {/* <View style={{
                 flexDirection:'row',
                 alignItems:'center',
                 justifyContent:'space-between',
@@ -95,7 +95,7 @@ const Settings=()=>{
                         <Text style={{color:'#e9056b',fontFamily:'Acephimere',fontSize:12}}>{'PREMIUM'}</Text>
                     </View>
                 </View>                
-            </View>
+            </View> */}
         </View>
     )
 }

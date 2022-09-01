@@ -18,9 +18,9 @@ const loginValidationSchema = yup.object().shape({
   homeAddress:yup.string().required('Please enter home address'),
   email: yup.string().required('Please enter your email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid email address'),
   password: yup.string().required('Please enter your password'),
-  companygsTin:yup.string().required('Please enter company gs tin'),
-  stateName:yup.string(),
-  cityName:yup.string(),
+  companygsTin: yup.string().required('Please enter company GSTIN').matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,'Please enter valid GSTIN number'),
+  stateName: yup.string().required('Please select State'),
+  cityName: yup.string().required('Please select City'),
   pincode:yup.string().required('Please enter pincode'),
   mobile:yup.string().required('Please enter mobile number')
 });
@@ -34,7 +34,7 @@ const Login = () => {
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
   const [gstin,setGstin]=useState('')
-  const [state,setState]=useState('')
+  const [userstate,setUsserstate]=useState('')
   const [city,setCity]=useState('')
   const [pincode,setPincode]=useState('')
   const [mobile,setMobile]=useState('')
@@ -68,11 +68,12 @@ console.log('this is values detail',values);
     })
   })
   .then(res => {
+    console.log('responcse',res.data);
     if(res.data.success==true){
       Toast.show('Registration successful')
       navigation.navigate('Login')
     }
-    console.log("res", res.data);
+    //console.log("res", res.data);
   })
   .catch(err => {
     console.log("error in request", err);
@@ -114,13 +115,7 @@ console.log('this is values detail',values);
             contentContainerStyle={{flex: 1}}>
 
       <View
-        style={{
-          backgroundColor: '#052a47',
-          paddingVertical: 50,
-          alignItems: 'center',
-          borderBottomEndRadius: 100,
-          borderBottomStartRadius: 100,
-        }}>
+        style={styles.headerimg}>
         <Image
           style={{marginTop: 40}}
           source={require('../../../assets/ol.png')}
@@ -132,17 +127,14 @@ console.log('this is values detail',values);
             <Text style={styles.text}>Register</Text>
           </View>
           <View
-            style={{
-              borderBottomWidth: 1,
-              marginHorizontal: 240,
-              marginLeft: 12,
-            }}
+            style={styles.line}
           />
           <View style={[styles.input, {marginTop: 20}]}>
            
             <TextInput 
             style={styles.input1}
             placeholder="Enter Company Name"
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('companyName')}
             onBlur={handleBlur('companyName')}
             value={values.companyName}
@@ -158,6 +150,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Display Name" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('displayName')}
             onBlur={handleBlur('displayName')}
             value={values.displayName}
@@ -173,6 +166,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Owner Name" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('ownerName')}
             onBlur={handleBlur('ownerName')}
             value={values.ownerName}
@@ -188,6 +182,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Home Address" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('homeAddress')}
             onBlur={handleBlur('homeAddress')}
             value={values.homeAddress}
@@ -202,6 +197,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Email Address" 
+            placeholderTextColor={'grey'}
             keyboardType='email-address'
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
@@ -218,6 +214,7 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Password" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
@@ -232,7 +229,8 @@ console.log('this is values detail',values);
           
             <TextInput 
             style={styles.input1} 
-            placeholder="Enter CompanyGsTin" 
+            placeholder="Enter Company GSTIN" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('companygsTin')}
             onBlur={handleBlur('companygsTin')}
             value={values.companygsTin}
@@ -245,7 +243,7 @@ console.log('this is values detail',values);
           </View>
           <View style={[styles.input, {marginTop: 10}]}>
              <RNPickerSelect
-                onValueChange={(val)=>setState(val)}
+                onValueChange={(val)=>setUsserstate(val)}
                 items={State}
                 style={{
                   inputAndroid: { 
@@ -259,7 +257,7 @@ console.log('this is values detail',values);
                     color: '#474747', 
                     width: '100%', 
                     fontSize: 14, 
-                    marginBottom: -1,
+                    marginBottom: 10,
                     fontFamily:'Acephimere' 
                   },
                   placeholder: { color: 'grey', 
@@ -268,7 +266,7 @@ console.log('this is values detail',values);
                   fontFamily:'Acephimere' 
                 },
               }}
-                value={values.stateName}  
+                value={values.userstate}  
                 useNativeAndroidPickerStyle={false}
                 placeholder={{ label: 'Select State', value: ''}}
                
@@ -281,7 +279,7 @@ console.log('this is values detail',values);
           </View>
           <View style={[styles.input, {marginTop: 10}]}>
             <RNPickerSelect
-                onValueChange={val =>setCity(val)}
+               
                 items={City}
                 style={{
                   inputAndroid: { 
@@ -295,7 +293,7 @@ console.log('this is values detail',values);
                     color: '#474747', 
                     width: '100%', 
                     fontSize: 14, 
-                    marginBottom: -1,
+                    marginBottom: 10,
                     fontFamily:'Acephimere' 
                   },
                   placeholder: { 
@@ -305,7 +303,8 @@ console.log('this is values detail',values);
                     fontFamily:'Acephimere' 
                   },
               }}
-                value={values.cityName}  
+                value={values.city} 
+                onValueChange={val =>setCity(val)} 
                 useNativeAndroidPickerStyle={false}
                 placeholder={{ label: 'Select City', value: ''}}
                
@@ -320,9 +319,11 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Pincode" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('pincode')}
             onBlur={handleBlur('pincode')}
             value={values.pincode}
+            keyboardType='number-pad'
             />
           </View>
           <View style={styles.error}>
@@ -334,9 +335,11 @@ console.log('this is values detail',values);
             <TextInput 
             style={styles.input1} 
             placeholder="Enter Mobile Number" 
+            placeholderTextColor={'grey'}
             onChangeText={handleChange('mobile')}
             onBlur={handleBlur('mobile')}
             value={values.mobile}
+            keyboardType='number-pad'
             />
           </View>
           <View style={styles.error}>
@@ -356,7 +359,7 @@ console.log('this is values detail',values);
                 width: '80%',
                 height: 45,
               }}>
-              <Text>Register New</Text>
+              <Text style={{color: '#474747'}}>Register New</Text>
             </TouchableOpacity>
           </View>
           <View style={{height: 40}} />

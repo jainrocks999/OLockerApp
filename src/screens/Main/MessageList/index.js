@@ -22,13 +22,69 @@ const manageBusiness=()=>{
   setBusiness(true)
   setCustomer(false)
 }
+const [value,setVlue]=useState(0)
+const [value1,setVlue1]=useState(0)
 const manageCustomer=()=>{
   setCustomer(true)
   setBusiness(false)
 }
+const arr=[44,23,45,67,32,23,43,45,43,24]
+
+const sort=()=>{
+  let i, j,temp;  
+  // for( i = 0; i<10; i++)    
+  // {    
+  //     for(j = i+1; j<10; j++)    
+  //     {    
+  //         if(array[j] > array[i])    
+  //         {    
+  //             temp = array[i];    
+  //             array[i] = array[j];    
+  //             array[j] = temp;  
+             
+  //         }     
+  //     }   
+      
+  // }     
+     
+  // for(i = 0; i<10; i++)    
+  // {    
+  //   setVlue(array[i])  
+     
+  // }   
+ let largest = arr[0];  
+  let  sec_largest = arr[1];  
+    for(i=0;i<arr.length;i++)  
+    {  
+        if(arr[i]>largest)  
+        {  
+            sec_largest = largest;  
+            largest = arr[i];  
+        }  
+        else if (arr[i]>sec_largest && arr[i]!=largest)  
+        {  
+            sec_largest=arr[i];  
+            
+        }  
+    }  
+    setVlue(largest)
+    setVlue1(sec_largest)
+    // printf("largest = %d, second largest = %d",largest,sec_largest);
+}
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
-     <Header
+    {/* //   <TouchableOpacity>
+         <Text>Here is the eelement of array</Text>
+       </TouchableOpacity>
+      <Text>{` ${arr}`}</Text>
+
+       <View style={{width:'100%',alignItems:'center'}}>
+         <TouchableOpacity onPress={()=>sort()} style={{height:40,backgroundColor:'blue',padding:10,marginTop:20}}>
+           <Text style={{color:'#fff'}}>Click to Sort</Text>
+         </TouchableOpacity>
+         </View>
+       <Text>{` ${value } ${value1 }`}</Text> */}
+    <Header
       source={require('../../../assets/L.png')}
       source2={require('../../../assets/La.png')}
       title={'Message Box '}
@@ -106,10 +162,10 @@ const manageCustomer=()=>{
           />:null}
         </View>
       </View>   
-       <View style={{bottom:0,position:'absolute',left:0,right:0}}>
+       {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
-      </View>
-      <StatusBar/>
+      </View> */}
+      <StatusBar/> 
     </View>
   );
 };

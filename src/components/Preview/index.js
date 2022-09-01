@@ -162,6 +162,7 @@ const Preview = ({
            active ? {height: 240,width:240,borderRadius:120}:
             {height:120,width:320,borderRadius:100}]}
        source={{uri: item[imageKey]}}
+       resizeMode='contain'
         />
       </View>
     </TouchableOpacity>
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius:15
+    borderRadius:15,
+    marginLeft:10
   },
   shadow: {
     ...Platform.select({

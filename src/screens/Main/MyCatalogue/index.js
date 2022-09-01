@@ -11,15 +11,20 @@ import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import styles from './styles';
+import Toast from "react-native-simple-toast";
 const MyCatalogue = ({route}) => {
+  const selector4 = useSelector(state => state.Catalogue.Categories)
   const selector=useSelector(state=>state.ProductList)
+  const selector3 = useSelector(state => state.NetworkList1)
   const selector1=useSelector(state=>state.CollectionList)
-  const selector2=useSelector(state=>state.Categories)
+  const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
-  console.log('this is user selector data',selector1);
+  console.log("log102",selector2);
+  console.log('this is user selector data210',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
+  const [data,setUserdata]=useState()
   const dispatch=useDispatch()
   const navigation=useNavigation()
   const BannerWidth = (Dimensions.get('window').width * 8) / 9;
@@ -32,41 +37,54 @@ const MyCatalogue = ({route}) => {
       animated: true,
     });
   }
-  // const images = [
-  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU',
-  //   'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
-  //   'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg',
-  // ];
-  const renderPage = (image, index) => {
-    return (
-      <View style={{width: '100%'}} key={index}>
-        <Image
-          style={{
-            width: BannerWidth,
-            height: BannerHeight,
-            borderWidth: 1,
-            borderRadius: 15,
-          }}
-          source={{uri: image}}
-        />
-      </View>
-    );
-  };
+  const onPressTouch1 = () => {
+    scrollRef.current?.scrollTo({
+      y: 600,
+      animated: true,
+    });
+  }
+  const manageCategory1 = async (id) => {
+    const srno = await AsyncStorage.getItem('Partnersrno')
+    const supplierid = await AsyncStorage.getItem('SupplierId')
+    // console.log('this is user category details', supplierid)
+    dispatch({
+      type: 'GetPartners_Catalogue_Request',
+      url: 'GetPartnerProductsByCatalogueCategory',
+      PartnerSrno: srno,
+      Category: id,
+      supplierId: supplierid,
+      navigation
 
+    });
+  }
+  
 const manageCategory=async(id)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
+  // console.log('this is user category details',id);
+
     dispatch({
       type: 'Get_Category_Request',
-      url: 'GetPartnerProductsByCatalogueCategory',
+      url:'GetProductsByCatalogueCategory',
+     // url: 'GetPartnerProductsByCatalogueCategory',
       PartnerSrno:srno,
       Category:id,
       navigation
     });
   }
-
+  const manageProfile = async (id) => {
+    AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+    // console.log('storage id for supplier', id);
+    dispatch({
+      type: 'Partner_Catalogue_Request',
+      url: 'GetPartnerCatalogueCategories',
+      SupplierSrNo: id,
+      navigation
+    });
+  }
 const manageProduct=()=>{
   setProduct(true)
   setPartner(false)
+ // Myproduct();
 }
 const tabCategory=()=>{
   setPartner(true)
@@ -79,7 +97,7 @@ const scrollToInitialPosition = () => {
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        // source2={require('../../../assets/La.png')}
         title={'My Catalogue '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
@@ -88,27 +106,13 @@ const scrollToInitialPosition = () => {
       <ScrollView 
        ref={scrollRef}
       >
-      <View
-          style={{
-            backgroundColor: '#032e63',
-            width: '100%',
-            borderBottomRightRadius: 60,
-            borderBottomLeftRadius:60,
-          }}>
-         <View style={{alignItems: 'center', height: 200,marginTop:5}}>
-          {/* <Carousel
-            autoplayTimeout={5000}
-            loop
-            index={0}
-            pageSize={BannerWidth}>
-            {images.map((image, index) => renderPage(image, index))}
-          </Carousel> */}
+      <View style={styles.container}>
+         <View style={styles.container1}>
            <FlatListSlider
             data={images}
             height={200}
-            timer={5000}
-            // onPress={item => alert(JSON.stringify(item))}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:10,marginLeft:20,marginRight:50}}
+            timer={3000}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
             indicatorActiveColor={'#032e63'}
             indicatorInActiveColor={'#ffffff'}
@@ -118,9 +122,10 @@ const scrollToInitialPosition = () => {
             separatorWidth={15}
             width={300}
             autoscroll={false}
+            loop={false}
         />
         </View>
-        <View style={{flexDirection:'row',marginTop:40,alignItems:'center',justifyContent:'center'}}>
+        <View style={styles.main}>
             <TouchableOpacity style={{alignItems:'center'}}
              onPress={()=>
               onPressTouch()
@@ -128,41 +133,31 @@ const scrollToInitialPosition = () => {
 
             }
              >
-            <View style={{width:100,height:100,borderRadius:50,backgroundColor:'#fff',borderWidth:1}}>
-              <Image style={{height:100,width:100}} source={require('../../../assets/Image/my.png')}/>
+            <View style={styles.main1}>
+              <Image style={styles.img} source={require('../../../assets/Image/my.png')}/>
             </View>
-             <Text style={{color:'#fff',marginTop:10,
-             fontFamily:'Acephimere'
-             }}>{'MY PRODUCTS'}</Text>
+             <Text style={styles.tt}>{'MY PRODUCTS'}</Text>
             </TouchableOpacity>
-            <View style={{marginLeft:40,alignItems:'center'}}>
-            <View style={{width:100,height:100,borderRadius:50,backgroundColor:'#fff',borderWidth:1}}>
-            <Image style={{height:100,width:95}} source={require('../../../assets/Image/neck.png')}/>
+            <TouchableOpacity 
+            onPress={()=>onPressTouch1()}            
+            style={styles.touch}>
+            <View style={styles.main1}>
+            <Image style={styles.img1} source={require('../../../assets/Image/neck.png')}/>
             </View>
-              <Text style={{color:'#fff',marginTop:10,fontFamily:'Acephimere'}}>{'MY COLLECTIONS'}</Text>
-            </View>
+              <Text style={styles.tt}>{'MY COLLECTIONS'}</Text>
+            </TouchableOpacity>
             
         </View>
-        <View style={{alignItems:'center',justifyContent:'center',marginTop:20}}>
+        <View style={styles.main2}>
                 <TouchableOpacity
-                onPress={()=>navigation.navigate('SelectOption')}
+                 onPress={()=>navigation.navigate('SelectOption')}
                 >
                     <LinearGradient
-                    style={{
-                      paddingHorizontal:15,
-                      paddingVertical:9,
-                      borderRadius:25,
-                      }}
+                    style={styles.liner}
                      colors={['#da062f', '#a90022']} >
-                  <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                  <View style={styles.linerview}>
                   <Image style={{height:22,width:30}} source={require('../../../assets/plus.png')}/>
-                    <Text style={{
-                      color:'#fff',
-                      marginLeft:8,
-                      fontFamily:'Roboto-Medium',
-                      fontWeight:'700',
-                      fontSize:16
-                      }}>{'ADD'}</Text>
+                    <Text style={styles.linert}>{'ADD'}</Text>
                     <View style={{width:30}}/>
                   </View>
                   </LinearGradient>
@@ -171,114 +166,144 @@ const scrollToInitialPosition = () => {
          <View style={{height:28}}/>
         </View>
       
-        <View style={{width:'100%',flexDirection:'row',justifyContent:'space-between',paddingHorizontal:15,marginTop:20}}>
+        <View style={styles.card}>
              <TouchableOpacity
              onPress={()=>manageProduct()}
-              style={{
-                 backgroundColor:product==true?'#032e63':'#fff',
-                 width:'48%',
-                 alignItems:'center',
-                 justifyContent:'center',
-                 borderRadius:20,
-                 paddingVertical:8,
-                 borderColor:'#032e63',
-                 borderWidth:1
-                 }}>
-                 <Text style={{color:product==true?'#fff':'#032e63',fontFamily:'Philosopher-Regular',fontSize:16}}>My Products</Text>
+            style={[styles.cardtouch, { backgroundColor: product == true ? '#032e63' : '#fff', }]}>
+            <Text style={[styles.tcard, { color: product == true ? '#fff' : '#032e63' }]}>My Products</Text>
              </TouchableOpacity>
              <TouchableOpacity
              onPress={()=>tabCategory()}
-             style={{
-                 borderColor:'#032e63',
-                 width:'48%',
-                 alignItems:'center',
-                 justifyContent:'center',
-                 borderRadius:20,
-                 paddingVertical:8,
-                 borderWidth:1,
-                 backgroundColor:partner==true?'#032e63':'#fff'
-                 }}>
-                 <Text style={{color:partner==true?'#fff':'#032e63',fontFamily:'Philosopher-Regular',fontSize:16}}>Partner Categories</Text>
+            style={[styles.cardtouch, { backgroundColor: partner == true ? '#032e63' : '#fff', }]}>
+            <Text style={[styles.tcard, { color: partner == true ? '#fff' : '#032e63' }]}>Partner Categories</Text>
              </TouchableOpacity>
         </View>
+        {/* {console.log('axxmmx',data)} */}
+
         <View style={{marginTop:10}}>
             {product==true?<FlatList
-            data={selector}
-            numColumns={3}
-            renderItem={({item})=>(
-                <TouchableOpacity
-                onPress={()=>manageCategory(item.Id)}
-              style={{
-                width: '33.3%',
-                alignItems: 'center',
-                height: 160,
-                backgroundColor:'#fff',
-                borderWidth:0.3
-              }}>
-                 
-                 <Image
-                style={{height: 100, width: '100%', }}
-                resizeMode={'stretch'}
-                source={{
-                  uri: `${ImagePath.Path}${item.CategoryImage}`,
-                }}
-              />
-              <View style={{marginTop:5,alignItems:'center'}}>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#032e63',fontWeight:'700'}}>{item.CategoryName}</Text>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#0d0d0d'}}>{`${item.TotalItems} Items`}</Text>
-              </View>
-              </TouchableOpacity>
-            )}
-            />:null}
-            {partner==true?<FlatList
             data={selector2}
             numColumns={3}
             renderItem={({item})=>(
                 <TouchableOpacity
-                // onPress={()=>manageCategory(item.Id)}
-              style={{
-                width: '33.3%',
-                alignItems: 'center',
-                height: 160,
-                backgroundColor:'#fff',
-                borderWidth:0.3
-              }}>
-                 <View>
-                {item.CategoryImage? <Image
-                style={{height: 100, width: 118, }}
+                onPress={()=>manageCategory(item.Id)}
+                // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
+              style={styles.card1}>
+                {console.log('zzz2222',item)}
+                 <Image
+                style={styles.card1img}
                 // resizeMode={'stretch'}
                 source={{
                   uri: `${ImagePath.Path}${item.CategoryImage}`,
                 }}
-              />:<View style={{height:100}}/>}
-              <View style={{marginTop:5,alignItems:'center'}}>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#032e63',fontWeight:'700'}}>{item.CategoryName}</Text>
-              <Text style={{fontFamily:'Acephimere',fontSize:14,color:'#0d0d0d'}}>{`${item.TotalItems} Items`}</Text>
-              </View>
+              />
+              <View style={styles.card1v}>
+              <Text style={[styles.card1t,{color:'#032e63',fontWeight:'700'}]}>{item.CategoryName}</Text>
+                  <Text style={[styles.card1t, {color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
               </View>
               </TouchableOpacity>
             )}
             />:null}
+
+          {partner==true ?<Text style={styles.partnert}>MY Supplier List</Text>
+          :null}
+            {partner==true?  
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              data={selector3}
+              //numColumns={2}
+              style={{ margin: 10, marginTop:0, marginBottom:0 }}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => 
+                    manageProfile(item.SupplierSrNo)}
+                  style={styles.card2}>
+                    {/* {console.log('abvds',item)} */}
+                  <View style={styles.card2v}>
+                    {item.SupplierImage == null ?
+                    <Image
+                        style={styles.card2img}
+                        resizeMode='cover'
+                        source={require('../../../assets/demo.png')} />:
+                    <Image
+                        style={styles.card2img}
+                      resizeMode='stretch'
+                      source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
+                      /> 
+                  }
+                  </View>
+                  <View style={styles.card2v1}>
+                    <Text
+                      style={styles.card2v1t}
+                    >{item.SupplierName}</Text>
+                    {/* <Text style={{ fontFamily: 'Acephimere', color: '#666666', fontSize: 12 }}>{item.CityName}</Text> */}
+                  </View>
+                  {/* {console.log('supplier id 3r', item)} */}
+                </TouchableOpacity>
+              )}
+
+            />:null}
+          
+         {partner==true? <Text style={styles.partnert}>Partner Categories List</Text> :null}
+       
+         {selector4 !=undefined ?
+          (partner === true? selector4.length>0? 
+         ( <FlatList
+            data={selector4}
+            numColumns={3}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+
+                onPress={() => 
+                  manageCategory1(item.Id)}
+                // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
+                style={styles.card1}>
+                {/* {console.log('zzz', item)} */}
+                <Image
+                  style={styles.card1img}
+                  // resizeMode={'stretch'}
+                  source={{
+                    uri: `${ImagePath.Path}${item.CategoryImage}`,
+                  }}
+                />
+                <View style={styles.card1v}>
+                  <Text style={[styles.card1t, { color: '#032e63', fontWeight: '700' }]}>{item.CategoryName}</Text>
+                  <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />)
+          
+          :(Toast.show('dddd')):null):null}
         </View>
         <View style={{backgroundColor:'#fff'}}>
-          <View style={{alignItems:'center',paddingVertical:20}}>
-             <Text style={{fontSize:20,fontFamily:'Philosopher-Regular',color:'#032e63'}}>My Collections</Text>
+          <View style={styles.card3}>
+             <Text style={styles.card3t}>My Collections</Text>
           </View>
           <View style={{marginTop:10}}>
           <FlatList
             data={selector1}
             renderItem={({item})=>(
-              <View
-              style={{
-                // width: '100%%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 180,
-                // backgroundColor:'#fff',
-                borderWidth:.5
-              }}>
-                 
-                 <Text>{item.Name}</Text>
+              <View style={styles.card3v}>
+                {/* {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)} */}
+                <Text style={styles.card3vt}>{item.Name}</Text>
+                {item.CollectionImage == null ?
+
+                  <Image
+                    style={{ width: '30%', height: 100, }}
+                    resizeMode='center'
+                    source={require('../../../assets/demo.png')} /> :
+                  <Image
+                    style={styles.card3vimg}
+                     resizeMode='stretch'
+                    source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
+
+                  />
+                }
+
+                {/* {console.log('jkkk',`${ImagePath.Path}${item.CollectionImage}`)}  */}
+                
                 {/* <Image
                   style={{height: 160, width: '100%', }}
                   resizeMode={'stretch'}
@@ -296,7 +321,7 @@ const scrollToInitialPosition = () => {
 
       </ScrollView>
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
-        <TabView />
+        {/* <TabView /> */}
       </View>
     </View>
   );

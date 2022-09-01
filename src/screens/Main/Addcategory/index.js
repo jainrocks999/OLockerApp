@@ -111,7 +111,7 @@ const AddCategory = () => {
         </KeyboardAwareScrollView>
       </ScrollView>
       <StatusBar />
-      <Buttom />
+      {/* <Buttom /> */}
     </View>
   );
 };

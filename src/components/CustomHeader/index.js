@@ -28,9 +28,9 @@ const Header = ({
           <TouchableOpacity onPress={onPress1}>
             <Image style={styles.img1} source={source1} />
           </TouchableOpacity>
-          <TouchableOpacity style={{marginLeft: 20}}>
+          {/* <TouchableOpacity style={{marginLeft: 20}}>
             <Image style={styles.img2} source={source2} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
