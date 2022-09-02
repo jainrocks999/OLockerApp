@@ -172,7 +172,7 @@ const addToNetwork=async()=>{
           </View>
           <View style={{alignItems:'center',justifyContent:'center',marginTop:10}}>
               <TouchableOpacity
-              onPress={()=>addToNetwork()}
+              // onPress={()=>addToNetwork()}
                style={{
                 backgroundColor:'#ea056c',
                 paddingHorizontal:20,

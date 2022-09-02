@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Platform,
+  PermissionsAndroid,
   FlatList,
   Linking
 } from 'react-native';
@@ -17,7 +19,7 @@ import { useSelector,useDispatch } from "react-redux";
 import Loader from '../../../components/Loader';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import RNFetchBlob from 'rn-fetch-blob'
 const Mycustomer = () => {
   const navigation = useNavigation();
   const isFetching=useSelector(state=>state.isFetching)
@@ -34,7 +36,61 @@ const manageFeedback=async()=>{
       navigation
     });
   }
+  const actualDownload = () => {
+    const { dirs } = RNFetchBlob.fs;
+    const date=new Date();
+    const configOptions = Platform.select({
+      // ios: {
+      //   fileCache: true,
+      //   title: `data.pdf`,
+      //   path: `${dirs.DocumentDir}/data.pdf`,
+      //   appendExt: 'pdf',
+      // },
+      android: {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          mediaScannable: true,
+          title: `data34.pdf`,
+          path:  `${dirs.DownloadDir+"/me_" +Math.floor(date.getTime() + date.getSeconds() / 2)}.pdf`          // path: `${dirs.DownloadDir}/data.pdf`,
+     //   path: `${dirs.DocumentDir}/data.pdf`,
 
+        },
+      },
+    });
+{console.log('hghghmhlkrhlkrhr',configOptions);}
+try{
+    RNFetchBlob.config(configOptions)
+    .fetch('GET', `http://samples.leanpub.com/thereactnativebook-sample.pdf`, {})
+      // .fetch('GET', `https:\/\/ekyatraterapanth.com\/adminpanel\/assets\/doc\/terapanth_ka_itihaas_part_1.pdf`, {})
+      .then((res) => {
+
+        console.log('higiidgdigzigz',res.path());
+
+      })
+    } catch(e) {
+        console.log('ffflkkf',e);
+      };
+  }
+
+  const downloadFile = async () => {
+    if (Platform.OS == 'ios') {
+      actualDownload();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('ggergewg',granted);
+          actualDownload();
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.log('sdbmkbmksglbm',err);
+      }
+    }
+  }
 
   return (
     <View style={styles.container1}>
@@ -196,16 +252,16 @@ const manageFeedback=async()=>{
               </View>
               <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Message Box</Text>
             </TouchableOpacity>
-            <View
+            {/* <View
               style={{
                 borderWidth: 0.3,
                 height: '100%',
                 borderColor: 'grey',
                 marginTop: 0,
               }}
-            />
+            /> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               //    onPress={()=>navigation.navigate('SentRequest')}
               style={{
                 paddingVertical: 20,
@@ -220,7 +276,7 @@ const manageFeedback=async()=>{
                 />
               </View>
               <Text style={{fontSize: 11, marginTop: 14,fontFamily:'Acephimere',color:'#343434'}}>Edit Profile</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <View style={{marginTop: 20,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
@@ -247,12 +303,12 @@ const manageFeedback=async()=>{
                         }}
                       /> */}
                 <Image
-                  style={{ width: '100%', height: 80,}}
+                  style={{ width: '100%', height: '100%',}}
                   source={{
                     uri: `${ImagePath.Path}/${item.url.substring(1)}`
                   }} />
                      
-                      <View style={{width:'100%',alignItems:'flex-end',marginTop:-80}}>
+                      <View style={{width:'100%',alignItems:'flex-end',marginTop:-89}}>
                     <View style={{
                       backgroundColor:'#24a31e',
                       borderBottomLeftRadius:13,
@@ -276,9 +332,11 @@ const manageFeedback=async()=>{
                         </View>
                     </View>
                     <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.PurchaseDate}`}</Text>
-                    <View style={{justifyContent:'flex-end',alignItems:'flex-end'}}>
+                  {Platform.OS=='android'?  <TouchableOpacity style={{justifyContent:'flex-end',alignItems:'flex-end'}}
+                    onPress={()=>downloadFile()}
+                    >
                         <Image style={{height:60,width:40}} source={require('../../../assets/Image/pdf.png')}/>
-                    </View>
+                    </TouchableOpacity>:<View/>}
                 </View>
             </View>
           )}

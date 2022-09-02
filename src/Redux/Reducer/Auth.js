@@ -8,6 +8,7 @@ initialstate = {
   NetworkList:[],
   ProfileData:'',
   SentRequestData:[],
+  removesentrequest:[],
   AcceptedRequestData:[],
   RejectedRequestData:[],
   CategoryDetail:[],
@@ -27,14 +28,41 @@ initialstate = {
   Allsupplier:[],
   Myproduct:[],
   Detail:[],
+  Product1Detail:[],
   PartnerC:[],
   AllNotification:[],
   Products:[],
   SupplierProduct:[],
-  PartnerCatalog:[]
+  PartnerCatalog:[],
+  States:[],
+  citys:[],
+  metalType:[],
+  categoryDetailData1:[]
 };
 export default (state = initialstate, action) => {
-  switch (action.type) { 
+  switch (action.type) {
+
+    case 'Get_LookupData_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_LookupData_Success':
+      return { ...state, isFetching: false, metalType: action.payload };
+    case 'Get_LookupData_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_CitiesByState_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_CitiesByState_Success':
+      return { ...state, isFetching: false, citys: action.payload };
+    case 'Get_CitiesByState_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_State_Request':
+      return{ ...state,isFetching:true};
+    case 'Get_State_Success':
+      return { ...state, isFetching: false, States: action.payload };
+    case 'Get_State_Error':
+      return { ...state, isFetching: false };
+
     case 'Get_SupplierProducts_Request':
       return{ ...state,isFetching:true};
     case 'Get_SupplierProducts_Success':
@@ -156,6 +184,14 @@ export default (state = initialstate, action) => {
     case 'Get_Rejected_Error':
     return { ...state, isFetching: false };
 
+
+    case 'get_RemoveSupplierFromNetwork_Request':
+      return { ...state, isFetching: true };
+    case 'get_RemoveSupplierFromNetwork_Success':
+      return { ...state, isFetching: false, removesentrequest: action.payload };
+    case 'get_RemoveSupplierFromNetwork_Error':
+    return { ...state, isFetching: false };
+
     case 'Get_Feedback_Request':
       return { ...state, isFetching: true };
     case 'Get_Feedback_Success':
@@ -253,12 +289,27 @@ export default (state = initialstate, action) => {
     case 'Get_Detail_Error':
       return { ...state, isFetching: false };
       
+
+      case 'Get_GetProductDetail_Request':
+        return { ...state, isFetching: true };
+      case 'Get_GetProductDetail_Success':
+        return { ...state, isFetching: false, Product1Detail: action.payload };
+      case 'Get_GetProductDetail_Error':
+        return { ...state, isFetching: false };
+
       case 'Get_PartnerC_Request':
       return { ...state, isFetching: true };
     case 'Get_PartnerC_Success':
       return { ...state, isFetching: false, PartnerC: action.payload };
     case 'Get_PartnerC_Error':
       return { ...state, isFetching: false };
+
+      case 'Get_PartnerFavProduct_Request':
+        return { ...state, isFetching: true };
+     case 'Get_PartnerFavProduct_Success':
+      return { ...state, isFetching: false, categoryDetailData1: action.payload };
+      case 'Get_PartnerFavProduct_Error':
+        return { ...state, isFetching: false };
      
     default:
       return state;

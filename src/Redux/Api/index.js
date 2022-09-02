@@ -90,5 +90,48 @@ export default class Api {
       throw error;
     }
   };
+  static fetchDataByGET3 = async (url) => {
+    // console.log("vkm",url);
+    // console.log('vkm12300',Constants.MainUrl3 + url);
+    try {
+      const response = await axios({
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl3 + url,
+               
+      });
+      return response;
+      
+    } 
+    catch (error) {
+      console.log('vvvvv',error);
+      throw error;
+    }
+  };
+  static fetchDataByGET4 = async (url,data) => {
+    console.log("vkm2211",url,data);
+    console.log('vkm00',Constants.MainUrl3 + url);
+    try {
+      const response = await axios({
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+        },
+        url: Constants.MainUrl3 + url,
+        params:data     
+      });
+      console.log('virendra',response.data);
+      return response;
+      
+    } 
+    catch (error) {
+      console.log('vvvvv',error);
+      throw error;
+    }
+  };
  
 }

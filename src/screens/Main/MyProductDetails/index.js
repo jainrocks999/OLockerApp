@@ -43,12 +43,22 @@ const searchFilterFunction = text => {
     };
     const manageCategory=async(SrNo)=>{
       const partner=await AsyncStorage.getItem('Partnersrno')
-      console.log('this is user detailssssss',SrNo);
+      // console.log('this is user detailssssss',SrNo);
      
         dispatch({
           type: 'Get_Detail_Request',
           url:'GetProductDetail',
          PartnerId:partner,
+         ProductId:SrNo,
+          navigation
+        })
+      }
+      const manageCategory1= async(SrNo)=>{
+       
+        dispatch({
+          type: 'Get_GetProductDetail_Request',
+          url:'GetProductDetail',
+        
          ProductId:SrNo,
           navigation
         })
@@ -64,7 +74,7 @@ const searchFilterFunction = text => {
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        // source2={require('../../../assets/La.png')}
         title={'Product List'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
@@ -110,15 +120,17 @@ const searchFilterFunction = text => {
             renderItem={({item}) => (
               <TouchableOpacity
               onPress={()=>
-                partner == false?
-                manageCategory(item.SrNo ):null}
+                partner ?manageCategory1(item.SrNo):
+                manageCategory(item.SrNo )}
                 // ()=>navigation.navigate('SubCategory')
               
                 style={styles.cardview}>
-                   {console.log('////',item)}
+                   {/* {console.log('////',item)} */}
                     <View style={styles.cardview1}>
+
+                      
                     <View style={{padding:15}}>
-                       <Image style={{width:21,height:18}} source={require('../../../assets/Image/dil.png')}/>
+                    {partner?   <Image style={{width:21,height:18}} source={require('../../../assets/Image/dil.png')}/>:<View style={{marginTop:10}}/>}
                        <Image style={{width:20,height:14,marginTop:10}} source={require('../../../assets/Image/share1.png')}/>
                     </View>
                  <View style={styles.cardview2}>

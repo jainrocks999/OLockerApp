@@ -6,5 +6,6 @@ export default BASEURLS = {
      MainUrl:'https://devappapi.olocker.in/api/Partner/',
      MainUrl1:'https://devappapi.olocker.in/api/Supplier/',
      MainUrl2:'https://devappapi.olocker.in/api/User/',
+     MainUrl3:`https://devappapi.olocker.in/api/Info/`
 };
 // devappapi.olocker.in  api.myjeweller.in

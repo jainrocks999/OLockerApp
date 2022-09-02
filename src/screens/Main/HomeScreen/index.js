@@ -29,127 +29,151 @@ const HomeScreen = () => {
   const [collections,setCollecions]=useState()
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.NetworkList1)
-  console.log('networklist21',selector);
-  const GraphicalNotification=useSelector(state=>state.GraphicalNotification)
-  console.log('this is graphical notification data',GraphicalNotification);
+  const BannerData=[]
+  const[sliderdata,setSlider]=useState()
+  console.log('networklist21',selector);  
   const selector1=useSelector(state=>state.Gold)
   const BannerWidth = (Dimensions.get('window').width * 15) / 16;
   const BannerHeight = 180;
-console.log("goldprice......",selector1);
-  var object = {
-    dataAttribute: [
-    {
-      id: 1,
-      title: 'A',
-      data: [
-        { id: '1', name: 'First Name', type: 'text' },
-        { id: '2', name: 'Last Name', type: 'text' },
-      ],
-    },
-    {
-      id: 2,
-      title: 'B',
-      data: [
-        { id: '1', name: 'Twitter', type: 'text' },
-        { id: '2', name: 'Twitter follower', type: 'number' },
-      ],
-    }
-  ]
-  }
-   object.dataAttribute[0].data[0].statusSelected = true;
+const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Notifications)
+ console.log('graphical Notification........e.e',GraphicalNotification);
+ GraphicalNotification.map((item)=>{
+  const url= `${ImagePath.Path}${(item.ImageLocation).substring(1)}${item.ImageName}`
+  BannerData.push({
+    image:url,desc:'Red fort', 
+ }) 
 
+
+ })
    useEffect( ()=>{
-     Demo();
-    (async() => {
-      const partnerSrNo=await AsyncStorage.getItem('Partnersrno');
-      const Supplier=await AsyncStorage.getItem('SuppliesnrNo')
-      console.log('fffhhhf',partnerSrNo);
-      console.log("aaahhaaa",Supplier);
-      dispatch({
-        type: 'Get_Allsupplier_Request',
-        url:'GetAllSupplier',
-        PartnerSrno:partnerSrNo
-      });
-      dispatch({
-        type:'Get_SupplierProducts_Request',
-        url:'GetSupplierProducts',
-        PartnerSrno:partnerSrNo
-      })
-      dispatch({
-        type:'Get_Products_Request',
-        url:'GetProducts',
-        PartnerSrno:partnerSrNo
-      });
-      dispatch({
-        type:'Get_Catalogcategories_Request',
-        url:'GetCatalogueCategories',
-        PartnerSrno:partnerSrNo,
-      });
-      dispatch({
-        type: 'Get_Graphical_Request',
-        url: 'GetGraphicalNotifications',
-      });
-      dispatch({
-        type: 'Get_Allnotification_Request',
-        url: 'GetAllNotification',
-        PartnerSrno: partnerSrNo
-      });
-      dispatch({
-        type: 'Get_Product_Request',
-        url: 'GetPartnerCatalogueCategories',
-        SupplierSrNo:12,
-      });
-      dispatch({
-        type: 'Get_Collection_Request',
-        url: 'GetCollections',
-        PartnerSrno:partnerSrNo,
-      });
-      dispatch({
-        type: 'Get_Categories_Request',
-        url: 'GetCatalogueCategories',
-        PartnerSrno:partnerSrNo,
-      });
-  
-      dispatch({
-        type: 'Get_Gold_Request',
-        url: 'GetIBJAratesByPartnerId',
-        PartnerId:partnerSrNo,
-      });
-  
-      dispatch({
-        type: 'Get_Network1_Request',
-        url: 'GetMyNetworkByPartnerId',
-        partnerSrNo:partnerSrNo,
-        navigation
-      });
-  } ) ();
+     Demo()
+  //  banner();
+     dispatch({
+      type:'Get_LookupData_Request',
+      url:'GetLookupData',
+      GroupName:'MetalTypes'
+    })
+     dispatch({
+      type:'Get_State_Request',
+      url:'GetStates'
+    });
+    // dispatch({
+    //   type: 'Get_Graphical_Request',
+    //   url: 'GetGraphicalNotifications',
+    // });
+   
  },[]);
- const Demo=()=>{
+ const Demo=async()=>{
+  
+    const partnerSrNo=await AsyncStorage.getItem('Partnersrno');
+    const Supplier=await AsyncStorage.getItem('SuppliesnrNo')
+    // console.log('fffhhhf',partnerSrNo);
+    // console.log("aaahhaaa",Supplier);
+
+    dispatch({
+      type:'Get_PartnerFavProduct_Request',
+      url:'GetPartnerFavProduct',
+      PartnerId:partnerSrNo,
+     // navigation
+    })
+
+    dispatch({
+      type: 'Get_Allsupplier_Request',
+      url:'GetAllSupplier',
+      PartnerSrno:partnerSrNo
+    });
+    dispatch({
+      type:'Get_SupplierProducts_Request',
+      url:'GetSupplierProducts',
+      PartnerSrno:partnerSrNo
+    })
+    dispatch({
+      type:'Get_Products_Request',
+      url:'GetProducts',
+      PartnerSrno:partnerSrNo
+    });
+    dispatch({
+      type:'Get_Catalogcategories_Request',
+      url:'GetCatalogueCategories',
+      PartnerSrno:partnerSrNo,
+    });
+   
+    dispatch({
+      type: 'Get_Allnotification_Request',
+      url: 'GetAllNotification',
+      PartnerSrno: partnerSrNo
+    });
+    // dispatch({
+    //   type: 'Get_Product_Request',
+    //   url: 'GetPartnerCatalogueCategories',
+    //   SupplierSrNo:12,
+    // });
+    dispatch({
+      type: 'Get_Collection_Request',
+      url: 'GetCollections',
+      PartnerSrno:partnerSrNo,
+    });
+    dispatch({
+      type: 'Get_Categories_Request',
+      url: 'GetCatalogueCategories',
+      PartnerSrno:partnerSrNo,
+    });
+
+    dispatch({
+      type: 'Get_Gold_Request',
+      url: 'GetIBJAratesByPartnerId',
+      PartnerId:partnerSrNo,
+    });
+
+    dispatch({
+      type: 'Get_Network1_Request',
+      url: 'GetMyNetworkByPartnerId',
+      partnerSrNo:partnerSrNo,
+      navigation
+    });
+} 
+const banner =()=>{
 
   var axios = require('axios');
 
 var config = {
   method: 'get',
-  url: 'https://devappapi.olocker.in/api/Supplier/GetAllSupplier?partnerSrno=483',
+  url: 'https://devappapi.olocker.in/api/Partner/GetGraphicalNotifications',
   headers: { 
-    'Content-Type': 'application/json', 
-    'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
+    'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5', 
+    'Content-Type': 'application/json'
   }
 };
 
 axios(config)
 .then(function (response) {
-  console.log('aaaaaaaaaaaaaaa',JSON.stringify(response.data.Suppliers));
-  
+  if (response.data.success==true){
+  // console.log('graphical notificationss.....',JSON.stringify(response.data.Notifications.map((item)=>{
+  //   console.log('Notifications 232......',item); })));
+    response.data.Notifications.map((item)=>{
+
+    const url= `${ImagePath.Path}${(item.ImageLocation).substring(1)}${item.ImageName}`
+     BannerData.push({
+       image:url,desc:'Red fort', 
+    }) })
+ 
+
+}
+ setSlider(BannerData);
 })
 .catch(function (error) {
   console.log(error);
 });
 
- }
+}
+// console.log('data banner image  showsss',sliderdata);
+//   console.log('data banner imagesssssss  showsss',images);
+
+ 
 
   const manageProfile= async(id)=>{
-
+   
+    
     dispatch({
       type: 'Get_Profile_Request',
       url: 'GetSupplierProfile',
@@ -157,7 +181,7 @@ axios(config)
       navigation
     });
      AsyncStorage.setItem('SupplierId', JSON.stringify(id))
-    console.log('storage id for supplier', id);
+    // console.log('storage id for supplier', id);
     dispatch({
       type: 'Partner_Catalogue_Request',
       url: 'GetPartnerCatalogueCategories',
@@ -182,12 +206,12 @@ axios(config)
                   source={require('../../../assets/Fo.png')}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={{marginLeft: 15}}>
+              {/* <TouchableOpacity style={{marginLeft: 15}}>
                 <Image
                   style={styles.img2}
                   source={require('../../../assets/La.png')}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity>
                 <Image
                   style={styles.img3}
@@ -209,15 +233,15 @@ axios(config)
         </ImageBackground>
         <View
           style={styles.main}>
+            {/* {console.log('list datafbddfgfdgdfag',sliderdata)} */}
             <FlatListSlider
-            data={images}
+            data={BannerData}
             height={200}
-            timer={5000}
-            // onPress={item => alert(JSON.stringify(item))}
+            timer={3000}
             contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
             indicatorActiveColor={'#032e63'}
-            indicatorInActiveColor={'#ffffff'}
+            indicatorInActiveColor={'red'}
             indicatorActiveWidth={5}
             animation
             component={<Banner/>}
@@ -226,7 +250,7 @@ axios(config)
             autoscroll={false}
             loop={false}
         />
-        </View>
+</View>
         <View style={styles.itemview}>
           <View style={styles.itemview1}>
             <Image
@@ -382,7 +406,7 @@ const images = [
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
 {
-  image:'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
+  image:'https://devappapi.olocker.in/images/rss/no-image.jpg',
   desc:
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
@@ -391,4 +415,24 @@ const images = [
 
 
 
- 
+ var object = {
+  dataAttribute: [
+  {
+    id: 1,
+    title: 'A',
+    data: [
+      { id: '1', name: 'First Name', type: 'text' },
+      { id: '2', name: 'Last Name', type: 'text' },
+    ],
+  },
+  {
+    id: 2,
+    title: 'B',
+    data: [
+      { id: '1', name: 'Twitter', type: 'text' },
+      { id: '2', name: 'Twitter follower', type: 'number' },
+    ],
+  }
+]
+}
+ object.dataAttribute[0].data[0].statusSelected = true;

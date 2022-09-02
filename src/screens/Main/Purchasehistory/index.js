@@ -6,7 +6,8 @@ import {
     ScrollView,
     TouchableOpacity,
     FlatList,
-    Platform
+    Platform,
+    PermissionsAndroid
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import StatusBar from '../../../components/StatusBar';
@@ -14,9 +15,8 @@ import styles from './styles';
 import BottomTab from "../../../components/StoreButtomTab";
 import Header from '../../../components/CustomHeader';
 import { useSelector } from 'react-redux';
-// import RNFetchBlob from "rn-fetch-blob";
 // import Pdf from 'react-native-pdf';
-
+import RNFetchBlob from 'rn-fetch-blob'
 const Messagebox = () => {
     const navigation = useNavigation();
     const selector1=useSelector(state=>state.PurchaseHistory)
@@ -25,53 +25,57 @@ const Messagebox = () => {
   const [value, setValue] = useState(pageNo)
   const [pageNo, setPageNo] = useState(1)
   // const source = Platform.OS === 'android' ? { uri: "bundle-assets://pdf/terapanth_ka_itihaas.pdf" } : { uri: "bundle-assets://terapanth_ka_itihaas_part_1.pdf" }
-  // const actualDownload = () => {
-  //   const { dirs } = RNFetchBlob.fs;
-  //   const configOptions = Platform.select({
-  //     ios: {
-  //       fileCache: true,
-  //       title: `QnA set 1.pdf`,
-  //       path: `${dirs.DocumentDir}/QnA set 1.pdf`,
-  //       appendExt: 'pdf',
-  //     },
-  //     android: {
-  //       fileCache: true,
-  //       addAndroidDownloads: {
-  //         useDownloadManager: true,
-  //         notification: true,
-  //         mediaScannable: true,
-  //         title: `QnA set 1.pdf`,
-  //         path: `${dirs.DownloadDir}/QnA set 1.pdf`,
-  //       },
-  //     },
-  //   });
+  const actualDownload = () => {
+    const { dirs } = RNFetchBlob.fs;
+    const date=new Date();
 
-  //   RNFetchBlob.config(configOptions)
-  //     .fetch('GET', `https:\/\/ekyatraterapanth.com\/adminpanel\/assets\/doc\/terapanth_ka_itihaas_part_1.pdf`, {})
-  //     .then((res) => {
+    const configOptions = Platform.select({
+      ios: {
+        fileCache: true,
+        title: `data.pdf`,
+        path: `${dirs.DocumentDir}/data.pdf`,
+        appendExt: 'pdf',
+      },
+      android: {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          mediaScannable: true,
+          title: `data.pdf`,
+          path:  `${dirs.DownloadDir+"/me_" +Math.floor(date.getTime() + date.getSeconds() / 2)}.pdf`
+          // path: `${dirs.DownloadDir}/data.pdf`,
+        },
+      },
+    });
 
-  //     })
-  //     .catch((e) => {
+    RNFetchBlob.config(configOptions)
+    .fetch('GET', `http://samples.leanpub.com/thereactnativebook-sample.pdf`, {})
+      // .fetch('GET', `https:\/\/ekyatraterapanth.com\/adminpanel\/assets\/doc\/terapanth_ka_itihaas_part_1.pdf`, {})
+      .then((res) => {
 
-  //     });
-  // }
+      })
+      .catch((e) => {
 
-  // const downloadFile = async () => {
-  //   if (Platform.OS == 'ios') {
-  //     actualDownload();
-  //   } else {
-  //     try {
-  //       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-  //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //         actualDownload();
-  //       } else {
-  //         Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
-  //       }
-  //     } catch (err) {
-  //       console.warn(err);
-  //     }
-  //   }
-  // }
+      });
+  }
+
+  const downloadFile = async () => {
+    if (Platform.OS == 'ios') {
+      actualDownload();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          actualDownload();
+        } else {
+          Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  }
     return (
         <View style={styles.container1}>
         <Header
@@ -117,7 +121,7 @@ const Messagebox = () => {
                     </View>
                     <Text style={{fontSize:12,marginTop:5,color:'#343434',fontFamily:'Acephimere'}}>{`Purchase Date  ${item.PurchaseDate}`}</Text>
                     <TouchableOpacity 
-                    // onPress={()=>downloadFile()}
+                     onPress={()=>downloadFile()}
                     style={{justifyContent:'flex-end',alignItems:'flex-end'}}
                      
                     >

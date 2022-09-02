@@ -14,6 +14,7 @@ import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import styles from './styles';
+import { types } from '@babel/core';
 const HomeScreen = () => {
    const navigation=useNavigation()
    const dispatch=useDispatch()
@@ -25,6 +26,44 @@ const HomeScreen = () => {
    const [accepted,setAccepted]=useState(false)
 
 console.log('this is selector data1111',selector);
+ const deteleApi =(SrNo)=>{
+console.log(('jghgh0',SrNo));
+  dispatch({
+    url:'RemoveSupplierFromNetwork',
+    type:'get_RemoveSupplierFromNetwork_Request',
+     srno:SrNo,
+     RejectReason:"string"
+
+  })
+//   var axios = require('axios');
+// //var data = JSON.stringify({SrNo:SrNo,RejectReason:"string"});
+
+// var config = {
+//   method: 'post',
+//   url: 'https://devappapi.olocker.in/api/Partner/RemoveSupplierFromNetwork',
+//   headers: { 
+//     'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5', 
+//     'Content-Type': 'application/json'
+//   },
+//   data : {
+//     SrNo:SrNo,
+//     RejectReason:"string"
+//   }
+// };
+
+// axios(config)
+// .then(function (response) {
+//   if(response.data.success===true){
+//     console.log('delete data are supplier netwirk ,,,,,,',response.data);
+//   }
+ 
+// })
+// .catch(function (error) {
+//   console.log(error);
+// });
+
+
+ }
   const manageRequest=()=>{
     setPending(true)
     setAccepted(false)
@@ -96,7 +135,8 @@ console.log('this is selector data1111',selector);
                 <View style={styles.card}>
                     {console.log('abbb11',item)}
                   <View style={styles.cardv}>
-                    <View style={styles.cardv1}>
+                    <View
+                    style={styles.cardv1}>
                       <View style={styles.cardv2}>
                         {item.Logo == "" ?
                           <Image
@@ -133,12 +173,14 @@ console.log('this is selector data1111',selector);
                     </View> */}
                      <View  style={{flexDirection:'row',width:'100%',alignItems:'center',justifyContent:'center',paddingVertical:10}}>
                        <TouchableOpacity 
+                          onPress={()=>deteleApi(item.SrNo)}
                        style={{
-                         alignItems:'center',justifyContent:'center'
+                         alignItems:'center',justifyContent:'center',flexDirection:'row'
                          }}>
                         <Image style={{height:25,width:25}} source={require('../../../assets/PartnerImage/5.png')}/>
-                         </TouchableOpacity>
+
                          <Text style={{marginLeft:7,fontFamily:'Acephimere'}}>Delete Request</Text>
+                         </TouchableOpacity>
                      </View>
                   </View>
                 </View>

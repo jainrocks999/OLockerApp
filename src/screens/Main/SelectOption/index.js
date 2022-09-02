@@ -43,7 +43,7 @@ const manageOption=(val)=>{
      <Header
       source1={require('../../../assets/Fo.png')}
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      // source2={require('../../../assets/La.png')}
       title={'Select option to add '}
       onPress={() => navigation.goBack()}
       />  

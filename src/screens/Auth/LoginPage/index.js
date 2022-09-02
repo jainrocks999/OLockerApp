@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../../components/Loader';
 import { join } from 'redux-saga/effects';
+import { useDispatch } from 'react-redux';
 
 const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Please enter your Email').matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, 'Please enter valid Email Address'),
@@ -21,7 +22,13 @@ const loginValidationSchema = yup.object().shape({
 const Login = () => {
   const navigation = useNavigation();
   const [fetching,setFetching]=useState(false)
+  const dispatch=useDispatch()
+  useEffect(()=>{
+     
+  },[] );
 const partnerLogin=async(values)=>{
+
+
   setFetching(true)
   var axios = require('axios');
     var config = {
@@ -109,6 +116,7 @@ const partnerLogin=async(values)=>{
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
             value={values.email}
+            returnKeyType="go"
              />
           </View>
           <View style={styles.error}>
@@ -131,6 +139,7 @@ const partnerLogin=async(values)=>{
             value={values.password}
             keyboardType={'default'}
             secureTextEntry={true}
+            // returnKeyType="done"
             />
             
           </View>

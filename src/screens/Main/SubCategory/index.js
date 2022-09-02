@@ -14,21 +14,43 @@ const SubCategory = ({route}) => {
     const navigation=useNavigation()
 
     const selector=useSelector(state=>state.Detail.GetProductModel)
-    console.log('1111120',selector);
+    const selector2 =useSelector(state=>state.Product1Detail.GetProductModel)
+    const Details=route.params.Network
+    console.log('1111120',selector2);
     const data=[]
-    selector.productimages.map((item)=>{
+  { Details ?  selector.productimages.map((item)=>{
       const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
 data.push({
   image:url,desc:'abcsd'
 })   
-   console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+    }):
+    selector2.productimages.map((item)=>{
+      const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+data.push({
+  image:url,desc:'abcsd'
+})   
+  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
 
     })
-   selector.metaldetails.map((item)=>{
-     const metal1=item.MetalPurity
-      console.log('1111vvv12dd0',item.MetalPurity);
+    // selector2.RetailerFavProduct.map((item)=>{
+    //   item.ProductDetails.ProductImageList.map((item1)=>{
+    //     // console.log('1vv122344444',`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`);
+    //     const url=`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`
+    //     data.push({
+    //       image:url,desc:'abcsd'
+    //     }) 
+    //   })
 
-    })
+    // })
+  }
+    // console.log('image data areeeapush ....',data);
+  //  selector.metaldetails.map((item)=>{
+  //    const metal1=item.MetalPurity
+  //     console.log('1111vvv12dd0',item.MetalPurity);
+
+  //   })
     const [collection,setCollection]=useState('')
     const [stockNo,setStock]=useState('')
     const [metal,setMetal]=useState('')
@@ -44,60 +66,85 @@ data.push({
     const[url,setUrl] =useState('')
     const [keyboardStatus, setKeyboardStatus] = useState(undefined);
     useEffect( ()=>{
-      setDescription(selector.description);
-      setStock(selector.name);
-      setPrice(selector.price);
-      setCollection(selector.productsku);
-      selector.metaldetails.map((item)=>{
+     { Details ? setDescription(selector.description): setDescription(selector2.description)
+      
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //   setDescription(item.ProductDetails.Description)
+    //  })
+    }
+     
+     {Details? setStock(selector.name):setStock(selector2.name)
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //   setStock(item.ProductDetails.ProductTypeName)
+    //  })
+    }
+      {Details ? setPrice(selector.price):setPrice(selector2.price)
+      //   selector2.RetailerFavProduct.map((item)=>{
+      //   setPrice(item.ProductDetails.FullPayment)
+      //  })
+      }
+     {Details ? setCollection(selector.productsku): setCollection(selector2.productsku)
+    //   selector2.RetailerFavProduct.map((item)=>{
+    //  setCollection(item.ProductDetails.ProductSku)
+    //  })
+    }
+      {Details ? selector.metaldetails.map((item)=>{
+        setMetal(item.MetalWt);
+        setGm(item.UnitMetalWt);
+        setMg(item.MetalType);
+        setMetalPurity(item.MetalPurity);
+       
+      }):selector2.metaldetails.map((item)=>{
         setMetal(item.MetalWt);
         setGm(item.UnitMetalWt);
         setMg(item.MetalType);
         setMetalPurity(item.MetalPurity);
        
       })
+      // selector2.RetailerFavProduct.map((item)=>{
+      //   item.ProductDetails.metaldetails.map((item1)=>{
+      //     setMetal(item1.MetalWt);
+      //     setGm(item1.UnitMetalWt);
+      //     setMg(item1.MetalType);
+      //     setMetalPurity(item1.MetalPurity);
+
+      //   })
+      // })
+    }
       setDemo(`${mg} ${metalPurity} - ${metal} ${gm}`);
 
-      selector.productimages.map((item) => {
+    {Details?  selector.productimages.map((item) => {
         setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\\/g, "/") }/${item.ImageName}`)
         
-        console.log('1vv223366', url);
+        // console.log('1vv223366', url);
+
+      }):
+      selector2.productimages.map((item) => {
+        setUrl(`${ImagePath.Path}/${item.ImageLocation.replace(/\\/g, "/") }/${item.ImageName}`)
+        
+        // console.log('1vv223366', url);
 
       })
+      // selector2.RetailerFavProduct.map((item)=>{
+      //   item.ProductDetails.ProductImageList.map((item1)=>{
+      //     // console.log('ghghgsdsdgsf',`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`);
+      //     setUrl(`${ImagePath.Path}${(item1.ImageLocation).substring(1)}`)
+      //     // console.log('1vvfegehge6', url);
+
+      //   })
+  
+      // })
+    }
      },[demo])
      
-     console.log('xxx157',demo);
+    //  console.log('xxx157',demo);
 
      const share=async()=>{
        await Share.share({
-         message:`Product Name : ${stockNo} \nImage Url : ${url}`
+         message:`Product Name : ${stockNo} \nProduct Url : ${url}`
        })
      }
-  const Detail=async()=>{
-    const srno=await AsyncStorage.getItem('Partnersrno')
-    var axios = require('axios');
-
-var config = {
-  method: 'get',
-  url: 'https://devappapi.olocker.in/api/Partner/GetProductDetail',
-  headers: { 
-    'Content-Type': 'application/json', 
-    'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
-  },
-  params:{
-    ProductId:927,
-    PartnerId:srno
-  }
-};
-
-axios(config)
-.then(function (response) {
-  console.log('Asad',JSON.stringify(response.data));
-})
-.catch(function (error) {
-  console.log(error);
-});
-
-  }
+ 
 
   const manageEdit=()=>{
       setEditable(true)
@@ -118,9 +165,9 @@ axios(config)
       <ScrollView>
         <View
           style={styles.main}>
-          <View>
+        { Details? <View/>:<View>
             <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
-          </View>
+          </View>}
           <View>
               <TouchableOpacity onPress={()=>share()}
               // {()=>navigation.navigate('Filter')}
@@ -162,9 +209,9 @@ axios(config)
 <View style={styles.main1view1}>
         <Text style={styles.main1view1text}>{description=={description}?{description}:'PRODUCT DESCRIPTION'}</Text>
         </View>
-        <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
-        <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
-        </TouchableOpacity>
+   { Details? <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
+    <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
+    </TouchableOpacity>:null}
         </View>
         <View style={{marginLeft:20,marginTop:8}}>
         <View style={{flexDirection:'row',alignItems:'center',}}>
@@ -277,3 +324,32 @@ const images = [
     'Red fort in India New Delhi is a magnificient masterpeiece of humans',
 },
  ]
+
+
+
+
+
+//  const selector2=useSelector(state=>state.categoryDetailData)
+//  const deatails=route.params.Network
+//  console.log('get Product Deatail .....',selector);
+//  console.log('1111120',selector2);
+
+ 
+// //  {deatails?selector:selector2}
+//  const data=[]
+// { deatails? selector.productimages.map((item)=>{
+//    const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+// data.push({
+// image:url,desc:'abcsd'
+// })   
+// console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+//  }):selector2.RetailerFavProduct.map((item)=>{
+//    console.log('categories Details  ........',item);
+//    console.log('1virenddra22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+
+//    const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
+//    data.push({
+//      image:url,desc:'abcsd'
+//    })   
+//  })}

@@ -30,30 +30,42 @@ const MyCatalogue = () => {
   const dispatch=useDispatch()
   const [data1,setUserdata]=useState('')
  useEffect( ()=>{
+ recentData()
+ 
+},[])
+const recentData=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno');
   var axios = require('axios');
 
   var config = {
     method: 'get',
-    url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload?PartnerSrNo=575&FromDate=1/1/2010&ToDate=1/1/2022',
+    url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
     // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
     headers: {
       'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
       'Content-Type': 'application/json'
     },
+    params:{
+      PartnerSrNo:srno,
+      FromDate:"1/1/2010",
+      ToDate:"1/1/2022"
+    }
   };
 
   axios(config)
     .then(function (response) {
-      console.log('wwwwccc23', JSON.stringify(response.data.Downloads.length));
+      // console.log('wwwwccc23', (response.data.Downloads.map((item)=>{
+      //   console.log('cccccs',item.PartnerAddDate);
+      // })));
       if (response.data.success==true){
       setUserdata(response.data.Downloads);
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('sssmssmsms',error);
     });
  
-},[])
+}
 //console.log('avtr',(data1.length));
   const manageCustomer=async()=>{
     const srno=await AsyncStorage.getItem('Partnersrno')
@@ -103,7 +115,7 @@ const MyCatalogue = () => {
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        // source2={require('../../../assets/La.png')}
         title={'My Customers '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
@@ -234,7 +246,6 @@ const MyCatalogue = () => {
                // onPress={() => userProfile(item.SrNo)}
                 //  onPress={()=>navigation.navigate('MyCustomerDetail')}
                 style={styles.cardView}>
-                {console.log('hmm1234567', item.length)}
                 <View style={styles.carditem}>
                   <Image
                     style={styles.carditemimg}

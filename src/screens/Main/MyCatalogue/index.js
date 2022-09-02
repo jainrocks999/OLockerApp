@@ -12,7 +12,7 @@ import {FlatListSlider} from 'react-native-flatlist-slider';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
-
+import Toast from "react-native-simple-toast";
 const MyCatalogue = ({route}) => {
   const selector4 = useSelector(state => state.Catalogue.Categories)
   const selector=useSelector(state=>state.ProductList)
@@ -20,7 +20,7 @@ const MyCatalogue = ({route}) => {
   const selector1=useSelector(state=>state.CollectionList)
   const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
-  console.log("log102",selector4);
+  console.log("log102",selector2);
   console.log('this is user selector data210',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
@@ -46,7 +46,7 @@ const MyCatalogue = ({route}) => {
   const manageCategory1 = async (id) => {
     const srno = await AsyncStorage.getItem('Partnersrno')
     const supplierid = await AsyncStorage.getItem('SupplierId')
-    console.log('this is user category details', supplierid)
+    // console.log('this is user category details', supplierid)
     dispatch({
       type: 'GetPartners_Catalogue_Request',
       url: 'GetPartnerProductsByCatalogueCategory',
@@ -60,7 +60,7 @@ const MyCatalogue = ({route}) => {
   
 const manageCategory=async(id)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
-  console.log('this is user category details',id);
+  // console.log('this is user category details',id);
 
     dispatch({
       type: 'Get_Category_Request',
@@ -71,39 +71,9 @@ const manageCategory=async(id)=>{
       navigation
     });
   }
- 
-  const Myproduct=async()=>{
-    const srno=await AsyncStorage.getItem('Partnersrno')
-    var axios = require('axios');
-
-    var config = {
-      method: 'get',
-      url: 'https://devappapi.olocker.in/api/Partner/GetCatalogueCategories',
-      headers: { 
-        'Content-Type': 'application/json', 
-        'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5'
-      },
-       params:{
-      PartnerSrno:srno
-      }
-    };
-    
-    axios(config)
-    .then(function (response) {
-      console.log('response1zz',JSON.stringify(response.data.Categories));
-      setUserdata(response.data.Categories);
-      
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    
-
-  }
-console.log('cvvvv',data);
   const manageProfile = async (id) => {
     AsyncStorage.setItem('SupplierId', JSON.stringify(id))
-    console.log('storage id for supplier', id);
+    // console.log('storage id for supplier', id);
     dispatch({
       type: 'Partner_Catalogue_Request',
       url: 'GetPartnerCatalogueCategories',
@@ -127,7 +97,7 @@ const scrollToInitialPosition = () => {
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        // source2={require('../../../assets/La.png')}
         title={'My Catalogue '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
@@ -208,7 +178,7 @@ const scrollToInitialPosition = () => {
             <Text style={[styles.tcard, { color: partner == true ? '#fff' : '#032e63' }]}>Partner Categories</Text>
              </TouchableOpacity>
         </View>
-        {console.log('axxmmx',data)}
+        {/* {console.log('axxmmx',data)} */}
 
         <View style={{marginTop:10}}>
             {product==true?<FlatList
@@ -219,7 +189,7 @@ const scrollToInitialPosition = () => {
                 onPress={()=>manageCategory(item.Id)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
               style={styles.card1}>
-                {console.log('zzz',item)}
+                {console.log('zzz2222',item)}
                  <Image
                 style={styles.card1img}
                 // resizeMode={'stretch'}
@@ -246,9 +216,10 @@ const scrollToInitialPosition = () => {
               style={{ margin: 10, marginTop:0, marginBottom:0 }}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  onPress={() => manageProfile(item.SupplierSrNo)}
+                  onPress={() => 
+                    manageProfile(item.SupplierSrNo)}
                   style={styles.card2}>
-                    {console.log('abvds',item)}
+                    {/* {console.log('abvds',item)} */}
                   <View style={styles.card2v}>
                     {item.SupplierImage == null ?
                     <Image
@@ -268,24 +239,27 @@ const scrollToInitialPosition = () => {
                     >{item.SupplierName}</Text>
                     {/* <Text style={{ fontFamily: 'Acephimere', color: '#666666', fontSize: 12 }}>{item.CityName}</Text> */}
                   </View>
-                  {console.log('supplier id 3r', item)}
+                  {/* {console.log('supplier id 3r', item)} */}
                 </TouchableOpacity>
               )}
 
             />:null}
-            
-         {partner==true?  <Text style={styles.partnert}>Partner Categories List</Text>
-         :null}
-
-          {partner == true ? <FlatList
+          
+         {partner==true? <Text style={styles.partnert}>Partner Categories List</Text> :null}
+       
+         {selector4 !=undefined ?
+          (partner === true? selector4.length>0? 
+         ( <FlatList
             data={selector4}
             numColumns={3}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => manageCategory1(item.Id)}
+
+                onPress={() => 
+                  manageCategory1(item.Id)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
                 style={styles.card1}>
-                {console.log('zzz', item)}
+                {/* {console.log('zzz', item)} */}
                 <Image
                   style={styles.card1img}
                   // resizeMode={'stretch'}
@@ -299,7 +273,9 @@ const scrollToInitialPosition = () => {
                 </View>
               </TouchableOpacity>
             )}
-          /> : null}
+          />)
+          
+          :(Toast.show('dddd')):null):null}
         </View>
         <View style={{backgroundColor:'#fff'}}>
           <View style={styles.card3}>
@@ -310,6 +286,7 @@ const scrollToInitialPosition = () => {
             data={selector1}
             renderItem={({item})=>(
               <View style={styles.card3v}>
+                {/* {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)} */}
                 <Text style={styles.card3vt}>{item.Name}</Text>
                 {item.CollectionImage == null ?
 
@@ -319,7 +296,7 @@ const scrollToInitialPosition = () => {
                     source={require('../../../assets/demo.png')} /> :
                   <Image
                     style={styles.card3vimg}
-                     resizeMode='contain'
+                     resizeMode='stretch'
                     source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
 
                   />

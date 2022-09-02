@@ -162,7 +162,7 @@ const Preview = ({
            active ? {height: 240,width:240,borderRadius:120}:
             {height:120,width:320,borderRadius:100}]}
        source={{uri: item[imageKey]}}
-       resizeMode='cover'
+       resizeMode='contain'
         />
       </View>
     </TouchableOpacity>

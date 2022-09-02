@@ -390,9 +390,10 @@ function* getRejected(action) {
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
     if (response.data.success == true) {
+      console.log('Rejected  data are ..Rejected time',response.data);
       yield put({
         type: 'Get_Rejected_Success',
-        payload: response,
+        payload: response.data,
       });
     } else {
       console.log('this is working');
@@ -407,6 +408,40 @@ function* getRejected(action) {
   }
 }
 
+
+function* getRemoveSentRequst(action) {
+  // console.log('virend000098',action);
+  try {
+    const data={
+      Srno: action.srno,
+      RejectReason: action.RejectReason
+    }
+    const response = yield call(Api.fetchDataByPOST1, action.url,data);
+
+    console.log('virend000098000',response);
+    if (response.data.success == true) {
+
+       console.log('virend000098000000',response);
+
+      yield put({
+        type: 'get_RemoveSupplierFromNetwork_Success',
+        payload: response.data,
+      });
+    } else {
+      console.log('this is working');
+      yield put({
+        type: 'Get_Rejected_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'get_RemoveSupplierFromNetwork_Success',
+    });
+  }
+}
+
+
+
 function* getAccepted(action) {
   try {
     const data= {
@@ -416,10 +451,11 @@ function* getAccepted(action) {
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
     if (response.data.success == true) {
+      console.log('accepted data are ...accepted time',response.data);
       yield put({
         
         type: 'Get_Accepted_Success',
-        payload: response,
+        payload: response.data,
       });
     } else {
       console.log('gdgg');
@@ -442,7 +478,7 @@ function* getProfile(action) {
     }
     const response = yield call(Api.fetchDataByGET1, action.url,data);
     console.log('this is response',response);
-    if (response.success == true) {
+     if (response.success == true) {
       yield put({
         type: 'Get_Profile_Success',
         payload: response,
@@ -651,7 +687,7 @@ function* getGraphicalNotification(action) {
     if (response.success == true) {
       yield put({
         type: 'Get_Graphical_Success',
-        payload: response.Notifications,
+        payload: response,
       });
     } else {
       yield put({
@@ -821,10 +857,162 @@ function* getProdcutDetail(action) {
   }
 }
 
+function* getProdcut1Detail(action) {
+ console.log('here is get details log',action);
+  try {
+    const data={
+
+      ProductId:action.ProductId,
+    }
+  
+    const response = yield call(Api.fetchDataByGET, action.url,data);
+  
+    if (response.success == true) {
+     
+      console.log('here is get details log12',response);
+      yield put({
+        type: 'Get_GetProductDetail_Success',
+        payload: response,
+      });
+       action.navigation.navigate('SubCategory',{Network:false})
+    } else {
+      yield put({
+        type: 'Get_GetProductDetail_Error',
+      });
+    }
+  } catch (error) {
+    console.log('edd',error);
+    yield put({
+      type: 'Get_Detail_Error',
+    });
+  }
+}
+
+function* getStates(action) {
+  //console.log('vkm.',action)
+  try {
+   
+    const response = yield call(Api.fetchDataByGET3, action.url);
+   // console.log('vkm...',response);
+
+    if (response.data.success == true) {
+    //  console.log('vkm...',response);
+      yield put({
+        type: 'Get_State_Success',
+        payload: response.data,
+      });
+    } else {
+      yield put({
+        type: 'Get_State_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'Get_State_Error',
+    });
+  }
+}
+function* getCitys(action) {
+ // console.log('vkm.11',action)
+  try {
+    const data={
+     stateId:action.stateId 
+    }
+    const response = yield call(Api.fetchDataByGET4, action.url,data);
+  //console.log('vkm...',response.data.success);
+
+    if (response.data.success === true) {
+     // console.log('vkm...',response);
+      yield put({
+        type: 'Get_CitiesByState_Success',
+        payload: response.data,
+      });
+    } else {
+      yield put({
+        type: 'Get_CitiesByState_Error',
+       
+      });
+    }
+  } catch (error) {
+    console.log('vkm',error);
+    yield put({
+      type: 'Get_State_Error',
+    });
+  }
+  
+}
+
+function* getMetals(action) {
+   console.log('vkm.11',action)
+   try {
+     const data={
+      GroupName:action.GroupName
+     }
+     const response = yield call(Api.fetchDataByGET4, action.url,data);
+   //console.log('vkm...',response.data.success);
+ 
+     if (response.data.success === true) {
+       console.log('vkm...',response.data);
+       yield put({
+         type: 'Get_LookupData_Success',
+         payload: response.data,
+       });
+     } else {
+       yield put({
+         type: 'Get_LookupData_Error',
+        
+       });
+     }
+   } catch (error) {
+     console.log('vkm',error);
+     yield put({
+       type: 'Get_LookupData_Error',
+     });
+   }
+   
+ }
+
+ function* getcategoryDataDetail(action) {
+  try {
+    const data={
+     
+      PartnerId:action.PartnerId,
+     
+    }
+  
+    const response = yield call(Api.fetchDataByGET, action.url,data);
+   
+
+    if (response.success == true) {
+      console.log('category detail data .....    .  . ',response.RetailerFavProduct.map((item)=>{
+         console.log('category detail data ..... 333232',item.ProductDetails.Description)
+        //  ProductDetails.ProductImageList.map((item1)=>{
+        //   console.log('category detail data ..... viru...',`${'https://devappapi.olocker.in/'}${item1.ImageLocation}`);
+        // }));
+      }));
+      yield put({
+        type: 'Get_PartnerFavProduct_Success',
+        payload: response,
+      });
+        // action.navigation.navigate('SubCategory',{Network:false})
+    } else {
+      yield put({
+        type: 'Get_PartnerFavProduct_Error',
+      });
+    }
+  } catch (error) {
+    console.log('edd',error);
+    yield put({
+      type: 'Get_PartnerFavProduct_Error',
+    });
+  }
+}
+
 
 
 export default function* authSaga() {
-
+  yield takeEvery('Get_PartnerFavProduct_Request',getcategoryDataDetail)
+ yield takeEvery('Get_LookupData_Request',getMetals)
   yield takeEvery('User_Login_Request', doLogin);
   yield takeEvery('Get_Product_Request',getProducts)
   yield takeEvery('Get_Products_Request', getProduct)
@@ -856,6 +1044,11 @@ export default function* authSaga() {
   yield takeEvery('Get_Allsupplier_Request',Allsupplier)
   yield takeEvery('Get_Catalogcategories_Request',getProdcutCategories)
   yield takeEvery('Get_Detail_Request',getProdcutDetail)
+  yield takeEvery('Get_GetProductDetail_Request',getProdcut1Detail)
   yield takeEvery('Get_Allnotification_Request',getAllNotification)
+  yield takeEvery('Get_State_Request',getStates)
+  yield takeEvery('Get_CitiesByState_Request',getCitys)
+  yield takeEvery('get_RemoveSupplierFromNetwork_Request',getRemoveSentRequst)
+
 }
 // navigation.navigate('Feedback')

@@ -5,7 +5,7 @@ import Header from '../../../components/CustomHeader';
 import Carousel from 'react-native-banner-carousel';
 import {useNavigation} from '@react-navigation/native';
 import { useDispatch,useSelector } from 'react-redux';
-import Loader from '../../../components/Loader';
+import Loader from '../../../components/Loader' ;
 import RNPickerSelect from 'react-native-picker-select';
 import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
@@ -16,54 +16,50 @@ const MyCatalogue = () => {
     const navigation=useNavigation()
     const dispatch=useDispatch()
     const isFetching=useSelector(state=>state.isFetching)
-  const selector1 = useSelector(state => state.AllNotification)
-    console.log('vasss',selector1);
+  const selector1 = useSelector(state => state.AllNotification.GetNotification)
+  const selector2=useSelector(state=>state.States.GetStatesData)
+  const selector3=useSelector(state=>state.citys.GetCityData)
+
+  const selector =useSelector(state=>state.metalType.GetLookupData)
+   const [data2,setData2]=useState([])
+  const Data2 =[]
+  //console.log('hiiiiiiií',selector1.GetNotification);
+    // console.log('city list response selector',selector3);
+    const[MetalType,SetMetalType]=useState(selector)
+    const [data,setData1]=useState(selector2)
     const SupplierList=useSelector(state=>state.SupplierList)
     const BannerWidth = (Dimensions.get('window').width * 15) / 16;
-    const [city,setCity]=useState()
-    const [metal,setMetal]=useState()
+    const [city,setCity]=useState('')
+    const [state,setState]=useState('0')
+    const [metal,setMetal]=useState('0')
     const [supplier,setSupplier]=useState('')
     const [list,setList]=useState();
     const [show,setShow]=useState(false);
     const BannerHeight = 140;
-    console.log('this is user list data from supplier side',SupplierList);
-  // const images = [
-  //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5a5uCP-n4teeW2SApcIqUrcQApev8ZVCJkA&usqp=CAU',
-  //   'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
-  //   'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg',
-  // ];
+    const Id2=[]
+    const[id,setId]=useState('')
+    const[id3,setId3]=useState('')
 
+//  const searchCity=()=>{
+//   {data2 != undefined?data2.map((item) => {
+//       // console.log('city list',item);
+//     // setState(item.Name)
+//        setId2(item.Id);})
+//     :undefined}
+//  }
   const onclick = () => {
     if (show == false) {
        getSupplier();
+       //citySearch();
       setShow(true);
-      console.log("gdsd",show);
+      // console.log("gdsd",show);
     }
     else {
       setShow(false);
-      console.log("dsaa", show);
+      // console.log("dsaa", show);
     }
-    console.log("aaa", show);
+    // console.log("aaa", show);
   }
-
-  useEffect(async()=>{
-     dispatch({
-      type:'Get_SearchSupplier_Request',
-       url:'SearchSupplier',
-
-     })
-  },[])
-
-  useEffect( ()=>{
-    (async() => {
-    const srno=await AsyncStorage.getItem('Partnersrno')
-    dispatch({
-      type: 'Get_Supplier_Request',
-      url: 'GetSupplierRequest',
-      partnerSrNo:srno
-    });} ) ();
- },[]);
-
   
 const pendingRequest=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
@@ -73,21 +69,7 @@ const pendingRequest=async()=>{
     partnerSrNo:srno,
     navigation
   });
-   dispatch({
-    type: 'Get_Accepted_Request',
-    url: 'AcceptSupplierRequest', 
-    SrNo:1,
-    IsShowinRetailerApp:true
    
-  });
-  dispatch({
-    type: 'Get_Rejected_Request',
-    url: 'RejectSupplierRequest',
-   
-    SrNo: 1,
-    RejectReason: "string"
-  });
-
 }
 const SentRequest=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
@@ -101,6 +83,93 @@ const SentRequest=async()=>{
 
  
  
+}
+const Metalpurity1=async(value,index)=>{
+console.log('fggg',index);
+
+setMetal(value)
+
+  var axios = require('axios');
+
+  var config = {
+    method: 'get',
+    url: 'https://devappapi.olocker.in/api/Info/GetLookupData?',
+    headers: { 
+      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5', 
+      'Content-Type': 'application/json'
+    },
+    params:{
+      GroupName:'MetalPurity',
+      FilterValue:value
+    }
+  };
+  
+  axios(config)
+  .then(function (response) {
+    if(response.data.success==true){
+    // console.log('metal type data ,,,',(response.data.GetLookupData));
+    // setData2(response.data.GetCityData)
+  response.data.GetLookupData.map((item)=>{
+    // console.log('ddnmmm',item.Id,item.Value);
+    Id2.push({
+      label:item.Value,value:item.Id 
+     })
+      }
+      
+      ) 
+    }
+    setId3(Id2)
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+  
+}
+
+const citySearch =async(value)=>{
+  // console.log('city search byeeeeee....',value);
+ setState(value)
+  // dispatch({
+  //   type:'Get_CitiesByState_Request',
+  //   url:'GetCitiesByState',
+  //   stateId:state
+  // })
+  var axios = require('axios');
+
+var config = {
+  method: 'get',
+  url: 'https://devappapi.olocker.in/api/Info/GetCitiesByState',
+  headers: { 
+    'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5', 
+    'Content-Type': 'application/json'
+  },
+  params:{
+
+   stateId:state  
+   }
+};
+
+axios(config)
+.then(function (response) {
+  if(response.data.success==true){
+  console.log('city list ',(response.data.GetCityData));
+  // setData2(response.data.GetCityData)
+  response.data.GetCityData.map((item)=>{
+// console.log('ddnmmm',item.Name,item.Id);
+Data2.push({
+  label:item.Name,value:item.Id 
+ })
+  }
+  
+  ) 
+ 
+}
+setData2(Data2)
+// console.log('dddddd',data2);
+})
+.catch(function (error) {
+  // console.log(error);
+});
  
 }
 
@@ -128,7 +197,7 @@ const getSupplier=async(values)=>{
     },
     data:JSON.stringify({
       SupplierName:supplier,
-      StateId:0,
+      StateId:state,
       CityId:city,
       jewelleryType: [
       metal
@@ -147,13 +216,13 @@ const getSupplier=async(values)=>{
   })
   .then(res => {
     if(res.data.success==true){
-     console.log("res00000",res.data);
+    //  console.log("res00000",res);
       setList(res.data.Suppliers)
     }
-    console.log("res00",list);
+   console.log("res virews",list);
   })
   .catch(err => {
-    console.log("error in request", err);
+   // console.log("error in request", err);
   }); 
 }
 
@@ -162,13 +231,14 @@ const getSupplier=async(values)=>{
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+       // source2={require('../../../assets/La.png')}
         title={'My Network '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
       />
-      {isFetching?<Loader/>:null}
+        {isFetching?<Loader/>:null}
       <ScrollView>
+     
       <View
           style={{
             backgroundColor: '#032e63',
@@ -196,7 +266,7 @@ const getSupplier=async(values)=>{
             loop={false}
         />
         </View>
-       
+      
        
          <View style={{height:150}}/>
         </View>
@@ -227,10 +297,35 @@ const getSupplier=async(values)=>{
               <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                    <View style={{padding:20,justifyContent:'center',width:'42%',height:70,alignItems:'flex-start'}}>
                    <RNPickerSelect
-                      items={City}
-                      onValueChange={val =>setCity(val)}
+                      items={
+                        data != undefined ?data.map((item) => (
+                        {
+                       label:item.Name,
+                        value:item.Id
+                   
+                     })):undefined}
+                      onValueChange={(value) => citySearch(value)}
+                     // pickerProps={citySearch}
                       style={ {
-                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-20 },
+                        inputAndroid: {padding:-14, color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:0,borderWidth:0 },
+                        inputIOS: { color: '#032e63', fontSize: 14, width:'100%',marginBottom: 10,fontFamily:'Acephimere' },
+                        placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
+                    }}
+                      value={state}
+                      useNativeAndroidPickerStyle={false}
+                      placeholder={{ label: 'Select State', value: '' }}
+                    />
+                   {/* {  console.log('State id',state)} */}
+                   
+                   <View>
+                     {/* {console.log('data list city',data2)} */}
+                   <RNPickerSelect
+                      items={data2}
+                    //items={Metal}
+                      onValueChange={(value) =>setCity(value)}
+                    //onOpen={citySearch}
+                      style={ {
+                        inputAndroid: {padding:-14, color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-5,borderWidth:0 },
                         inputIOS: { color: '#032e63', fontSize: 14, width:'100%',marginBottom: 10,fontFamily:'Acephimere' },
                         placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                     }}
@@ -238,16 +333,28 @@ const getSupplier=async(values)=>{
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select City', value: '' }}
                     />
-                    <Text style={{fontSize:12,color:'#595959',fontFamily:'Acephimere',marginTop:-6}}>Select City</Text>
                    </View>
+                    {/* <Text style={{fontSize:12,color:'#595959',fontFamily:'Acephimere',marginTop:-6}}>Select City</Text> */}
+                   </View>
+                   
                    <View style={{borderWidth:0.5,height:70,borderColor:'grey',marginTop:10}}/>
                    <View style={{padding:20,alignItems:'flex-end',justifyContent:'center',width:'42%',height:70}}>
                    <View style={{alignItems:'center',justifyContent:'center'}}>
                    <RNPickerSelect
-                      items={Metal}
-                      onValueChange={val =>setMetal(val)}
+                      items={
+                        MetalType != undefined ?MetalType.map((item) => (
+                         
+                        {
+                         
+                       label:item.Value,
+                        value:item.Value
+                   
+                     })):undefined}
+                   
+                    // items={Metal}
+                      onValueChange={(value,index) =>Metalpurity1(value,index)}
                       style={ {
-                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-20 },
+                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-20,padding:10 },
                         inputIOS: { color: '#032e63', width: '100%', fontSize: 14, marginBottom:10,fontFamily:'Acephimere' },
                         placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                     }}
@@ -255,9 +362,23 @@ const getSupplier=async(values)=>{
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select Metal', value: '' }}
                     />
+                       {/* {console.log('resssmish',metal)} */}
 
+                       {/* <RNPickerSelect
+                  
+                     items={id3}
+                      onValueChange={val =>setId(val)}
+                      style={ {
+                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-20,padding:-10 },
+                        inputIOS: { color: '#032e63', width: '100%', fontSize: 14, marginBottom:10,fontFamily:'Acephimere' },
+                        placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
+                    }}
+                      value={id}
+                      useNativeAndroidPickerStyle={false}
+                      placeholder={{ label: 'Select Metal', value: '' }}
+                    /> */}
                     {/* <Text style={{color:'#032e63',fontFamily:'Acephimere',fontWeight:'700'}}>{'Gold '}</Text> */}
-                    <Text style={{fontSize:12,color:'#595959',fontFamily:'Acephimere',marginTop:-6}}>Select Metal</Text>
+                    {/* <Text style={{fontSize:12,color:'#595959',fontFamily:'Acephimere',marginTop:-6}}>Select Metal</Text> */}
                     </View>
                    </View>
               </View>
@@ -275,7 +396,7 @@ const getSupplier=async(values)=>{
                     <Text style={{color:'#fff',fontFamily:'Acephimere',fontSize:15}}>Search</Text>
                 </TouchableOpacity>
               </View>
-          {show ?null: null}
+          {show ?
                <View style={{paddingVertical:10}}>
            
             <FlatList
@@ -290,7 +411,7 @@ const getSupplier=async(values)=>{
                 flexDirection:'row',
                 justifyContent:'space-between'
                 }}> 
-                  {console.log('h123',item)}
+                  {/* {console.log('h123',item)} */}
                    <View>
                   {/* <Text style={{ fontSize: 16, color: '#000', fontFamily: 'Acephimere' }}>{item.SrNo}</Text> */}
                   <Text style={{ fontSize: 16, color: '#000', fontFamily: 'Acephimere' }}>{item.SupplierName}</Text>
@@ -306,7 +427,7 @@ const getSupplier=async(values)=>{
             )}
             />
             </View>
-
+: null}
               <View style={{
                 width:'100%',
                 backgroundColor:'#fff',
@@ -350,7 +471,7 @@ const getSupplier=async(values)=>{
             </View>
             <View style={{paddingVertical:10}}>
             <Text style={{fontFamily:'Acephimere',fontSize:16,color:'#383838'}}>Notifications</Text>
-            <FlatList
+            {/* <FlatList
             data={selector1}
             renderItem={({item})=>(
                 <View style={{elevation:5,
@@ -362,10 +483,10 @@ const getSupplier=async(values)=>{
                 flexDirection:'row',
                 justifyContent:'space-between'
                 }}>
-                  {console.log('h123',item)}
+                
                    <View>
-                       <Text style={{fontSize:16,color:'#000',fontFamily:'Acephimere'}}>{item.SupplierName}</Text>
-                       <Text style={{color:'#000',fontFamily:'Acephimere',fontSize:13}}>{item.Status}</Text>
+                       <Text style={{fontSize:16,color:'#000',fontFamily:'Acephimere'}}>{item.PartnerName}</Text>
+                       <Text style={{color:'#000',fontFamily:'Acephimere',fontSize:13}}>{item.Message}</Text>
                    </View>
                    <View style={{flexDirection:'row'}}>
                        <TouchableOpacity style={{
@@ -380,7 +501,7 @@ const getSupplier=async(values)=>{
                    </View>
                 </View>
             )}
-            />
+            /> */}
             </View>
         </View>
        
