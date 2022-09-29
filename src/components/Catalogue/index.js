@@ -3,10 +3,12 @@ import { View,FlatList,TouchableOpacity,Text,Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useSelector,useDispatch } from 'react-redux';
 import ImagePath from '../../components/ImagePath';
+import Loader from "../../components/Loader"
 import AsyncStorage from '@react-native-community/async-storage';
 const Catalogue=()=>{
   const navigation=useNavigation()
   const selector = useSelector(state => state.Catalogue.Categories)
+  const isFetching =useSelector(state =>state.isFetching)
   const dispatch=useDispatch()
   console.log('this is user respons223',selector);
   const manageCategory=async(id)=>{
@@ -30,6 +32,7 @@ const Catalogue=()=>{
              <View style={{backgroundColor:'#fff',alignItems:'center',justifyContent:'center',paddingVertical:14}}>
             <Text style={{fontSize:16,fontWeight:'700',fontFamily:'Roboto-Medium',color:'#032e63'}}>Categories </Text>
           </View>
+          {/* {isFetching?<Loader/>:null} */}
           <FlatList
             data={selector}
             numColumns={3}

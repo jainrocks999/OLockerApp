@@ -22,8 +22,9 @@ export default StyleSheet.create({
     width: 25,
   },
   img2: {
-    height: 26,
-    width: 22,
+    height: 22,
+    width: 26,
+    tintColor:'#fff'
   },
   img3: { 
     width: 34, 
@@ -181,11 +182,11 @@ export default StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
     borderRadius: 15,
-    width: 120,
+    width: 103,
     marginVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 160,
+    height: 140,
     marginHorizontal: 5,
   },
   Bt: { 

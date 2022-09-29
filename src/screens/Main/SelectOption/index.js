@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -14,38 +14,54 @@ import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 import styles from './styles';
 import RNPickerSelect from 'react-native-picker-select';
-
+import { useIsFocused } from '@react-navigation/native';
 const SelectOption = () => {
    const navigation=useNavigation()
-   const [type,setType]=useState('')
-   
+   const [type,setType]=useState()
+   const isFocused = useIsFocused();
+
+    useEffect((val) => {
+        if(isFocused){ 
+          manageOption()
+         setType('')
+        }
+    }, [isFocused]);
+
 
 const manageOption=(val)=>{
-  setType(val)
+   setType(val)
   if(val=='Product'){
+    console.log('product ..',(val));
      navigation.navigate('Addproduct',{
       type:val
     })
+
   }
   else if(val=='Category'){
+   
       navigation.navigate('Addcategory',{
         type:val
       })
   }
   else if(val=='Collections'){
+    console.log('Category.............',(val));
       navigation.navigate('Addcollection',{
         type:val
       })
   }
 }
+useEffect(()=>{
+  console.log('no value change ........');
+})
   return (
     <View style={styles.container1}>
      <Header
       source1={require('../../../assets/Fo.png')}
       source={require('../../../assets/L.png')}
-      // source2={require('../../../assets/La.png')}
+       source2={require('../../../assets/Image/dil.png')}
       title={'Select option to add '}
       onPress={() => navigation.goBack()}
+      onPress2={()=>navigation.navigate('FavDetails')}
       />  
       <View style={styles.main2}>
           <View style={[styles.main,{alignItems:'center'}]}>

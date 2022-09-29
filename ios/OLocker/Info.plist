@@ -69,6 +69,12 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Acephimere.otf</string>
+		<string>Philosopher-Regular.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Regular.ttf</string>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string/>
 </dict>
 </plist>

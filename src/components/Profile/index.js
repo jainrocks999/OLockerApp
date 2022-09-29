@@ -9,7 +9,8 @@ const Profile=()=>{
     return(
        <View style={{flex:1,backgroundColor:'#fff',paddingVertical:20}}>
            <View style={{paddingHorizontal:20,alignItems:'flex-start'}}>
-               <TouchableOpacity 
+           {selector.Profile.SupplierIntroduction?
+            <TouchableOpacity 
                style={{
                    backgroundColor:'#032e63',
                    paddingHorizontal:20,
@@ -19,10 +20,13 @@ const Profile=()=>{
                    alignItems:'center',justifyContent:'center'
                    }}>
                    <Text style={{color:'#fff',fontSize:14,fontFamily:'Acephimere'}}>About us</Text>
-               </TouchableOpacity>
+               </TouchableOpacity>  :null}
                <Text style={{fontSize:16,textAlign:'left',marginTop:20,color:'#535353',fontFamily:'Acephimere'}}>
                {selector.Profile.SupplierIntroduction}
                </Text>
+             
+               {selector.Images.map((item)=>
+               item.Type == 'Owner Image' ?
                <TouchableOpacity 
                style={{
                 backgroundColor:'#032e63',
@@ -33,8 +37,11 @@ const Profile=()=>{
                 alignItems:'center',justifyContent:'center',
                 marginTop:15
                    }}>
+                     {console.log('bire', `${ImagePath.Path}/${item.ImageUrl}`)}
+
                    <Text style={{color:'#fff',fontSize:14,fontFamily:'Acephimere'}}>Founder</Text>
-               </TouchableOpacity>
+               </TouchableOpacity>:null)}
+
                <View style={{flexDirection:'row'}}>
               {selector.Images.map((item)=>
                item.Type == 'Owner Image' ?
@@ -69,14 +76,14 @@ const Profile=()=>{
                <TouchableOpacity 
                style={{
                 backgroundColor:'#032e63',
-                paddingHorizontal:20,
+                paddingHorizontal:15,
                 paddingVertical:6,
                 borderRadius:20,
                 width:120,
                 alignItems:'center',justifyContent:'center',
                    marginTop:15
                    }}>
-                   <Text style={{color:'#fff',fontSize:14,fontFamily:'Acephimere'}}>Showrooms</Text>
+                   <Text style={{color:'#fff',fontSize:14,fontFamily:'Acephimere',width:'90%'}}>Showrooms</Text>
                </TouchableOpacity>
               <View style={{paddingHorizontal:20,marginTop:20}}>
                    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -88,6 +95,8 @@ const Profile=()=>{
                </View>
                </View>
                :null}
+               {selector.Profile.MobileNo!=null||selector.Profile.EmailId!=null?
+               <View>
                <TouchableOpacity 
                style={{
                 backgroundColor:'#032e63',
@@ -126,6 +135,8 @@ const Profile=()=>{
                    */}
                    <View style={{height:100}}/>
                </View>
+               </View>
+               :null}
            </View>
        </View>
     )

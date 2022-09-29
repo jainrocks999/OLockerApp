@@ -18,10 +18,12 @@ const Messagebox = () => {
         <View style={styles.container1}>
             <Header
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       source1={require('../../../assets/Fo.png')}
       title={'Message Box '}
       onPress={() => navigation.goBack()}
+      onPress2={()=>navigation.navigate('FavDetails')}
+      onPress1={()=>navigation.navigate('Message')}
       />
             
             <StatusBar />

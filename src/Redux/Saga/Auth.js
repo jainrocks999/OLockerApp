@@ -1,26 +1,47 @@
-import { YellowBox } from 'react-native';
+import { ToastAndroid, YellowBox } from 'react-native';
 import {takeEvery, put, call} from 'redux-saga/effects';
 import Api from '../Api';
+import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-community/async-storage';
+
 //Login
 function* doLogin(action) {
+  // console.log('login action,,...',action);
   try {
     const data={
-        
+      email:action.email,
+      password:action.password
     }
-    const response = yield call(Api.fetchDataByPOST, action.url, data);
-    console.log('this is run time response', response);
-    if (response.status == 200) {
+    const response = yield call(Api.fetchDataByGET, action.url, data);
+    console.log('Login Details.........',response);
+   
+
+    if (response.success==true) {
       yield put({
         type: 'User_Login_Success',
-        payload: response.data,
+       payload: response.data,
+       
       });
-      action.navigation.replace('Main');
+      console.log("00000000", JSON.stringify(response.LoginDetail.BranchSrNo));
+      console.log('Login time ............',data);
+      AsyncStorage.setItem('email',JSON.stringify(data.email));
+      AsyncStorage.setItem('password',JSON.stringify(data.password));
+
+      AsyncStorage.setItem('Partnersrno',JSON.stringify(response.LoginDetail.PartnerSrNo));
+      AsyncStorage.setItem('BranchNo', JSON.stringify(response.LoginDetail.BranchSrNo));
+      action.navigation.replace('Home')
+      Toast.show('Login successful')
+      // action.navigation.replace('Main');
     } else {
+      console.log('error messages......',response.error_info.description);
+
+      Toast.show(response.error_info.description)
       yield put({
         type: 'User_Login_Error',
       });
     }
   } catch (error) {
+    console.log('error223',error);
     yield put({
       type: 'User_Login_Error',
     });
@@ -34,7 +55,7 @@ function* getProducts(action) {
       SupplierSrNo:action.SupplierSrNo
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response100',response);
+    console.log('Product ,,,,......Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Product_Success',
@@ -58,6 +79,7 @@ function* getProduct(action) {
     }
     const response = yield call(Api.fetchDataByGET, action.url, data);
     if (response.success == true) {
+      console.log('GetProducts....Response',response);
       yield put({
         type: 'Get_Products_Success',
         payload: response.Products,
@@ -74,16 +96,14 @@ function* getProduct(action) {
   }
 }
 function* getSupplierProduct(action) {
-  console.log('virend',action);
+  // console.log('GetSupplierProducts...Action',action);
   try {
     const data = {
       partnerSrno: action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url, data);
-   
-
     if (response.success == true) {
-      console.log('vire1', response);
+      console.log('GetSupplierProducts ........Response', response);
       yield put({
         type: 'Get_SupplierProducts_Success',
         payload: response,
@@ -108,6 +128,7 @@ function* getCollection(action) {
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
     if (response.success == true) {
+      console.log('GetCollections .....Response',response);
       yield put({
         type: 'Get_Collection_Success',
         payload: response.PartnerCollection,
@@ -125,13 +146,13 @@ function* getCollection(action) {
 }
 
 function* getCategories(action) {
-  console.log('virendra2',action);
+  // console.log('GetCatalogueCategories.....Action',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
+    console.log('GetCatalogueCategories... Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Categories_Success',
@@ -155,7 +176,7 @@ function* getUser(action) {
       customerId:action.customerId
     }
     const response = yield call(Api.fetchDataByGET2, action.url,data);
-    console.log('this is response',response);
+    console.log('GetUserProfile .....Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_User_Success',
@@ -181,8 +202,8 @@ function* getPurchase(action) {
       PartnerId:action.PartnerId
     }
     const response = yield call(Api.fetchDataByGET2, action.url,data);
-    console.log('this is narendra is testing here',response);
-    if (response.success==false) {
+    console.log('Purchase History ....Response',response);
+    if (response.success==true) {
       yield put({
         type: 'Get_Purchase_Success',
         payload: response.PurchaseHistoryItems,
@@ -207,7 +228,7 @@ function* getLoyalty(action) {
       customerId:action.customerId
     }
     const response = yield call(Api.fetchDataByGET2, action.url,data);
-    console.log('this is response',response);
+    console.log('Loyalty Get Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Loyalty_Success',
@@ -235,7 +256,7 @@ function* getCustomer(action) {
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response11111',response);
+    console.log('GetCustomersByPartnerId,,,,...Customer List Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Customer_Success',
@@ -261,7 +282,7 @@ function* getCategory(action) {
       Category:action.Category
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
+    console.log('GetPartnerProductsByCatalogueCategory....Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Category_Success',
@@ -287,7 +308,7 @@ function* getCategory1(action) {
       Category:action.Category
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
+    console.log('category Response......',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Category1_Success',
@@ -314,6 +335,7 @@ function* getNetwork(action) {
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
     if (response.success == true) {
+      console.log('my Supplier List on My Network .....',response);
       yield put({
         type: 'Get_Network_Success',
         payload: response.MyNetworkSuppliers,
@@ -337,7 +359,7 @@ function* getNetwork1(action) {
       partnerSrNo:action.partnerSrNo
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('vkm',response);
+    console.log('My Supplier Network .....Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Network1_Success',
@@ -363,7 +385,7 @@ function* getSent(action) {
       partnerSrNo:action.partnerSrNo
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
+    console.log('GetSupplierSentRequests......Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Sent_Success',
@@ -418,15 +440,17 @@ function* getRemoveSentRequst(action) {
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
 
-    console.log('virend000098000',response);
+    // console.log('',response);
     if (response.data.success == true) {
 
-       console.log('virend000098000000',response);
+       console.log('GetRemoveSentRequst.....Response',response);
 
       yield put({
         type: 'get_RemoveSupplierFromNetwork_Success',
         payload: response.data,
       });
+      action.navigation.navigate('MyNetwork1',{screen:'MyNetworks'})
+      // action.navigation.navigate('MyNetworks')
     } else {
       console.log('this is working');
       yield put({
@@ -477,12 +501,13 @@ function* getProfile(action) {
       supplierSrno:action.supplierSrno
     }
     const response = yield call(Api.fetchDataByGET1, action.url,data);
-    console.log('this is response',response);
+    console.log('Partner Profile ............Response',response);
      if (response.success == true) {
       yield put({
         type: 'Get_Profile_Success',
         payload: response,
       });
+
       action.navigation.navigate('MyNetwork1',{screen:'PartnerProfile'})
     } else {
       yield put({
@@ -502,7 +527,7 @@ function* getFeedback(action) {
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
-    console.log('this is response',response);
+    console.log('FeedBack.......Response',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Feedback_Success',
@@ -522,7 +547,7 @@ function* getFeedback(action) {
 }
 
 function* addCollection(action) {
- console.log('vire990',action);
+ console.log('collection Adding',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno,
@@ -537,14 +562,19 @@ function* addCollection(action) {
 
     }
     const response = yield call(Api.fetchDataByPOST1, action.url,data);
-    console.log("virend",response);
+    console.log("collection not condicton check bt given all response ",response);
     if (response.data.success == true) {
+      console.log('collection we added ...then give response succes',response);
+      Toast.show('collection added successfully ')
       yield put({
         type: 'Add_Collection_Success',
+        // payload:response.data
       });
+     
       action.navigation.navigate( "Home1" , { screen:'MyCatalogue'
         })
     } else {
+      Toast.show('collection Not Added ')
       yield put({
         type: 'Add_Collection_Error',
       });
@@ -558,13 +588,13 @@ function* addCollection(action) {
 }
 
 function* addProduct(action) {
-console.log('virreeeee',action);
+console.log('Added Product ....by action ',action);
   try {
     const data={
       PartnerSrno:action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByPOST, action.url,data);
-    console.log('this is response5',response);
+    console.log('Added product Response Given....',response);
     if (response.success == true) {
       yield put({
         type: 'Add_Product_Success',
@@ -668,6 +698,7 @@ function* pendingRequest(action) {
         payload: response.SupplierRequestList,
       });
       action.navigation.navigate('PendingRequest')
+
     } else {
       yield put({
         type: 'Get_Pending_Error',
@@ -706,11 +737,13 @@ function* getAllNotification(action) {
       partnerSrno: action.PartnerSrno
     }
     const response = yield call(Api.fetchDataByGET, action.url,data);
+    console.log('notification................12',response);
     if (response.success == true) {
       yield put({
         type: 'Get_Allnotification_Success',
         payload: response,
       });
+      // action.navigation.navigate('PendingRequest')
     } else {
       yield put({
         type: 'Get_Allnotification_Error',
@@ -981,15 +1014,15 @@ function* getMetals(action) {
     }
   
     const response = yield call(Api.fetchDataByGET, action.url,data);
-   
+    console.log('get Fav Product detail,,,,',response);
 
     if (response.success == true) {
-      console.log('category detail data .....    .  . ',response.RetailerFavProduct.map((item)=>{
-         console.log('category detail data ..... 333232',item.ProductDetails.Description)
-        //  ProductDetails.ProductImageList.map((item1)=>{
-        //   console.log('category detail data ..... viru...',`${'https://devappapi.olocker.in/'}${item1.ImageLocation}`);
-        // }));
-      }));
+      // console.log('category detail data .....    .  . ',response.RetailerFavProduct.map((item)=>{
+      //    console.log('category detail data ..... 333232',item.ProductDetails.Description)
+      //   //  ProductDetails.ProductImageList.map((item1)=>{
+      //   //   console.log('category detail data ..... viru...',`${'https://devappapi.olocker.in/'}${item1.ImageLocation}`);
+      //   // }));
+      // }));
       yield put({
         type: 'Get_PartnerFavProduct_Success',
         payload: response,
@@ -1007,13 +1040,166 @@ function* getMetals(action) {
     });
   }
 }
+function* getDownloadByData(action) {
+  console.log('downloaddd getDownloadByData ',action);
+  try {
+    const data={
+      PartnerSrNo:action.PartnerSrNo,
+      FromDate:action.FromDate,
+      ToDate:action.ToDate
+    }
+    console.log('download by Data Get Report',data);
+    const response = yield call(Api.fetchDataByGET6, action.url,data);
+
+    if (response.success == true) {
+      console.log('download by Data Get Report',response);
+
+      yield put({
+        type: 'Get_GetReportForAppDownload_Success',
+        payload: response,
+      });
+       
+    } else {
+      console.log('jxjcjz');
+      yield put({
+        type: 'Get_GetReportForAppDownload_Error',
+      });
+    }
+  } catch (error) {
+    console.log('error by',error);
+    yield put({
+      type: 'Get_GetReportForAppDownload_Error',
+    });
+  }
+}
+function* getDownloadByData1(action) {
+  console.log('downloaddd getDownloadByData ',action);
+  try {
+    const data={
+      PartnerSrNo:action.PartnerSrNo,
+      FromDate:action.FromDate,
+      ToDate:action.ToDate
+    }
+    console.log('download by Data Get Report',data);
+    const response = yield call(Api.fetchDataByGET6, action.url,data);
+
+    if (response.success == true) {
+      console.log('download by Data Get Report',response);
+
+      yield put({
+        type: 'Get_GetReportForAppDownload1_Success',
+        payload: response,
+      });
+       
+    } else {
+      console.log('jxjcjz');
+      yield put({
+        type: 'Get_GetReportForAppDownload1_Error',
+      });
+    }
+  } catch (error) {
+    console.log('error by',error);
+    yield put({
+      type: 'Get_GetReportForAppDownload1_Error',
+    });
+  }
+}
 
 
+
+function* getAddLoyalty(action) {
+  console.log('Loyalty Adding',action);
+   try {
+     const data={
+      PlanTypeId:action.PlanTypeId,
+      PartnerId:action.PartnerId,
+      Points:action.Points,
+      StartDate:action.StartDate,
+      EndDate:action.EndDate,
+      PlanName:action.PlanName
+ 
+     }
+    //  console.log('data........',data);
+     const response = yield call(Api.fetchDataByPOST1, action.url,data);
+     console.log("Loyalty added Response",response);
+     if (response.data.success == true) {
+       Toast.show('Loyalty added successfully ')
+       yield put({
+         type: 'Get_AddUpdatePlanDetails_Success',
+       });
+       action.navigation.navigate('Loyalty1')
+
+     } else {
+      Toast.show('Loyalty Not AddUpdatePlanDetails ')
+       yield put({
+         type: 'Get_AddUpdatePlanDetails_Error',
+       });
+     }
+   } catch (error) {
+     console.log('erreeee',error);
+     yield put({
+       type: 'Get_AddUpdatePlanDetails_Error',
+     });
+   }
+ }
+ 
+
+ function* getLoyaltyType(action) {
+  try {
+    const response = yield call(Api.fetchDataByGET, action.url);
+    if (response.success == true) {
+      yield put({
+        type: 'Get_GetLoyalityTypes_Success',
+        payload: response,
+      });
+    } else {
+      yield put({
+        type: 'Get_GetLoyalityTypes_Error',
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: 'Get_GetLoyalityTypes_Error',
+    });
+  }
+}
+
+
+function* updateProduct(action) {
+  console.log('updated Product ....by action ',action);
+    try {
+      const data={
+        PartnerSrno:action.PartnerSrno
+      }
+      const response = yield call(Api.fetchDataByPOST, action.url,data);
+      console.log('updated product Response Given....',response);
+      if (response.success == true) {
+        yield put({
+          type: 'Update_Product_Success',
+        });
+        // action.navigation.navigate('Feedback')
+      } else {
+        yield put({
+          type: 'Update_Product_Error',
+        });
+      }
+    } catch (error) {
+      yield put({
+        type: 'Update_Product_Error',
+      });
+    }
+  }
 
 export default function* authSaga() {
+  yield takeEvery('Update_Product_Request',updateProduct)
+  yield takeEvery('User_Login_Request',doLogin)
+  yield takeEvery('Get_GetLoyalityTypes_Request',getLoyaltyType)
+  yield takeEvery('Get_Request_AddUpdatePlanDetails',getAddLoyalty)
+  yield takeEvery('Get_Request_GetReportForAppDownload1',getDownloadByData1)
+  yield takeEvery('Get_Request_GetReportForAppDownload',getDownloadByData)
   yield takeEvery('Get_PartnerFavProduct_Request',getcategoryDataDetail)
  yield takeEvery('Get_LookupData_Request',getMetals)
-  yield takeEvery('User_Login_Request', doLogin);
+  // yield takeEvery('User_Login_Request', doLogin);
   yield takeEvery('Get_Product_Request',getProducts)
   yield takeEvery('Get_Products_Request', getProduct)
   yield takeEvery('Get_SupplierProducts_Request',getSupplierProduct)

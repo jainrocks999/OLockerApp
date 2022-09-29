@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
   Dimensions,
-  Image,
+ Alert,
   FlatList,
   ScrollView,
   TouchableOpacity,
@@ -14,14 +14,17 @@ import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useDispatch,useSelector } from 'react-redux';
 import styles from './styles';
+import Loader from "../../../components/Loader"
 const HomeScreen = () => {
    const navigation=useNavigation()
    const dispatch=useDispatch()
-
+   const isFetching = useSelector(state=>state.isFetching)
    const selector=useSelector(state=>state.RequestList)
-  const selector2 = useSelector(state => state.RejectedRequestData)
-   console.log('gjjj',selector);
-    const manage =(SupplierSrNo)=>{
+  const selector2 = useSelector(state => state.AcceptedRequestData)
+  const selector3 =useSelector(state=>state.RejectedRequestData)
+  
+   console.log('reject .................',selector3)
+    const AcceptMEthod =(SupplierSrNo)=>{
 
       dispatch({
         type: 'Get_Accepted_Request',
@@ -31,7 +34,7 @@ const HomeScreen = () => {
        
       });
     } 
-  
+ 
    
 const Reject =(SupplierSrNo)=>{
   dispatch({
@@ -42,16 +45,54 @@ const Reject =(SupplierSrNo)=>{
     RejectReason: "string"
   });
 }
+const ResponseMethoed=()=>{
+  if(selector2.success===true){
+    Alert.alert(
+      "Success",
+      "My Alert Msg",
+      [
+        // {
+        //   text: "Cancel",
+        //   onPress: () => console.log("Cancel Pressed"),
+        //   style: "cancel"
+        // },
+        { text: "OK", onPress: () => pendingRequest() }
+      ]
+    );
+  }
+  else{
+    console.log('data not found');
+  }
+}
+useEffect(()=>{
+//  ResponseMethoed()
+// AcceptMEthod()
+console.log('pending Accept...........33',selector2);
+
+})
+const pendingRequest=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno')
+  dispatch({
+    type:'Get_Pending_Request',
+    url:'GetSupplierRequest',
+    partnerSrNo:srno,
+    navigation
+  });
+   
+}
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       source1={require('../../../assets/Fo.png')}
       title={'Pending Request '}
       onPress={() => navigation.goBack()}
+      onPress1={() => navigation.navigate('Message')}
+      onPress2={()=>navigation.navigate('FavDetails')}
       />   
-      <View>
+      <ScrollView>
+        {isFetching?<Loader/>:null}
         <View style={{paddingHorizontal:20,marginTop:10}}>
          <Text style={{color:'#565656',fontFamily:'Acephimere'}}>{`${selector.length}${' Pending Requests'}`}</Text>
          </View>
@@ -64,7 +105,7 @@ const Reject =(SupplierSrNo)=>{
                  </View>
                  <View style={{marginLeft:20}}>
                      <Text style={{fontSize:16,color:'#032e63',fontFamily:'Acephimere'}}>{item.SupplierName}</Text>
-                     <Text style={{fontSize:13,color:'#032e63',fontFamily:'Acephimere'}}>{item.city}</Text>
+                     <Text style={{fontSize:13,color:'#032e63',fontFamily:'Acephimere'}}>{item.Location}</Text>
                      <Text style={{fontSize:11,color:'#575757',fontFamily:'Acephimere'}}>{item.time}</Text>
                      <View style={{
                        alignItems:'center',
@@ -73,7 +114,7 @@ const Reject =(SupplierSrNo)=>{
                        marginTop:20,
                        }}>
                        <TouchableOpacity 
-                       onPress={()=>manage(item.SupplierSrNo)}
+                       onPress={()=>AcceptMEthod(item.SupplierSrNo)}
                        style={{
                          backgroundColor:'#5dc95c',
                          paddingHorizontal:15,
@@ -104,7 +145,7 @@ const Reject =(SupplierSrNo)=>{
              </View>
          )}
          />
-      </View>   
+      </ScrollView>   
        {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
       </View> */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
@@ -15,26 +16,67 @@ import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import styles from './styles';
 import { types } from '@babel/core';
+import Loader from "../../../components/Loader"
+import AsyncStorage from '@react-native-community/async-storage';
+
 const HomeScreen = () => {
    const navigation=useNavigation()
    const dispatch=useDispatch()
+   const isFetching = useSelector(state=>state.isFetching)
    const selector=useSelector(state=>state.SentRequestData)
    const selector1=useSelector(state=>state.AcceptedRequestData)
    const selector2=useSelector(state=>state.RejectedRequestData)
    const [rejected,setRejected]=useState(false)
    const [pending,setPending]=useState(true)
    const [accepted,setAccepted]=useState(false)
-
+   const selector6=useSelector(state=>state.removesentrequest)
+   console.log('delete api response',selector6?.success);
 console.log('this is selector data1111',selector);
+const SentRequest=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno')
+  
+  dispatch({
+    type: 'Get_Sent_Request',
+    url: 'GetSupplierSentRequests',
+    partnerSrNo:srno,
+    navigation
+  });
+
+ 
+ 
+}
+const DeleteResponse=()=>{
+  if(selector6?.success===true){
+    Alert.alert(
+      "Success",
+      "My Alert Msg",
+      [
+        // {
+        //   text: "Cancel",
+        //   onPress: () => console.log("Cancel Pressed"),
+        //   style: "cancel"
+        // },
+        { text: "OK", onPress: () => SentRequest() }
+      ]
+    );
+  }
+  else{
+    console.log('data not found');
+  }
+}
  const deteleApi =(SrNo)=>{
 console.log(('jghgh0',SrNo));
+
+
   dispatch({
     url:'RemoveSupplierFromNetwork',
     type:'get_RemoveSupplierFromNetwork_Request',
      srno:SrNo,
      RejectReason:"string"
+    
 
   })
+ 
 //   var axios = require('axios');
 // //var data = JSON.stringify({SrNo:SrNo,RejectReason:"string"});
 
@@ -64,6 +106,11 @@ console.log(('jghgh0',SrNo));
 
 
  }
+
+ useEffect(()=>{
+    DeleteResponse()
+  console.log('data is not coming');
+ })
   const manageRequest=()=>{
     setPending(true)
     setAccepted(false)
@@ -85,12 +132,15 @@ console.log(('jghgh0',SrNo));
     <View style={styles.conatiner}>
      <Header
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       source1={require('../../../assets/Fo.png')}
       title={'Sent Requests '}
       onPress={() => navigation.goBack()}
+      onPress1={() => navigation.navigate('Message')}
+      onPress2={()=>navigation.navigate('FavDetails')}
       />   
-         <View>
+         <ScrollView>
+           {isFetching?<Loader/>:null}
             <View style={styles.main}>
                 <TouchableOpacity 
                 onPress={()=>manageRequest()}
@@ -294,7 +344,7 @@ console.log(('jghgh0',SrNo));
               />
             </View>
             </View>:null}
-         </View> 
+         </ScrollView> 
        {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>
       </View> */}

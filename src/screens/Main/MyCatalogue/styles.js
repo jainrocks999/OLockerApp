@@ -153,20 +153,23 @@ export default StyleSheet.create({
         color: '#032e63' 
     },
     card3v: {
-        // width: '100%%',
+          width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
-        height: 300,
+        //justifyContent: 'center',
+            height:'25%',
         // backgroundColor:'#fff',
         borderWidth: .5
     },
     card3vt: { 
         fontWeight: '700', 
-        fontSize: 15, 
-        marginTop: 5 
+        fontSize: 15,
+        alignSelf:'center'
     },
     card3vimg: { 
-        height: 270, 
-        width: "100%", 
+        height: '95%', 
+        width: '100%', 
+        borderColor: "red",
+        borderWidth: 5,
+
     }
     })

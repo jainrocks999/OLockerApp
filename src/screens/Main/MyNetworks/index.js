@@ -7,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import Header from '../../../components/CustomHeader';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +15,7 @@ import StatusBar from '../../../components/StatusBar';
 import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import Loader from "../../../components/Loader";
-import { TextInput } from 'react-native-gesture-handler';
+
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
 const HomeScreen = () => {
@@ -25,6 +26,8 @@ const HomeScreen = () => {
    const [filteredDataSource, setFilteredDataSource] = useState(selector);
    const [masterDataSource, setMasterDataSource] = useState(selector);
     console.log('vmm',selector);
+    const win = Dimensions.get('window');
+
    const searchFilterFunction = text => {
      if (text) {
        const newData = masterDataSource.filter(function (item) {
@@ -50,7 +53,7 @@ const HomeScreen = () => {
 
    const dispatch=useDispatch()
   const manageProfile=async(id)=>{ 
-    AsyncStorage.setItem('SupplierId', JSON.stringify(id))
+   AsyncStorage.setItem('SupplierId', JSON.stringify(id))
     console.log('storage id for supplier',id);
       dispatch({
         type: 'Partner_Catalogue_Request',
@@ -70,10 +73,12 @@ const HomeScreen = () => {
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       source1={require('../../../assets/Fo.png')}
       title={'My Network '}
       onPress={() => navigation.goBack()}
+      onPress1={()=>navigation.navigate('Message')}
+      onPress2={()=>navigation.navigate('FavDetails')}
       />   
       {isFetching?<Loader/>:null}
       <View>
@@ -120,9 +125,10 @@ const HomeScreen = () => {
                <View style={{height:120,borderTopRightRadius:10,borderTopLeftRadius:10}}>
               { item.SupplierImage==null?
                  <Image
-                   style={{ width: '100%', height: 120, borderTopRightRadius: 10, borderTopLeftRadius: 10}}
-                   resizeMode='stretch'
-               source={require('../../../assets/demo.png')} />:
+                 style={{
+                  height: 120, width: '100%',borderTopRightRadius:10,borderTopLeftRadius:10
+                }}
+                source={require('../../../assets/Image/Not.jpeg')} />:
                <Image
                   style={{height: 120, width: '100%',borderTopRightRadius:10,borderTopLeftRadius:10}}
                   resizeMode='stretch'

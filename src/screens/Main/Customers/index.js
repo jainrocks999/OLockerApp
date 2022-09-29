@@ -28,12 +28,56 @@ const MyCatalogue = () => {
   const [status,setStatus]=useState('')
   const isFetching=useSelector(state=>state.isFetching)
   const dispatch=useDispatch()
-  const [data1,setUserdata]=useState('')
+  const [data1,setUserdata]=useState(false)
+  const [data2,setUserdata1]=useState('')
+  const selector=useSelector(state=>state.DownloadByData)
+  const selector1=useSelector(state=>state.DownloadByData1.Downloads)
+  console.log('recent download dataa',selector1);
+  const date=new Date();
+  let ToDAY= `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+console.log('change formate',ToDAY);
+  // console.log('date is formate  ',selector?.Downloads.length);
+  
  useEffect( ()=>{
- recentData()
+//  TotalDownload()
+//  TotalDownload2()
  
 },[])
-const recentData=async()=>{
+ const TotalDownload2= async()=>{
+  setTimeout(function(){setUserdata(true)}, 2000).bind(data)
+ }
+
+const TodayDownload=async()=>{
+  const srno=await AsyncStorage.getItem('Partnersrno');
+  var axios = require('axios');
+
+  var config = {
+    method: 'get',
+    url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
+    // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
+    headers: {
+      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+      'Content-Type': 'application/json'
+    },
+    params:{
+      PartnerSrNo:srno,
+      FromDate:ToDAY,
+      ToDate:ToDAY
+    }
+  };
+
+  axios(config)
+    .then(function (response) {
+      if (response.data.success==true){
+      setUserdata1(response.data.Downloads);
+      }
+    })
+    .catch(function (error) {
+      console.log('sssmssmsms',error);
+    });
+ 
+}
+const TotalDownload=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno');
   var axios = require('axios');
 
@@ -48,15 +92,12 @@ const recentData=async()=>{
     params:{
       PartnerSrNo:srno,
       FromDate:"1/1/2010",
-      ToDate:"1/1/2022"
+      ToDate:ToDAY
     }
   };
 
   axios(config)
     .then(function (response) {
-      // console.log('wwwwccc23', (response.data.Downloads.map((item)=>{
-      //   console.log('cccccs',item.PartnerAddDate);
-      // })));
       if (response.data.success==true){
       setUserdata(response.data.Downloads);
       }
@@ -88,12 +129,12 @@ const recentData=async()=>{
     });
   }
   const Loyalty=(id)=>{
-    dispatch({
-      type: 'Get_Loyalty_Request',
-      url: 'GetPartnerPoint',
-      customerId:857246,
-      navigation
-    });
+    // dispatch({
+    //   type: 'Get_Loyalty_Request',
+    //   url: 'GetPartnerPoint',
+    //   customerId:857246,
+    //   navigation
+    // });
   }
 
 
@@ -115,13 +156,16 @@ const recentData=async()=>{
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        // source2={require('../../../assets/La.png')}
+         source2={require('../../../assets/Image/dil.png')}
         title={'My Customers '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
-      {isFetching?<Loader/>:null}
+     
       <ScrollView>
+      {isFetching?<Loader/>:null}
+      {/* {data1?<Loader/>:null} */}
         <View
           style={styles.main}>
           <View style={{height: 150}} />
@@ -130,11 +174,11 @@ const recentData=async()=>{
           style={styles.card}>
             <View style={styles.cardV}>
             <View style={styles.cardV1}>
-              <Text style={styles.cardV1t}>3</Text>
+              <Text style={styles.cardV1t}>{selector.Downloads?.length}</Text>
               <Text style={styles.cardV1tt}>Today Downloads</Text>
             </View>
             <View style={styles.cardV1}>
-              <Text style={styles.cardV1t}>{data1.length}</Text>
+              <Text style={styles.cardV1t}>{selector1?.length}</Text>
               <Text style={styles.cardV1tt}>Total Downloads</Text>
             </View>
             </View>
@@ -212,7 +256,7 @@ const recentData=async()=>{
                </View>
                <Text style={styles.card2t}>{'Feedback'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>Loyalty()}
+          <TouchableOpacity onPress={()=>navigation.navigate('Loyalty1')}
            style={{alignItems:'center'}}>
                <View style={{}}>
               <Image style={styles.card2img} source={require('../../../assets/Image/heart.png')}/>
@@ -240,12 +284,13 @@ const recentData=async()=>{
         </View>
         <View>
           <FlatList
-            data={data1}
+            data={selector1}
             renderItem={({ item }) => (
               <TouchableOpacity
                // onPress={() => userProfile(item.SrNo)}
                 //  onPress={()=>navigation.navigate('MyCustomerDetail')}
                 style={styles.cardView}>
+                  {console.log('item233',item)}
                 <View style={styles.carditem}>
                   <Image
                     style={styles.carditemimg}

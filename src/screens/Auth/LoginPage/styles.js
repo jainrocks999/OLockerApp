@@ -1,4 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 export default StyleSheet.create({
 container:{
 flex:1,
@@ -14,8 +16,9 @@ backgroundColor:'#f7f7f7'
   },
   line: {
     borderBottomWidth: 1,
-    marginHorizontal: Platform.OS == 'android' ? 265 : 293,
-    marginLeft: 12,
+    width:wp('14.5%'),
+    // marginHorizontal: Platform.OS == 'android' ? 265 : 293,
+    marginLeft: 14,
   },
 view:{
   paddingVertical:10,
@@ -64,15 +67,18 @@ card: {
   input1: {
     
     marginLeft: 0,
-    paddingVertical: 10,
-    color: '#474747'
+    paddingVertical: 5,
+    color: '#474747',
+    width:'100%',
+    // borderWidth:1
     //color: colors.textColor,
   },
   input: {
     alignItems: 'center',
     flexDirection: 'row',
     borderBottomWidth:1,
-    width:'67%',
+     width:wp('60%'),
+    //  borderWidth:5,
     marginLeft:20,
     
     

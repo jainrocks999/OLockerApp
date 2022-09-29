@@ -74,9 +74,11 @@ const userProfile=async(id)=>{
      <Header
       source={require('../../../assets/L.png')}
       source1={require('../../../assets/Fo.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       title={'My Customers '}
       onPress={() => navigation.goBack()}
+      onPress1={() => navigation.navigate('Message')}
+      onPress2={()=>navigation.navigate('FavDetails')}
       /> 
       {isFetching?<Loader/>:null}
        <View style={styles.blog}>
@@ -132,13 +134,13 @@ const userProfile=async(id)=>{
             )}
             />
           </View>
-       <View style={{backgroundColor:'#032e63',width:60,height:60,
+       {/* <View style={{backgroundColor:'#032e63',width:60,height:60,
           position:'absolute',bottom:80,right:15,borderRadius:30,
           alignItems:'center',
           justifyContent:'center'
         }}>
         <Image style={{height:30,width:30}} source={require('../../../assets/plus.png')}/>
-        </View>
+        </View> */}
       {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />
       </View> */}

@@ -1,9 +1,42 @@
 import React from 'react';
-import { View,Text,StyleSheet,Image } from 'react-native';
+import { View,Text,StyleSheet,Image,TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../Loader'
+import {useNavigation} from '@react-navigation/native';
 
 const Settings=()=>{
+    const navigation=useNavigation()
+    const dispatch=useDispatch()
+    const selector=useSelector(state=>state.ProfileData)
+    const isFetching =useSelector(state=>state.isFetching)
+    console.log("profiledata console   ,,,",selector.Profile);
+
+    const deteleApi =async(SrNo,)=>{
+        
+        const srno=await AsyncStorage.getItem('Partnersrno');
+        const supplier= await AsyncStorage.getItem('SupplierId')
+        console.log('supplier ,,,,,,,,,,',supplier);
+        
+          dispatch({
+            url:'RemoveSupplierFromNetwork',
+            type:'get_RemoveSupplierFromNetwork_Request',
+             srno:SrNo,
+             supplierSrNo:supplier,
+             partnerSrNo:srno,
+            navigation
+          });
+          dispatch({
+            type: 'Get_Network1_Request',
+            url: 'GetMyNetworkByPartnerId',
+            partnerSrNo:srno,
+            navigation
+          });
+        }
+         
     return(
         <View style={{backgroundColor:'#fff',paddingVertical:20,paddingHorizontal:15}}>
+            {/* {isFetching?<Loader/>:null} */}
             {/* <View style={{
                 flexDirection:'row',
                 alignItems:'center',
@@ -50,7 +83,8 @@ const Settings=()=>{
                     <Text style={{fontSize:14,width:'100%',color:'#3e3e3e',fontFamily:'Acephimere'}}>{'Remove from network'}</Text>
                 </View>
                 <View style={{flexDirection:'row',alignItems:'center',marginLeft:20}}>
-                    <View 
+                    <TouchableOpacity 
+                    onPress={()=>deteleApi(selector.Profile.SrNo,)}
                     style={{
                         borderColor:'#e9056b',
                         paddingHorizontal:15,
@@ -59,7 +93,7 @@ const Settings=()=>{
                         borderWidth:1
                         }}>
                         <Text style={{color:'#e9056b',fontFamily:'Acephimere',fontSize:12}}>{'REMOVE'}</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>                
             </View>
             {/* <View style={{

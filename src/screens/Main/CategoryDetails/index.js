@@ -5,9 +5,10 @@ import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import ImagePath from '../../../components/ImagePath';
-
+import Loader from '../../../components/Loader'
 const MyProducts = ({route}) => {
     const navigation=useNavigation()
+    const isFetching=useSelector(state=>state.isFetching)
     const selector=useSelector(state=>state.CategoryDetail)
     console.log('this is user detals',selector);
     // const datas=route.params.title
@@ -16,12 +17,14 @@ const MyProducts = ({route}) => {
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={'Category List'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
       <ScrollView>
+        {isFetching?<Loader/>:null}
         <View
           style={{
             width: '100%',

@@ -33,13 +33,13 @@ const HomeScreen = () => {
    const [message,setMessage]=useState(false)
    const [catalogue,setCatalogue]=useState(false)
    const [setting,setSetting]=useState(false)
+   const [rating1, setRatting1] = useState(0);
    const isFetching=useSelector(state=>state.isFetching)
    const selector=useSelector(state=>state.ProfileData)
-   const selector1 = useSelector(state => state.Catalogue)
    const BannerWidth = (Dimensions.get('window').width * 15) / 16;
    const BannerHeight = 140;
   console.log('virendramishra45', selector);
-  selector.Images.map((item)=>{
+  selector?.Images?.map((item)=>{
     console.log('virendramishra1254',`${ImagePath.Path}/${item.ImageUrl}`);
   })
    
@@ -104,10 +104,12 @@ const addToNetwork=async()=>{
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
      <Header
       source={require('../../../assets/L.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       source1={require('../../../assets/Fo.png')}
       title={'Partner Profile '}
       onPress={() => navigation.goBack()}
+      onPress2={()=>navigation.navigate('FavDetails')}
+      onPress1={() => navigation.navigate('Message')}
       />   
       {isFetching?<Loader/>:null}
       <ScrollView>
@@ -117,7 +119,7 @@ const addToNetwork=async()=>{
           <View style={{flexDirection:'row',padding:15,width:'100%'}}>
             <View style={{backgroundColor:'#fff',height:100,width:'30%',borderRadius:10}}>
               {/* {selector.Images==[]? */}
-              {selector.Images.map((item) =>
+              {selector.Images?.map((item) =>
                 item.Type == 'Logo' ?
                   <Image
                     style={{ height: '100%', width: '100%', borderRadius: 10 }}
@@ -125,20 +127,17 @@ const addToNetwork=async()=>{
                     source={{
                       uri: `${ImagePath.Path}${item.ImageUrl}`,
                     }}
-                  /> : null
-              )}
-
-              {/* //  :
-              //   <Image
-              //   style={{ width: '100%', height: 100, borderRadius: 10 }}
-              //   resizeMode='center'
-              //   source={require('../../../assets/demo.png')} />
-              // }
-              */}
+                  /> :null
+                //    <Image
+                //   style={{ width: '100%', height: '100%', borderRadius: 10 }}
+                // //  resizeMode='center'
+                //  source={require('../../../assets/Image/Not.jpeg')} />
+              )}  
+             
             </View>
             <View style={{marginLeft:10,width:'60%',marginTop:-4}}>
-              <Text style={{color:'#fff',fontSize:19,fontFamily:'Acephimere'}}>{selector.Profile.SupplierName}</Text>
-              <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>{selector.Profile.Location}</Text>
+              <Text style={{color:'#fff',fontSize:19,fontFamily:'Acephimere'}}>{selector?.Profile?.SupplierName}</Text>
+              <Text style={{color:'#fff',fontSize:12,fontFamily:'Acephimere'}}>{selector?.Profile?.Location}</Text>
               <View 
               style={{
                 flexDirection:'row',
@@ -148,10 +147,13 @@ const addToNetwork=async()=>{
                 width:'100%'
                 }}>
                  <Stars
-                    display={3}
-                    spacing={3}
+                    half={true}
+                    default={0}
+                    // display={3}
+                    spacing={5}
+                    update={val => setRatting1(val)}
                     count={5}
-                    starSize={15}
+                    starSize={20}
                     fullStar= {require('../../../assets/Image/star.png')}
                     emptyStar= {require('../../../assets/Image/star1.png')}/>
 
@@ -200,10 +202,10 @@ const addToNetwork=async()=>{
                  source={require('../../../assets/PartnerImage/pro_uncolor.png')}/>
                  }
                </TouchableOpacity>
-               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Pofile</Text>
+               <Text style={{marginTop:3,fontFamily:'Acephimere',fontSize:13}}>Profile</Text>
             </View>
             <View style={{alignItems:'center'}}>
-               <TouchableOpacity onPress={()=>navigation.navigate('Chat')} style={styles.tabStyle}>
+               <TouchableOpacity  onPress={()=>navigation.navigate('Message')} style={styles.tabStyle}>
                {message?<Image 
                style={{width:50,height:50}} 
                source={require('../../../assets/PartnerImage/msg_active.png')}/>:
@@ -230,10 +232,10 @@ const addToNetwork=async()=>{
             <View style={{alignItems:'center'}}>
                <TouchableOpacity onPress={()=>manageTab3()} style={styles.tabStyle}>
                {setting?<Image 
-               style={{width:50,height:50}} 
+               style={{width:50,height:50,}} 
                source={require('../../../assets/PartnerImage/setting_active.png')}/>:
                <Image 
-               style={{width:50,height:50}} 
+               style={{width:50,height:50,alignSelf:'center'}} 
                source={require('../../../assets/PartnerImage/7.png')}/>
                }
                </TouchableOpacity>
@@ -246,7 +248,7 @@ const addToNetwork=async()=>{
           {setting==true?<Setting/>:null}
 
         </View>
-       <View style={{height:70}}/>
+       {/* <View style={{height:70}}/> */}
       </ScrollView>   
        {/* <View style={{bottom:0,position:'absolute',left:0,right:0}}>
       <BottomTab/>

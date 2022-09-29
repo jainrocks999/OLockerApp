@@ -16,6 +16,10 @@ const Splash = () => {
             type: 'Get_Graphical_Request',
             url: 'GetGraphicalNotifications',
           });
+          dispatch({
+              type:'Get_GetLoyalityTypes_Request',
+              url:'GetLoyalityTypes',
+          })
     },[] );
     const initial = async () => {
         setTimeout(() => navigation.replace("Login"), 2000);

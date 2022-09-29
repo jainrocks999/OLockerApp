@@ -20,7 +20,7 @@ import Bottum from "../../../components/StoreButtomTab";
 import Header from '../../../components/CustomHeader';
 import Stars from "react-native-stars";
 import { useSelector } from 'react-redux';
-
+import Loader from '../../../components/Loader'
 const ExpandableComponent = ({item, onClickFunction}) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
   const navigation=useNavigation()
@@ -69,17 +69,17 @@ const ExpandableComponent = ({item, onClickFunction}) => {
           </View> */}
           </View>
           <View>
-          {item.QuestionAnswers.map((item, key) => 
-            item.Question=='Rate Us Between 1 to 10, 1 being the best & 10 worst?'?
+          {/* {item.QuestionAnswers.map((item, key) =>  */}
+             {/* item.Question==item.Answer? */}
             <Stars
-            display={item.Answer/2}
+            // display={item.Answer/2}
             spacing={3}
             count={5}
             starSize={15}
             fullStar= {require('../../../assets/Image/star.png')}
             emptyStar= {require('../../../assets/Image/star1.png')}/>
-             :null
-          )}
+              {/* :null
+          )} */}
          
           </View>
           </View>
@@ -113,6 +113,7 @@ const ExpandableComponent = ({item, onClickFunction}) => {
           overflow: 'hidden',
         }}>
         {item.QuestionAnswers.map((item, key) => (
+         
           <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:15}}>
               <View style={{width:'45%',marginTop:5}}>
                <Text style={{color:'#2d2d2d',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.Question}</Text>
@@ -122,23 +123,42 @@ const ExpandableComponent = ({item, onClickFunction}) => {
                <Text style={{color:'#032e63',fontFamily:'Acephimere',fontSize:13,fontWeight:'700'}}>{item.Answer}</Text>
               </View>
           </View>
+         
+       
         
         ))}
+        <View style={{width:'93%',alignSelf:'center',}}>
+         <TouchableOpacity 
+         onPress={()=>navigation.navigate('Chat')}
+         style={{
+           backgroundColor:'#e9056b',
+           width:'100%',
+           paddingHorizontal:40,
+           alignItems:'center',
+           paddingVertical:10,
+           borderRadius:10
+           }}>
+           <Text style={{color:'#fff',fontSize:16,fontFamily:'Roboto-Medium'}}>Reply</Text>
+         </TouchableOpacity>
+         </View>
       </View>
+     
        </View>    
       </TouchableOpacity>
+     
     </View>
   );
 };
 
 const App = () => {
   const navigation=useNavigation()
+  const isFatching =useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.Feedback)
   const [listDataSource, setListDataSource] = useState(selector);
   const [multiSelect, setMultiSelect] = useState(false);
   const [pending,setPending]=useState(true)
   const [replied,setReplied]=useState(false)
-console.log('this is selector value',selector);
+console.log('feed back get data ',selector);
   if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
@@ -171,12 +191,14 @@ console.log('this is selector value',selector);
       <View style={styles.container}>
       <Header
        source={require('../../../assets/L.png')}
-       source2={require('../../../assets/La.png')}
+       source2={require('../../../assets/Image/dil.png')}
        source1={require('../../../assets/Fo.png')}
        title={'Feedback '}
        onPress={() => navigation.goBack()}
+       onPress2={()=>navigation.navigate('FavDetails')}
        />
         <ScrollView>
+          {isFatching?<Loader/>:null}
         {/* <View style={styles.main}>
             <TouchableOpacity
              onPress={()=>managePending()}

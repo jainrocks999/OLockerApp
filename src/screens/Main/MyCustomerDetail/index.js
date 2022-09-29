@@ -97,10 +97,11 @@ try{
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={'My Customers Profile'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
       {isFetching?<Loader/>:null}
       <ScrollView>
@@ -117,12 +118,12 @@ try{
             {selector.ImageLocation? 
            
           <Image 
-          style={{height: '100%', width: 100 }}
+          style={{height: '100%', width: 100 ,borderRadius:50}}
           source={{
             uri: `${ImagePath.Path}${selector.ImageLocation}`,
           }}
               /> : <Image
-                style={{ height: 80, width: 100,}}
+                style={{ height: 80, width: 100,borderRadius:50}}
                 source={require('../../../assets/demo.png')} />
               
           }
@@ -173,19 +174,19 @@ try{
             }}>
             <View>
               <Text style={{color: '#032e63',fontFamily:'Acephimere'}}>Birthday</Text>
-              <View style={{flexDirection:'row',alignItems:'center'}}>
-                <Image style={{height:15,width:15}} source={require('../../../assets/calender.png')}/>
-              <Text style={{marginLeft:6,fontFamily:'Acephimere'}}>{selector.DOB}</Text>
-              </View>
+            {selector.DOB==null?null:<View style={{flexDirection:'row',alignItems:'center'}}>
+              <Image style={{height:15,width:15}} source={require('../../../assets/calender.png')}/>
+            <Text style={{marginLeft:6,fontFamily:'Acephimere'}}>{selector.DOB}</Text>
+            </View>}
             </View>
-            <View>
+            {/* <View>
               <Text style={{color: '#032e63',fontFamily:'Acephimere'}}>Anniversary</Text>
               <View style={{flexDirection:'row',alignItems:'center'}}>
               <Image style={{height:15,width:15}} source={require('../../../assets/calender.png')}/>
               <Text style={{marginLeft:6,fontFamily:'Acephimere'}}>NA</Text>
               </View>
 
-            </View>
+            </View> */}
           </View>
         </View>
       </View>
@@ -218,11 +219,11 @@ try{
                 paddingVertical: 20,
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '33%',
+                width: '49%',
               }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
-                  style={{height: 35, width: 35,}}
+                  style={{height: 35, width: 35,tintColor:'#032e63'}}
                   source={require('../../../assets/Image/handFeed.png')}
                 />
               </View>
@@ -242,7 +243,7 @@ try{
                 paddingVertical: 20,
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '33%',
+                width: '49%',
               }}>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image

@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 export default StyleSheet.create({
     container: { flex: 1, backgroundColor: '#f0eeef' },
     main: {
@@ -17,7 +19,8 @@ export default StyleSheet.create({
         paddingHorizontal: 5,
     },
     cardview: {
-        height: 190,
+        height:hp('25%'),
+       // height:Platform.OS=="android"?210:210,
         backgroundColor: '#fff',
         // flex:1,
         margin: 6,
@@ -40,7 +43,9 @@ export default StyleSheet.create({
     cardview2text: {
         fontFamily: 'Roboto-Medium',
         fontSize: 12,
-        color: '#fff'
+        color: '#fff',
+        width:'90%',
+        marginLeft:13
     },
     cardview3: {
         width: '100%',
@@ -48,7 +53,7 @@ export default StyleSheet.create({
         marginTop: -40
     },
     cardview3img: {
-        height: 100,
+        height: 120,
         width: 120,
         marginLeft: 30
     },
@@ -68,7 +73,8 @@ export default StyleSheet.create({
     cardbottom1: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: -5
+        marginLeft: -5,
+        marginTop:0
     },
     cardbottom1text: {
         color: '#050505',

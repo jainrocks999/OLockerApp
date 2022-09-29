@@ -32,6 +32,8 @@ import MyCustomerDetail from '../screens/Main/MyCustomerDetail';
 import CategoryDetails from '../screens/Main/CategoryDetails';
 import SubCategory from '../screens/Main/SubCategory';
 import Filter from '../screens/Main/Filter';
+import DetailsFav from '../screens/Main/FavrateDetailsPage'
+import editProduct from "../screens/Main/EditProductDetails"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  const Stack1= createNativeStackNavigator();
  function HomeScreen1(){
@@ -48,6 +50,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
       <Stack1.Screen name="MyProducts" component={MyProducts} />
       <Stack1.Screen name="CategoryDetails" component={CategoryDetails} />
       <Stack1.Screen name="Filter" component={Filter} />
+      <Stack1.Screen name="FavDetails" component={DetailsFav}/>
+      <Stack1.Screen name="Editproduct" component ={editProduct}/>
   </Stack1.Navigator>
   )
  }
@@ -64,6 +68,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
         <Stack3.Screen name="Editprofile" component={Edit} />
       <Stack3.Screen name="Loyalty" component={Loyalty} />
       <Stack3.Screen name="Loyalty1" component={LoyaltyPage} />
+      <Stack3.Screen name="Chat" component={Chat} />
+
      </Stack3.Navigator>
    )
  }
@@ -76,7 +82,6 @@ function MyNetwork1(){
       <Stack2.Screen name="PartnerProfile" component={PartnerProfile} />
       <Stack2.Screen name="PendingRequest" component={PendingRequest} />
       <Stack2.Screen name="SentRequest" component={SentRequest} />
-      <Stack.Screen name="Chat" component={Chat} />
     </Stack2.Navigator>
   )
 }

@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity,ScrollView} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {useNavigation} from '@react-navigation/native';
 import Label from '../../../components/Slider/Label';
@@ -9,7 +9,7 @@ import RailSelected from '../../../components/Slider/RailSelected';
 import Thumb from '../../../components/Slider/Thumb';
 
 import styles from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+
 
 const Filter = () => {
   const [city, setCity] = useState();

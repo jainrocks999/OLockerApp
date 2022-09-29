@@ -88,7 +88,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         backgroundColor: '#ffffff',
-        paddingHorizontal:20,
+        paddingHorizontal:5,
         borderRadius:10,        
     },
     bottom: {
@@ -108,6 +108,8 @@ export default StyleSheet.create({
     textB: {
         fontSize: 18,
         fontWeight: '500',
+        width:'100%',
+        marginLeft:20
     },
     textC: {
         fontSize: 13,

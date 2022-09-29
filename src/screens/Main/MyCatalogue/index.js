@@ -1,5 +1,5 @@
 import React, {useState, useEffect,useRef} from 'react';
-import {View, Text, FlatList, ScrollView,Dimensions,Image, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, ScrollView,Dimensions,Image, TouchableOpacity,} from 'react-native';
 import TabView from '../../../components/StoreButtomTab';
 import Header from '../../../components/CustomHeader';
 import Carousel from 'react-native-banner-carousel';
@@ -13,6 +13,8 @@ import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 import Toast from "react-native-simple-toast";
+import { useIsFocused } from '@react-navigation/native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const MyCatalogue = ({route}) => {
   const selector4 = useSelector(state => state.Catalogue.Categories)
   const selector=useSelector(state=>state.ProductList)
@@ -20,27 +22,44 @@ const MyCatalogue = ({route}) => {
   const selector1=useSelector(state=>state.CollectionList)
   const selector2=useSelector(state=>state.Myproduct)
   const isFetching=useSelector(state=>state.isFetching)
-  console.log("log102",selector2);
-  console.log('this is user selector data210',selector);
   const [product,setProduct]=useState(true)
   const [partner,setPartner]=useState(false)
-  const [data,setUserdata]=useState()
+  const [userdata,setUserdata]=useState(false)
   const dispatch=useDispatch()
   const navigation=useNavigation()
   const BannerWidth = (Dimensions.get('window').width * 8) / 9;
   const BannerHeight = 140;
-  const scrollRef = useRef();
+  // const scrollRef = useRef();
+  const win = Dimensions.get('window');
+  const isFocused = useIsFocused();
+  const [tc, setTc] = useState(0);
+  const [tc1, setTc1] = useState(0);
+  
+  const scrollViewRef = useRef();
 
-  const onPressTouch = () => {
+  useEffect(()=>{
+  //  setUserdata(true)
+  },[tc1])
+  const onPressTouch1 = () => {
     scrollRef.current?.scrollTo({
-      y: 400,
+    
+      y: 199,
       animated: true,
     });
   }
-  const onPressTouch1 = () => {
-    scrollRef.current?.scrollTo({
-      y: 600,
-      animated: true,
+ useEffect(()=>{
+  if(isFocused){ 
+   
+    collectionDataR()
+  
+  }
+  },[isFocused])
+  const collectionDataR=async()=>{
+    const srno=await AsyncStorage.getItem('Partnersrno')
+    dispatch({
+      type: 'Get_Collection_Request',
+      url: 'GetCollections',
+      PartnerSrno:srno,
     });
   }
   const manageCategory1 = async (id) => {
@@ -60,7 +79,7 @@ const MyCatalogue = ({route}) => {
   
 const manageCategory=async(id)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
-  // console.log('this is user category details',id);
+  console.log('this is user category details',id);
 
     dispatch({
       type: 'Get_Category_Request',
@@ -84,28 +103,50 @@ const manageCategory=async(id)=>{
 const manageProduct=()=>{
   setProduct(true)
   setPartner(false)
+  setUserdata(false)
  // Myproduct();
 }
 const tabCategory=()=>{
+  setUserdata(false)
   setPartner(true)
   setProduct(false)
 }
-const scrollToInitialPosition = () => {
-  this.scrollViewRef.scrollTo({ y: 100 });
-}
+// const scrollToInitialPosition = () => {
+//   this.scrollViewRef.scrollTo({ y: 100 });
+// }
   return (
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-        // source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={'My Catalogue '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
-      {isFetching?<Loader/>:null}
-      <ScrollView 
-       ref={scrollRef}
-      >
+      
+
+      <ScrollView ref={scrollViewRef}
+
+          contentOffset={{
+            x: 0,
+            y: userdata ? tc :tc1,
+          }}
+          // onLayout={(event) => {
+          //   const layout = event.nativeEvent.layout;
+          //   setTc1(layout.height-tc);
+          // }}
+          >
+            {/* {console.log('distence............',(layout.height-tc))} */}
+       <ScrollView  ref={scrollViewRef}
+ 
+        onLayout={(event) => {
+          const layout = event.nativeEvent.layout;
+          setTc(layout.height);
+        }}
+           >
+       {isFetching?<Loader/>:null}
+     
       <View style={styles.container}>
          <View style={styles.container1}>
            <FlatListSlider
@@ -125,21 +166,25 @@ const scrollToInitialPosition = () => {
             loop={false}
         />
         </View>
-        <View style={styles.main}>
+        <View ref={scrollViewRef} 
+        ref={scrollViewRef}
+        onLayout={(event) => {
+          const layout = event.nativeEvent.layout;
+           setTc1(layout.height);
+        }}
+        style={styles.main}>
             <TouchableOpacity style={{alignItems:'center'}}
-             onPress={()=>
-              onPressTouch()
+             onPress={()=>setUserdata (false)
               // navigation.navigate('MyProducts')
-
             }
              >
-            <View style={styles.main1}>
+            <View  style={styles.main1}>
               <Image style={styles.img} source={require('../../../assets/Image/my.png')}/>
             </View>
              <Text style={styles.tt}>{'MY PRODUCTS'}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-            onPress={()=>onPressTouch1()}            
+             onPress={()=> setUserdata(true)}            
             style={styles.touch}>
             <View style={styles.main1}>
             <Image style={styles.img1} source={require('../../../assets/Image/neck.png')}/>
@@ -148,7 +193,7 @@ const scrollToInitialPosition = () => {
             </TouchableOpacity>
             
         </View>
-        <View style={styles.main2}>
+        <View  style={styles.main2}>
                 <TouchableOpacity
                  onPress={()=>navigation.navigate('SelectOption')}
                 >
@@ -166,7 +211,7 @@ const scrollToInitialPosition = () => {
          <View style={{height:28}}/>
         </View>
       
-        <View style={styles.card}>
+        <View  style={styles.card}>
              <TouchableOpacity
              onPress={()=>manageProduct()}
             style={[styles.cardtouch, { backgroundColor: product == true ? '#032e63' : '#fff', }]}>
@@ -180,7 +225,9 @@ const scrollToInitialPosition = () => {
         </View>
         {/* {console.log('axxmmx',data)} */}
 
-        <View style={{marginTop:10}}>
+        <View 
+        
+        style={{marginTop:10}}>
             {product==true?<FlatList
             data={selector2}
             numColumns={3}
@@ -189,9 +236,14 @@ const scrollToInitialPosition = () => {
                 onPress={()=>manageCategory(item.Id)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
               style={styles.card1}>
-                {console.log('zzz2222',item)}
+                {/* {console.log('zzz2222',`${ImagePath.Path}${item.CategoryImage}`)} */}
                  <Image
-                style={styles.card1img}
+                style={{ width: win.width * 0.33,
+                  height: '74%',
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                  // borderWidth: 5,
+                }}
                 // resizeMode={'stretch'}
                 source={{
                   uri: `${ImagePath.Path}${item.CategoryImage}`,
@@ -199,7 +251,8 @@ const scrollToInitialPosition = () => {
               />
               <View style={styles.card1v}>
               <Text style={[styles.card1t,{color:'#032e63',fontWeight:'700'}]}>{item.CategoryName}</Text>
-                  <Text style={[styles.card1t, {color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
+                  {item.TotalItems==1? <Text style={[styles.card1t, {color: '#0d0d0d' }]}>{`${item.TotalItems} Item`}</Text>:
+                  <Text style={[styles.card1t, {color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>}
               </View>
               </TouchableOpacity>
             )}
@@ -247,8 +300,9 @@ const scrollToInitialPosition = () => {
           
          {partner==true? <Text style={styles.partnert}>Partner Categories List</Text> :null}
        
-         {selector4 !=undefined ?
-          (partner === true? selector4.length>0? 
+         {/* {selector4 !=undefined ? */}
+          {/* (partner === true? selector4.length>0?  */}
+          {partner== true?
          ( <FlatList
             data={selector4}
             numColumns={3}
@@ -269,15 +323,20 @@ const scrollToInitialPosition = () => {
                 />
                 <View style={styles.card1v}>
                   <Text style={[styles.card1t, { color: '#032e63', fontWeight: '700' }]}>{item.CategoryName}</Text>
-                  <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>
+                 {item.TotalItems==1? <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Item`}</Text>:
+                 <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>}
                 </View>
               </TouchableOpacity>
             )}
           />)
           
-          :(Toast.show('dddd')):null):null}
+          // :(Toast.show('dddd')):null)
+          :null}
         </View>
-        <View style={{backgroundColor:'#fff'}}>
+        </ScrollView>
+       
+        {product==true?
+        <View ref={scrollViewRef} style={{backgroundColor:'#fff'}}>
           <View style={styles.card3}>
              <Text style={styles.card3t}>My Collections</Text>
           </View>
@@ -285,38 +344,68 @@ const scrollToInitialPosition = () => {
           <FlatList
             data={selector1}
             renderItem={({item})=>(
-              <View style={styles.card3v}>
-                {/* {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)} */}
-                <Text style={styles.card3vt}>{item.Name}</Text>
-                {item.CollectionImage == null ?
+          //     <View style={ {
+          //       width: '100%',
+          //     alignItems: 'center',
+          //         height:230,
+          //     borderWidth: .5
+          // }}>
+          //       {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)}
+          //       <Text style={styles.card3vt}>{item.Name}</Text>
 
-                  <Image
-                    style={{ width: '30%', height: 100, }}
-                    resizeMode='center'
-                    source={require('../../../assets/demo.png')} /> :
-                  <Image
-                    style={styles.card3vimg}
-                     resizeMode='stretch'
-                    source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
+          //       <View style={{width:'100%',height:'70%',borderWidth:2,borderColor:'blue'}}>
+          //       {item.CollectionImage == null ?
 
-                  />
-                }
+          //         <Image
+          //           style={{ width: '30%', height: 100, }}
+          //           source={require('../../../assets/demo.png')} /> :
+          //         <Image
+          //           style={styles.card3vimg}
+          //           //  resizeMode='contain'
+          //           source={{ uri: `${ImagePath.Path}${item.CollectionImage}` }}
 
-                {/* {console.log('jkkk',`${ImagePath.Path}${item.CollectionImage}`)}  */}
-                
-                {/* <Image
-                  style={{height: 160, width: '100%', }}
-                  resizeMode={'stretch'}
-                  source={{
-                    uri: `https://api.myjeweller.in${(item.Url).substring(2)}`,
-                  }}
-                /> */}
-              </View>
+          //         />
+          //       }
+          //       </View>
+          //     </View>
+          <View
+          style={{
+            height: hp('23%'),
+            width: '95%',
+            // marginTop: '50%',
+            alignSelf: 'center',
+            borderWidth: 0.5,
+          }}>
+            {/* {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)} */}
+          <View style={{height: hp('3%'), width: '100%',alignItems:'center',justifyContent:'center'}}>
+          <Text style={styles.card3vt}>{item.Name}</Text>
+          </View>
+          <View
+            style={{height: hp('19%'), width: wp('95%'), maxHeight: hp('21.5%'),}}>
+            <Image
+              style={{
+                width: win.width * 0.93,
+                height: '100%',
+                resizeMode: 'contain',
+                alignSelf: 'center',
+                // borderWidth: 5,
+              }}
+              source={{
+                uri: `${ImagePath.Path}${item.CollectionImage}`,
+              }}
+              // source={{uri:'https://devappapi.olocker.in///images/CollectionImages/2021/8/59902037.jpg'}}
+              // source={{uri:'https://devappapi.olocker.in///images/CollectionImages/2021/8/20366130.jpg'}}
+              // source={{uri:'https://devappapi.olocker.in///images/rss/no-image.jpg'}}
+            />
+          </View>
+        </View>
             )}
             />
             
         </View>
         </View>
+           :null}  
+          
         <View style={{height:80}}/>
 
       </ScrollView>

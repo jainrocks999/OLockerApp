@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, FlatList, ScrollView,Image} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList, ScrollView,Image,Dimensions, Platform,Share} from 'react-native';
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
@@ -7,10 +7,13 @@ import { useSelector,useDispatch} from 'react-redux';
 import { TextInput } from 'react-native-gesture-handler';
 import ImagePath from '../../../components/ImagePath';
 import AsyncStorage from '@react-native-community/async-storage';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import styles from './styles';
+import Loader from "../../../components/Loader"
 const MyProducts = ({route}) => {
     const navigation=useNavigation()
     const dispatch=useDispatch()
+    const isFetching = useSelector(state=>state.isFetching)
     const selector=useSelector(state=>state.Category)
   const selector1 = useSelector(state => state.PartnerCatalog.GetProducts)
   console.log('vkm user respons Selector1',selector1);
@@ -20,6 +23,7 @@ const MyProducts = ({route}) => {
     const [filteredDataSource, setFilteredDataSource] = useState(selector);
     const [masterDataSource, setMasterDataSource] = useState(selector);
   const partner= route.params.PartnerProductlist
+  const win = Dimensions.get('window');
 const searchFilterFunction = text => {
       if (text) {
         const newData = masterDataSource.filter(function (item) {
@@ -63,23 +67,36 @@ const searchFilterFunction = text => {
           navigation
         })
       }
-     // "Url": "..//images/ProductImages/2022/6/919__test444292919_0.jpg",
+   
+   const [click1,setClick1]=useState(false)
+  const [id,setId1]=useState([])
+   const click =(id)=>{
+     setClick1(id);
+     setId1(id)
+   }
+   const share=async(id)=>{
+     let pr =id.Price;
+     let name =id.ItemName;
+     let Description =id.Description
+    await Share.share({
+      message:`Product Name : ${name} \nProduct Price : ${pr} \n Product Description : ${Description}`
+    })
+  }
 
-     // "ImageName": "917__483477-iuc382561917_1.jpg",
-     // "ImageLocation": "\\images\\ProductImages\\2022\\5"
-
-     // `${ImageLocation}${ImageName}`
   return (
     <View style={styles.container}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
-        // source2={require('../../../assets/La.png')}
+         source2={require('../../../assets/Image/dil.png')}
         title={'Product List'}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
+       {isFetching?<Loader/>:null}
       <ScrollView>
+       
         <View style={styles.main}>
           <View>
             <Text style={styles.text}>{partner ?`${selector1.length} Items`:`${selector.length} Items`}</Text>
@@ -117,45 +134,67 @@ const searchFilterFunction = text => {
           <FlatList
             data={partner ? selector1:filteredDataSource}
             numColumns={2}
-            renderItem={({item}) => (
-              <TouchableOpacity
-              onPress={()=>
-                partner ?manageCategory1(item.SrNo):
-                manageCategory(item.SrNo )}
-                // ()=>navigation.navigate('SubCategory')
-              
+            // keyExtractor={(index) => (index)}
+            renderItem={({item,index}) => (
+            
+              <View
                 style={styles.cardview}>
-                   {/* {console.log('////',item)} */}
-                    <View style={styles.cardview1}>
-
+                   <View style={{height: hp('100%'),width:wp('45%'), maxHeight:hp('25%'),borderWidth:0, borderColor:'red'}}>
+                    <View style={{height: hp('7%'), width: '100%',borderWidth:0}}>
+                     <View style={{padding:0,height: hp('5%'), width: '18%',borderWidth:0,marginTop:0}}>
+                      <TouchableOpacity onPress={()=>click(index,item.IsFavorite)} >
                       
-                    <View style={{padding:15}}>
-                    {partner?   <Image style={{width:21,height:18}} source={require('../../../assets/Image/dil.png')}/>:<View style={{marginTop:10}}/>}
-                       <Image style={{width:20,height:14,marginTop:10}} source={require('../../../assets/Image/share1.png')}/>
+                           <Image style={{height:hp('2.4%'),width:wp('5.6%'),marginLeft:5,marginTop:2,tintColor:id==index?'red':'grey'}}  source={require('../../../assets/Image/dil.png')}/>
+                      </TouchableOpacity>
+                    {/* {partner?   <Image style={{height:hp('2.4%'),width:wp('5.6%'),marginLeft:5,marginTop:2}} source={require('../../../assets/Image/dil.png')}/>:<View style={{marginTop:10}}/>} */}
+                       <TouchableOpacity onPress={()=>share(item)}>
+                             <Image style={{height:hp('2.1%'),width:wp('6%'),marginTop:5,marginLeft:8}} source={require('../../../assets/Image/share1.png')}/>
+                       </TouchableOpacity>
                     </View>
-                 <View style={styles.cardview2}>
+                 <View style={{ borderTopRightRadius: 10,borderBottomLeftRadius: 10,//  paddingHorizontal: 10,
+                                backgroundColor: '#24a31e', marginTop:Platform.OS=='android'?-37:-50,
+                                alignSelf: 'flex-end', height: hp('2.4%'),width: '45%', // paddingVertical: 3
+                              }}>
                     
                      <Text style={styles.cardview2text}>{`${item.GrossWt} GM`}</Text>
 
                    </View>
                    </View>
-                <View style={styles.cardview3}>
+                <TouchableOpacity
+              onPress={()=>
+                partner ?manageCategory1(item.SrNo):
+                manageCategory(item.SrNo )}
+                // ()=>navigation.navigate('SubCategory')
+                
+                style={{height: hp('16.9%'), width: wp('38%'),
+                marginLeft:19, maxHeight: hp('13%'),borderWidth:0}}>
+
                  {item.Url==null?  
                  
                     <Image
-                      style={styles.cardview3img}
+                      style={{ width: win.width * 0.39,
+                        height: '100%',
+                         resizeMode: 'contain',
+                         alignSelf: 'center',
+                        // borderWidth: 5,
+                      }}
                       resizeMode='center'
-                      source={require('../../../assets/demo.png')} /> :
+                      source={require('../../../assets/Image/Not.jpeg')} /> :
                  <Image
-                  style={styles.cardview3img}
-                  resizeMode='stretch'
-                      source={{ uri: `${ImagePath.Path}${(item.Url).substring(2) }`}}
+              style={{ width: win.width * 0.35,
+            height: '100%',
+             resizeMode: 'contain',
+             alignSelf: 'center',
+            // borderWidth: 5,
+          }}
+                  // resizeMode='stretch'
+                      source={{ uri: `${ImagePath.Path}${(item.Url)?.substring(2) }`}}
                   
                     /> 
                     }
-
-                </View>
-                <View style={styles.cardbottom}>
+{/* {console.log('image url in list ',`${ImagePath.Path}${(item.Url).substring(2) }`)} */}
+                </TouchableOpacity>
+                <View style={{height: hp('3%'), width: '100%',marginLeft:20,marginTop:-5,borderWidth:0}}>
                   <Text style={styles.cardbottomtext}>
                     {`ID# ${item.ProductSKU}`}
                   </Text>
@@ -166,7 +205,8 @@ const searchFilterFunction = text => {
                   </Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+                </View>
+              </View>
             )}
           />
         </View>

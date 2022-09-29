@@ -26,9 +26,10 @@ const AddCategory = () => {
       <Header
       source={require('../../../assets/L.png')}
       source1={require('../../../assets/Fo.png')}
-      source2={require('../../../assets/La.png')}
+      source2={require('../../../assets/Image/dil.png')}
       title={'Add Category '}
       onPress={() => navigation.goBack()}
+      onPress2={()=>navigation.navigate('FavDetails')}
       />
       <ScrollView style={{ flex: 1, paddingHorizontal: 15, paddingVertical: 20 }}>
       <KeyboardAwareScrollView

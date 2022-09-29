@@ -1,29 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image,Share} from 'react-native';
+import {View, Text, TouchableOpacity, Keyboard, ScrollView,Image,Share,TextInput} from 'react-native';
 import Header from '../../../components/CustomHeader';
 import TabView from '../../../components/StoreButtomTab';
 import { useNavigation } from '@react-navigation/native';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import Preview from "../../../components/Preview";
 import Banner from '../../../components/Banner';
-import { TextInput } from 'react-native-gesture-handler';
+// import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
+import Loader from "../../../components/Loader"
 const SubCategory = ({route}) => {
     const navigation=useNavigation()
-
+    const isFetching = useSelector(state=>state.isFetching)
     const selector=useSelector(state=>state.Detail.GetProductModel)
     const selector2 =useSelector(state=>state.Product1Detail.GetProductModel)
     const Details=route.params.Network
-    console.log('1111120',selector2);
+    console.log('My product side detail',selector2);
+    console.log('partner side Detail',selector);
+
     const data=[]
   { Details ?  selector.productimages.map((item)=>{
       const url= `${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`
 data.push({
   image:url,desc:'abcsd'
 })   
-  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+    console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
 
     }):
     selector2.productimages.map((item)=>{
@@ -31,7 +34,7 @@ data.push({
 data.push({
   image:url,desc:'abcsd'
 })   
-  //  console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
+    console.log('1vv22',`${ImagePath.Path}${item.ImageLocation}/${item.ImageName}`);
 
     })
     // selector2.RetailerFavProduct.map((item)=>{
@@ -63,6 +66,7 @@ data.push({
     const [editable,setEditable]=useState(false)
     const [editable1,setEditable1]=useState(false)
     const [editable2,setEditable2]=useState(false)
+    const [click1,setClick1]=useState(false)
     const[url,setUrl] =useState('')
     const [keyboardStatus, setKeyboardStatus] = useState(undefined);
     useEffect( ()=>{
@@ -152,22 +156,37 @@ data.push({
       setEditable2(true)
      // Detail();
   }
+  const click =(click1)=>{
+    if(click1){
+        setClick1(false)
+    }
+     else {
+      setClick1(true)
+    }
+  }
   return (
     <View style={styles.container}>
       <Header
         source={require('../../../assets/L.png')}
         source1={require('../../../assets/Fo.png')}
-        source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={stockNo}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
       <ScrollView>
+        {isFetching?<Loader/>:null}
         <View
           style={styles.main}>
-        { Details? <View/>:<View>
-            <Image style={{width:21,height:18}} tintColor={'#fff'} source={require('../../../assets/Image/dil.png')}/>
+            <TouchableOpacity  onPress={()=>click(click1)} >
+        { Details?  <View>
+          <Image style={{width:21,height:18}} tintColor= {click1?'red':'#fff'} source={require('../../../assets/Image/dil.png')}/>
+        </View>:
+        <View>
+            <Image style={{width:21,height:18}} tintColor= {click1?'red':'#fff'} source={require('../../../assets/Image/dil.png')}/>
           </View>}
+          </TouchableOpacity>
           <View>
               <TouchableOpacity onPress={()=>share()}
               // {()=>navigation.navigate('Filter')}
@@ -183,8 +202,8 @@ data.push({
          <FlatListSlider
             data={data}
             height={200}
-            timer={5000}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
+           // timer={5000}
+            contentContainerStyle={{paddingHorizontal:30,}}
             indicatorContainerStyle={{position:'absolute', bottom: -20}}
             indicatorActiveColor={'#ffffff'}
             indicatorInActiveColor={'grey'}
@@ -209,7 +228,9 @@ data.push({
 <View style={styles.main1view1}>
         <Text style={styles.main1view1text}>{description=={description}?{description}:'PRODUCT DESCRIPTION'}</Text>
         </View>
-   { Details? <TouchableOpacity onPress={()=>manageEdit()} style={{alignItems:'flex-end'}}>
+   { Details? <TouchableOpacity onPress={()=>navigation.navigate('Editproduct')}
+  //  onPress={()=>manageEdit()} 
+   style={{alignItems:'flex-end'}}>
     <Image style={{width:20,height:20}} source={require('../../../assets/Image/edit.png')}/>
     </TouchableOpacity>:null}
         </View>
@@ -223,7 +244,7 @@ data.push({
             onChangeText={(val)=>setStock(val)}
              />
           </View>
-          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15}}>
+          <View style={{flexDirection:'row',alignItems:'center',marginTop:-15,}}>
              <Text style={styles.cardtext}>{'Stock No :      '}</Text>
              <TextInput
              style={{height:40,color:'#052a47'}}

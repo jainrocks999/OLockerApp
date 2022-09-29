@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, ScrollView,Dimensions,Image, TouchableOpacity, TextInput} from 'react-native';
+import {View, Text, FlatList, ScrollView,Dimensions,Image, TouchableOpacity, TextInput,ActivityIndicator,Platform} from 'react-native';
 import TabView from '../../../components/StoreButtomTab';
 import Header from '../../../components/CustomHeader';
 import Carousel from 'react-native-banner-carousel';
@@ -11,12 +11,14 @@ import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
-
+import colors from '../../../components/colors';
+import Toast from 'react-native-simple-toast';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const MyCatalogue = () => {
     const navigation=useNavigation()
     const dispatch=useDispatch()
     const isFetching=useSelector(state=>state.isFetching)
-  const selector1 = useSelector(state => state.AllNotification.GetNotification)
+  const selector1 = useSelector(state => state.RequestList)
   const selector2=useSelector(state=>state.States.GetStatesData)
   const selector3=useSelector(state=>state.citys.GetCityData)
 
@@ -30,8 +32,8 @@ const MyCatalogue = () => {
     const SupplierList=useSelector(state=>state.SupplierList)
     const BannerWidth = (Dimensions.get('window').width * 15) / 16;
     const [city,setCity]=useState('')
-    const [state,setState]=useState('0')
-    const [metal,setMetal]=useState('0')
+    const [state,setState]=useState('')
+    const [metal,setMetal]=useState('')
     const [supplier,setSupplier]=useState('')
     const [list,setList]=useState();
     const [show,setShow]=useState(false);
@@ -39,7 +41,7 @@ const MyCatalogue = () => {
     const Id2=[]
     const[id,setId]=useState('')
     const[id3,setId3]=useState('')
-
+    const[visible,setVisible]=useState(false)
 //  const searchCity=()=>{
 //   {data2 != undefined?data2.map((item) => {
 //       // console.log('city list',item);
@@ -50,19 +52,44 @@ const MyCatalogue = () => {
   const onclick = () => {
     if (show == false) {
        getSupplier();
-       //citySearch();
       setShow(true);
-      // console.log("gdsd",show);
+     
     }
     else {
       setShow(false);
-      // console.log("dsaa", show);
+     
     }
-    // console.log("aaa", show);
+   
   }
-  
+  const AcceptMEthod =(SupplierSrNo)=>{
+
+    dispatch({
+      type: 'Get_Accepted_Request',
+      url: 'AcceptSupplierRequest', 
+      SrNo:SupplierSrNo,
+      IsShowinRetailerApp:true
+     
+    });
+  } 
+
+ 
+const Reject =(SupplierSrNo)=>{
+dispatch({
+  type: 'Get_Rejected_Request',
+  url: 'RejectSupplierRequest',
+ 
+  SrNo:SupplierSrNo,
+  RejectReason: "string"
+});
+}
 const pendingRequest=async()=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
+  // dispatch({
+  //   type: 'Get_Allnotification_Request',
+  //   url: 'GetAllNotification',
+  //   PartnerSrno:srno,
+  //   navigation,
+  // });
   dispatch({
     type:'Get_Pending_Request',
     url:'GetSupplierRequest',
@@ -85,10 +112,10 @@ const SentRequest=async()=>{
  
 }
 const Metalpurity1=async(value,index)=>{
+  
 console.log('fggg',index);
 
 setMetal(value)
-
   var axios = require('axios');
 
   var config = {
@@ -107,7 +134,7 @@ setMetal(value)
   axios(config)
   .then(function (response) {
     if(response.data.success==true){
-    // console.log('metal type data ,,,',(response.data.GetLookupData));
+    console.log('metal type data ,,,',(response.data.GetLookupData));
     // setData2(response.data.GetCityData)
   response.data.GetLookupData.map((item)=>{
     // console.log('ddnmmm',item.Id,item.Value);
@@ -119,6 +146,7 @@ setMetal(value)
       ) 
     }
     setId3(Id2)
+  
   })
   .catch(function (error) {
     console.log(error);
@@ -128,7 +156,8 @@ setMetal(value)
 
 const citySearch =async(value)=>{
   // console.log('city search byeeeeee....',value);
- setState(value)
+   setState(value)
+ setVisible(true)
   // dispatch({
   //   type:'Get_CitiesByState_Request',
   //   url:'GetCitiesByState',
@@ -165,7 +194,9 @@ Data2.push({
  
 }
 setData2(Data2)
+  setVisible(false)
 // console.log('dddddd',data2);
+
 })
 .catch(function (error) {
   // console.log(error);
@@ -186,7 +217,18 @@ const searchJeweller=()=>{
 
 
 const getSupplier=async(values)=>{
-
+ 
+   if(state==''){
+    Toast.show('Please Select State')
+  }
+   else if(city==''){
+    Toast.show('Please Select city')
+  } else if(metal==''){
+    Toast.show('Please Select Metal type')
+  }
+  
+   else{
+  setVisible(true)
   const data = new FormData()
   axios({
     method: "POST",
@@ -218,27 +260,39 @@ const getSupplier=async(values)=>{
     if(res.data.success==true){
     //  console.log("res00000",res);
       setList(res.data.Suppliers)
+       setVisible(false);
     }
-   console.log("res virews",list);
+   
   })
   .catch(err => {
    // console.log("error in request", err);
   }); 
 }
+}
 
-  
+const partnerDetaitl =(id)=>{
+  dispatch({
+    type: 'Get_Profile_Request',
+    url: 'GetSupplierProfile',
+    supplierSrno:id,
+    navigation
+  });
+}
+console.log("response  virews",list);
   return (
     <View style={{flex: 1,backgroundColor:'#f0eeef'}}>
+             
+
       <Header
         source1={require('../../../assets/Fo.png')}
-       // source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={'My Network '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
-        {isFetching?<Loader/>:null}
       <ScrollView>
-     
+    {isFetching?<Loader/>:null}
       <View
           style={{
             backgroundColor: '#032e63',
@@ -294,8 +348,9 @@ const getSupplier=async(values)=>{
               </View>
               </View> 
               <View style={{borderWidth:0.5,borderColor:'grey'}}/>
-              <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                   <View style={{padding:20,justifyContent:'center',width:'42%',height:70,alignItems:'flex-start'}}>
+              <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:100}}>
+                   <View style={{padding:0,justifyContent:'center',width:'42%',alignItems:'flex-start'}}>
+                  <View style={{height:45,width:'100%',borderWidth:0,marginLeft:10,borderWidth:0,marginBottom:5}}>
                    <RNPickerSelect
                       items={
                         data != undefined ?data.map((item) => (
@@ -307,25 +362,24 @@ const getSupplier=async(values)=>{
                       onValueChange={(value) => citySearch(value)}
                      // pickerProps={citySearch}
                       style={ {
-                        inputAndroid: {padding:-14, color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:0,borderWidth:0 },
-                        inputIOS: { color: '#032e63', fontSize: 14, width:'100%',marginBottom: 10,fontFamily:'Acephimere' },
+                        inputAndroid: {padding:0, color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:5,borderWidth:0 },
+                        inputIOS: { color: '#032e63', fontSize: 14, width:'100%',marginBottom: 0,fontFamily:'Acephimere' ,fontWeight:'700',height:40,marginTop:5},
                         placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                     }}
                       value={state}
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select State', value: '' }}
                     />
-                   {/* {  console.log('State id',state)} */}
+                    </View>
+                  
                    
-                   <View>
-                     {/* {console.log('data list city',data2)} */}
+                   <View style={{height:45,width:'100%',borderWidth:0,marginLeft:10}}>
+                   
                    <RNPickerSelect
                       items={data2}
-                    //items={Metal}
                       onValueChange={(value) =>setCity(value)}
-                    //onOpen={citySearch}
                       style={ {
-                        inputAndroid: {padding:-14, color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-5,borderWidth:0 },
+                        inputAndroid: {padding:-14, color: '#032e63', width: '100%', fontSize: 14, marginBottom:0,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-5,borderWidth:0 },
                         inputIOS: { color: '#032e63', fontSize: 14, width:'100%',marginBottom: 10,fontFamily:'Acephimere' },
                         placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                     }}
@@ -334,12 +388,12 @@ const getSupplier=async(values)=>{
                       placeholder={{ label: 'Select City', value: '' }}
                     />
                    </View>
-                    {/* <Text style={{fontSize:12,color:'#595959',fontFamily:'Acephimere',marginTop:-6}}>Select City</Text> */}
                    </View>
                    
-                   <View style={{borderWidth:0.5,height:70,borderColor:'grey',marginTop:10}}/>
-                   <View style={{padding:20,alignItems:'flex-end',justifyContent:'center',width:'42%',height:70}}>
-                   <View style={{alignItems:'center',justifyContent:'center'}}>
+                   <View style={{borderWidth:0.5,height:90,borderColor:'grey',marginTop:0}}/>
+                   <View style={{padding:0,alignItems:'flex-end',justifyContent:'center',width:'42%',}}>
+                   {/* <View style={{alignItems:'center',justifyContent:'center'}}> */}
+                   <View style={{height:45,width:'100%',borderWidth:0,marginRight:0}}>
                    <RNPickerSelect
                       items={
                         MetalType != undefined ?MetalType.map((item) => (
@@ -354,7 +408,7 @@ const getSupplier=async(values)=>{
                     // items={Metal}
                       onValueChange={(value,index) =>Metalpurity1(value,index)}
                       style={ {
-                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginTop:-20,padding:10 },
+                        inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginLeft:30,padding:10,borderWidth:0 },
                         inputIOS: { color: '#032e63', width: '100%', fontSize: 14, marginBottom:10,fontFamily:'Acephimere' },
                         placeholder: { color: '#032e63', width: '100%', alignSelf: 'center',fontFamily:'Acephimere' },
                     }}
@@ -362,6 +416,7 @@ const getSupplier=async(values)=>{
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select Metal', value: '' }}
                     />
+                    {/* </View> */}
                        {/* {console.log('resssmish',metal)} */}
 
                        {/* <RNPickerSelect
@@ -385,7 +440,7 @@ const getSupplier=async(values)=>{
             </View>
             <View style={{alignItems:'center',marginTop:-20}}>
                    <TouchableOpacity
-                   onPress={()=>onclick()}
+                   onPress={()=>getSupplier()}
                     style={{
                        height:40,
                        width:100,
@@ -396,13 +451,15 @@ const getSupplier=async(values)=>{
                     <Text style={{color:'#fff',fontFamily:'Acephimere',fontSize:15}}>Search</Text>
                 </TouchableOpacity>
               </View>
-          {show ?
+          {list?.length==0 ? <Text style={{alignSelf:'flex-start',marginTop:10,fontSize:13,color:'red'}}>{"No Records found!"}</Text> :
                <View style={{paddingVertical:10}}>
            
             <FlatList
             data={list}
             renderItem={({item})=>(
-                <View style={{elevation:5,
+                <TouchableOpacity 
+                 onPress={()=>partnerDetaitl(item.SrNo)}
+                style={{elevation:5,
                 backgroundColor:'#fff',
                 paddingVertical:15,
                 paddingHorizontal:10,
@@ -415,19 +472,22 @@ const getSupplier=async(values)=>{
                    <View>
                   {/* <Text style={{ fontSize: 16, color: '#000', fontFamily: 'Acephimere' }}>{item.SrNo}</Text> */}
                   <Text style={{ fontSize: 16, color: '#000', fontFamily: 'Acephimere' }}>{item.SupplierName}</Text>
-                      
+                  <View style={{}}>
+                  <Text style={{ color: '#595959', fontFamily: 'Acephimere', fontSize: 11 }}>{item.CityName}</Text>
+                    <Text style={{ color: '#595959', fontFamily: 'Acephimere', fontSize: 11 }}>{item.StateName}</Text> 
+                    </View>
+                  
                    </View>
                    <View style={{flexDirection:'row'}}>
-                     <View>
-                    <Text style={{ color: '#000', fontFamily: 'Acephimere', fontSize: 16 }}>{item.CityName}</Text>
-                    <Text style={{ color: '#000', fontFamily: 'Acephimere', fontSize: 16 }}>{item.StateName}</Text>
-                  </View>
+                    
+                  {/* <Image style={{height:20,width:40}} resizeMode='center' source={require('../../../assets/Image/eye.png')}/> */}
                    </View>
-                </View>
+                </TouchableOpacity>
             )}
             />
             </View>
-: null}
+}
+
               <View style={{
                 width:'100%',
                 backgroundColor:'#fff',
@@ -435,6 +495,7 @@ const getSupplier=async(values)=>{
                 elevation:5,
                 borderRadius:10
                 }}>
+                 
              <View style={{paddingHorizontal:10,paddingVertical:10}}>
                 <Text style={{fontSize:18,fontFamily:'Philosopher-Regular',color:'#032e63'}}>My Network </Text>
               </View> 
@@ -471,7 +532,7 @@ const getSupplier=async(values)=>{
             </View>
             <View style={{paddingVertical:10}}>
             <Text style={{fontFamily:'Acephimere',fontSize:16,color:'#383838'}}>Notifications</Text>
-            {/* <FlatList
+            <FlatList
             data={selector1}
             renderItem={({item})=>(
                 <View style={{elevation:5,
@@ -485,32 +546,41 @@ const getSupplier=async(values)=>{
                 }}>
                 
                    <View>
-                       <Text style={{fontSize:16,color:'#000',fontFamily:'Acephimere'}}>{item.PartnerName}</Text>
-                       <Text style={{color:'#000',fontFamily:'Acephimere',fontSize:13}}>{item.Message}</Text>
+                       <Text style={{fontSize:16,color:'#000',fontFamily:'Acephimere'}}>{item.SupplierName}</Text>
+                       <Text style={{color:'#000',fontFamily:'Acephimere',fontSize:13}}>{item.Location}</Text>
                    </View>
                    <View style={{flexDirection:'row'}}>
-                       <TouchableOpacity style={{
+                       <TouchableOpacity
+                       onPress={()=>AcceptMEthod(item.SupplierSrNo)}
+                       style={{height:40,width:40
                        }}>
-                           <Image style={{height:40,width:40}} source={require('../../../assets/PartnerImage/6.png')}/>
+                           <Image style={{height:'100%',width:'100%'}} source={require('../../../assets/PartnerImage/6.png')}/>
                        </TouchableOpacity>
-                       <TouchableOpacity style={{
-                          marginLeft:10
+                       <TouchableOpacity onPress={()=>Reject(item.SupplierSrNo)}
+                       style={{height:40,width:40,marginLeft:10
                        }}>
-                           <Image style={{height:40,width:40}} source={require('../../../assets/PartnerImage/5.png')}/>
+                           <Image style={{height:'100%',width:'100%'}} source={require('../../../assets/PartnerImage/5.png')}/>
                        </TouchableOpacity>
                    </View>
                 </View>
             )}
-            /> */}
+            />
             </View>
         </View>
        
         <View style={{height:70}}/>
-
+      
       </ScrollView>
-      {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
-        <TabView />
-      </View> */}
+      <View style={{
+          marginVertical: hp("2.5%"),
+          position: "absolute",
+          top: "50%",
+          right: "50%",
+        }}>
+      <ActivityIndicator size="large"
+       animating={visible}
+        color={colors.bc} />  
+      </View>     
     </View>
   );
 };

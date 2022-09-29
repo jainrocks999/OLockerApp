@@ -131,6 +131,8 @@
 //     }),
 //   },
 // });
+// 
+
 import React from 'react';
 import {
   View,
@@ -139,6 +141,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  Dimensions
 } from 'react-native';
 
 const Preview = ({
@@ -150,6 +153,8 @@ const Preview = ({
   active,
   local,
 }) => {
+  const BannerWidth = (Dimensions.get('window').width * 15) / 18;
+  const BannerHeight = 180;
   return (
       <View style={{alignItems:'center',justifyContent:'center',borderRadius:15}}>
     <TouchableOpacity
@@ -157,12 +162,9 @@ const Preview = ({
       >
       <View style={[styles.imageContainer]}>
         <Image
-          //  style={{height:180,width:300,borderRadius:15}}
-              style={[styles.videoPreview, 
-           active ? {height: 240,width:240,borderRadius:120}:
-            {height:120,width:320,borderRadius:100}]}
-       source={{uri: item[imageKey]}}
-       resizeMode='contain'
+          style={{height:190,width:BannerWidth,borderRadius:190}}
+          source={{uri: item[imageKey]}}
+          resizeMode={Platform.OS=='android'?'contain':''}
         />
       </View>
     </TouchableOpacity>
@@ -176,7 +178,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:15,
-    marginLeft:10
+    height:200,
+    width:'100%'
   },
   shadow: {
     ...Platform.select({

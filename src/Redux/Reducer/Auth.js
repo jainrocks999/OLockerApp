@@ -37,11 +37,51 @@ initialstate = {
   States:[],
   citys:[],
   metalType:[],
-  categoryDetailData1:[]
+  categoryDetailData1:[],
+  DownloadByData:[],
+  DownloadByData1:[],
+  AddLoyalty:'',
+  LoyaltyType:[],
+  Login1:'',
+  updateproduct:[]
 };
 export default (state = initialstate, action) => {
   switch (action.type) {
+  
+    case 'User_Login_Request':
+      return { ...state, isFetching: true };
+    case 'User_Login_Success':
+      return { ...state, isFetching: false, Login1: action.payload };
+    case 'User_Login_Error':
+      return { ...state, isFetching: false };
 
+    case 'Get_GetLoyalityTypes_Request':
+      return { ...state, isFetching: true };
+    case 'Get_GetLoyalityTypes_Success':
+      return { ...state, isFetching: false, LoyaltyType: action.payload };
+    case 'Get_GetLoyalityTypes_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_Request_AddUpdatePlanDetails':
+      return { ...state, isFetching: true };
+    case 'Get_AddUpdatePlanDetails_Success':
+      return { ...state, isFetching: false ,AddLoyalty: action.payload};
+    case 'Get_AddUpdatePlanDetails_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_Request_GetReportForAppDownload1':
+      return{ ...state,isFetching:true};
+    case 'Get_GetReportForAppDownload1_Success':
+      return { ...state, isFetching: false, DownloadByData1: action.payload };
+    case 'Get_GetReportForAppDownload1_Error':
+      return { ...state, isFetching: false };
+
+    case 'Get_Request_GetReportForAppDownload':
+      return{ ...state,isFetching:true};
+    case 'Get_GetReportForAppDownload_Success':
+      return { ...state, isFetching: false, DownloadByData: action.payload };
+    case 'Get_GetReportForAppDownload_Error':
+      return { ...state, isFetching: false };
     case 'Get_LookupData_Request':
       return{ ...state,isFetching:true};
     case 'Get_LookupData_Success':
@@ -211,6 +251,14 @@ export default (state = initialstate, action) => {
     case 'Add_Product_Success':
       return { ...state, isFetching: false ,Addproduct: action.payload};
     case 'Add_Product_Error':
+      return { ...state, isFetching: false };
+
+
+      case 'Update_Product_Request':
+      return { ...state, isFetching: true };
+    case 'Update_Product_Success':
+      return { ...state, isFetching: false ,updateproduct: action.payload};
+    case 'Update_Product_Error':
       return { ...state, isFetching: false };
 
     case 'Get_Gold_Request':

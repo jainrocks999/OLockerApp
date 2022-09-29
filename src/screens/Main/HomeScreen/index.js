@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  SafeAreaView
 } from 'react-native';
 import Carousel from 'react-native-banner-carousel';
 import TabView from '../../../components/StoreButtomTab';
@@ -22,11 +23,14 @@ import Banner from '../../../components/Banner';
 import ImagePath from "../../../components/ImagePath";
 import AsyncStorage from '@react-native-community/async-storage';
 
+
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch=useDispatch()
   const [data,setData]=useState()
   const [collections,setCollecions]=useState()
+  const win = Dimensions.get('window');
   const isFetching=useSelector(state=>state.isFetching)
   const selector=useSelector(state=>state.NetworkList1)
   const BannerData=[]
@@ -37,7 +41,7 @@ const HomeScreen = () => {
   const BannerHeight = 180;
 const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Notifications)
  console.log('graphical Notification........e.e',GraphicalNotification);
- GraphicalNotification.map((item)=>{
+ GraphicalNotification?.map((item)=>{
   const url= `${ImagePath.Path}${(item.ImageLocation).substring(1)}${item.ImageName}`
   BannerData.push({
     image:url,desc:'Red fort', 
@@ -45,6 +49,9 @@ const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Noti
 
 
  })
+ const date=new Date();
+  let ToDAY= `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+console.log('change formate',ToDAY);
    useEffect( ()=>{
      Demo()
   //  banner();
@@ -69,7 +76,22 @@ const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Noti
     const Supplier=await AsyncStorage.getItem('SuppliesnrNo')
     // console.log('fffhhhf',partnerSrNo);
     // console.log("aaahhaaa",Supplier);
-
+    dispatch({
+      type:'Get_Request_GetReportForAppDownload',
+      url:'GetReportForAppDownload',
+        PartnerSrNo:partnerSrNo,
+        FromDate:ToDAY,
+        ToDate:ToDAY
+        
+    })
+    dispatch({
+      type:'Get_Request_GetReportForAppDownload1',
+      url:'GetReportForAppDownload',
+      PartnerSrNo:partnerSrNo,
+        FromDate:"1/1/2010",
+        ToDate:ToDAY
+        
+    })
     dispatch({
       type:'Get_PartnerFavProduct_Request',
       url:'GetPartnerFavProduct',
@@ -97,7 +119,12 @@ const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Noti
       url:'GetCatalogueCategories',
       PartnerSrno:partnerSrNo,
     });
-   
+    dispatch({
+      type:'Get_Pending_Request',
+      url:'GetSupplierRequest',
+      partnerSrNo:partnerSrNo,
+      navigation
+    });
     dispatch({
       type: 'Get_Allnotification_Request',
       url: 'GetAllNotification',
@@ -108,11 +135,11 @@ const GraphicalNotification= useSelector(state=>state.GraphicalNotification.Noti
     //   url: 'GetPartnerCatalogueCategories',
     //   SupplierSrNo:12,
     // });
-    dispatch({
-      type: 'Get_Collection_Request',
-      url: 'GetCollections',
-      PartnerSrno:partnerSrNo,
-    });
+    // dispatch({
+    //   type: 'Get_Collection_Request',
+    //   url: 'GetCollections',
+    //   PartnerSrno:partnerSrNo,
+    // });
     dispatch({
       type: 'Get_Categories_Request',
       url: 'GetCatalogueCategories',
@@ -191,9 +218,9 @@ axios(config)
   }
 
   return (
-    <View style={{flex: 1}}>
-      {isFetching?<Loader/>:null}
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView style={styles.scroll}>
+      {isFetching?<Loader/>:null}
         <ImageBackground
           style={styles.imgback}
           source={require('../../../assets/Image/1.png')}>
@@ -206,13 +233,16 @@ axios(config)
                   source={require('../../../assets/Fo.png')}
                 />
               </TouchableOpacity>
-              {/* <TouchableOpacity style={{marginLeft: 15}}>
+              <TouchableOpacity style={{marginLeft: 15}} 
+              onPress={()=>navigation.navigate('FavDetails')}>
                 <Image
                   style={styles.img2}
-                  source={require('../../../assets/La.png')}
+                  source={require('../../../assets/Image/dil.png')}
                 />
-              </TouchableOpacity> */}
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity 
+              // onPress={() => navigation.toggleDrawer()}
+              >
                 <Image
                   style={styles.img3}
                   source={require('../../../assets/Image/menu-icon.png')}
@@ -275,14 +305,27 @@ axios(config)
               onPress={()=>manageProfile(item.SupplierSrNo)}
                 style={styles.cardview}>
                 {item.SupplierImage == null ? <Image
-                  style={{ width: 80, height: 60, borderRadius: 0 }}
-                  source={require('../../../assets/demo.png')} /> :
+                  style={{
+                    width: win.width * 0.33,
+                    height: '100%',
+                    resizeMode: 'contain',
+                    // alignSelf: 'center',
+                    borderRadius: 15,
+                  }}
+                  source={require('../../../assets/Image/Not.jpeg')} /> :
                   <Image
-                    style={styles.cardimg}
+                    style={{
+                      width: win.width * 0.33,
+                      height: '100%',
+                      resizeMode: 'contain',
+                      // alignSelf: 'center',
+                      borderRadius: 15,
+                    }}
                     resizeMode='stretch'
                     source={{ uri: `${ImagePath.Path}${item.SupplierImage}` }}
                   />
                 }
+                {console.log('image path', `${ImagePath.Path}${item.SupplierImage}`)}
               </TouchableOpacity>
             )}
           />
@@ -343,7 +386,8 @@ axios(config)
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.touch}>
+            <TouchableOpacity onPress={()=>navigation.navigate('MyProducts')}
+             style={styles.touch}>
               <Text style={{color: '#fff', fontSize: 12}}>MORE</Text>
             </TouchableOpacity>
           </View>
@@ -352,7 +396,9 @@ axios(config)
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
-            data={selector1}
+            data={selector1?.slice(0,3)}
+          
+
             renderItem={({item}) => (
               <ImageBackground
               source={require('../../../assets/PartnerImage/goldIcon.png')}
@@ -368,7 +414,7 @@ axios(config)
         </View>
       </ScrollView>
       {/* <TabView /> */}
-    </View>
+    </SafeAreaView>
   );
 };
 export default HomeScreen;

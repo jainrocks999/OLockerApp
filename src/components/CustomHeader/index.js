@@ -17,7 +17,7 @@ const Header = ({
       <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {source?<TouchableOpacity
-            style={{height: 20, width: 30}}
+            style={{paddingVertical:15, width: 35,alignItems:'center',justifyContent:'center'}}
             delayPressIn={0}
             onPress={() => navigation.goBack()}>
             <Image style={styles.img} source={source} />
@@ -28,9 +28,10 @@ const Header = ({
           <TouchableOpacity onPress={onPress1}>
             <Image style={styles.img1} source={source1} />
           </TouchableOpacity>
-          {/* <TouchableOpacity style={{marginLeft: 20}}>
+          <TouchableOpacity onPress={onPress2}
+          style={{marginLeft: 20}}>
             <Image style={styles.img2} source={source2} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -51,8 +52,10 @@ const styles = StyleSheet.create({
     width: 25,
   },
   img2: {
-    height: 24,
-    width: 20,
+    height: 22,
+    width: 26,
+    tintColor:'#fff'
+
   },
   // img1: {
   //   height: 20,

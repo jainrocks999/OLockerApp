@@ -17,8 +17,10 @@ import Header from '../../../components/CustomHeader';
 import { useSelector } from 'react-redux';
 // import Pdf from 'react-native-pdf';
 import RNFetchBlob from 'rn-fetch-blob'
+import Loader from "../../../components/Loader"
 const Messagebox = () => {
     const navigation = useNavigation();
+    const isFetching = useSelector(state=>state.isFetching)
     const selector1=useSelector(state=>state.PurchaseHistory)
   const [page, setPage] = useState('')
   const [total, setTotal] = useState('')
@@ -80,15 +82,19 @@ const Messagebox = () => {
         <View style={styles.container1}>
         <Header
             source={require('../../../assets/L.png')}
-            source2={require('../../../assets/La.png')}
+            source2={require('../../../assets/Image/dil.png')}
             source1={require('../../../assets/Fo.png')}
             title={'Purchase History '}
             onPress={() => navigation.goBack()}
           onPress1={() => navigation.navigate('Message')}
+          onPress2={()=>navigation.navigate('FavDetails')}
             />
-            <View>
+            <ScrollView>
+              {isFetching?<Loader/>:null}
                 <View style={styles.Main}>
-                    <Text style={styles.Maintext}>{`${selector1.length} items purchaged`}</Text>
+                  {selector1.length===1?
+                    <Text style={styles.Maintext}>{`${selector1.length} item purchased`}</Text>: 
+                    <Text style={styles.Maintext}>{`${selector1.length} items purchased`}</Text>}
                 </View>
                 <FlatList
           data={selector1}
@@ -149,7 +155,7 @@ const Messagebox = () => {
             page={pageNo}
             horizontal={true}
           /> */}
-            </View>
+            </ScrollView>
             <StatusBar />
             {/* <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>
         <BottomTab />

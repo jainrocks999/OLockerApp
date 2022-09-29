@@ -18,22 +18,28 @@ import DocumentPicker from 'react-native-document-picker';
 import { useDispatch,useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from "@react-native-community/async-storage";
-
+import Loader from'../../../components/Loader'
 const Addcollection = () => {
   const navigation = useNavigation();
   const [status,setStatus]=useState('')
   const [collection,setCollection]=useState('')
   const [photo,setPhoto]=useState('')
   const dispatch=useDispatch()
+  const isFetching=useSelector(state=>state.isFetching)
 
   const uploadPhoto = async () => {
     try {
+
       const res = await DocumentPicker.pickMultiple({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+        type: [DocumentPicker.types.images],
+        
       });
+      console.log('resspone res',res);
+      let dec = decodeURIComponent(res[0].name)
+      console.log('dec',dec);
       setPhoto(res[0].uri);
       // setPhotoType(res[0].type);
-      // setPhotoName(res[0].name);
+      // setPhoto(res[0].name);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
       } else {
@@ -58,11 +64,11 @@ const Addcollection=async()=>{
        type: 'Add_Collection_Request',
        url: 'AddCollection',
        PartnerSrno:srno,
-       Tagline: "Test",
-       Description: "Test",
-       IsActive: true,
+       Tagline: "",
+       Description: "",
+       IsActive: status,
        BranchSrNo:BNo,
-       CollectionId:status,
+       CollectionId:'',
        Name:collection,
        CollectionImage:photo,
        navigation
@@ -75,12 +81,16 @@ console.log('this is photo data form render',photo);
     <View style={styles.container1}>
       <Header
         source={require('../../../assets/L.png')}
-        source2={require('../../../assets/La.png')}
+        source2={require('../../../assets/Image/dil.png')}
         source1={require('../../../assets/Fo.png')}
         title={'Add Collection '}
         onPress={() => navigation.goBack()}
+        onPress1={()=>navigation.navigate('Message')}
+
+        onPress2={()=>navigation.navigate('FavDetails')}
       />
       <ScrollView style={styles.scroll}>
+        {isFetching?<Loader/>:null}
         <View style={styles.card}>
           <View style={styles.main}>
             <Text style={styles.Text1}>Collection</Text>
@@ -127,6 +137,7 @@ console.log('this is photo data form render',photo);
            <View style={[styles.card1,{marginTop:20}]}>
              <View style={styles.bottom}>
              <TouchableOpacity onPress={()=>uploadPhoto()}>
+              {console.log('photo upload',photo)}
                {photo?<Image
                 style={[styles.img1,{borderRadius:10}]}
                 source={{uri:photo}}
@@ -161,6 +172,6 @@ console.log('this is photo data form render',photo);
 export default Addcollection;
 
 const Status = [
-  { label: 'Active', value: '1' },
-  { label: 'In Active', value: '2' },
+  { label: 'Active', value: 'true' },
+  { label: 'In Active', value: 'false' },
 ]
