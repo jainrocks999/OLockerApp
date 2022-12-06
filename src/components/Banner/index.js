@@ -27,7 +27,7 @@ const Preview = ({
       >
       <View style={[styles.imageContainer]}>
         <Image
-          style={{height:180,width:BannerWidth,borderRadius:15}}
+          style={{height:170,width:BannerWidth,borderRadius:15}}
           source={{uri: item[imageKey]}}
         />
       </View>

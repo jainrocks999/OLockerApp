@@ -115,7 +115,7 @@ return(
       }} />
     <Tab.Screen name="Customer1" component={Customer1} options={{
       tabBarIcon: ({ focused }) => {
-        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 28, width: 26 }} source={require('../assets/Sh.png')} />;
+        return <Image style={{ tintColor: focused ? '#fff' : 'grey', height: 25, width: 22 }} source={require('../assets/Sh.png')} />;
       },
      }} />
     

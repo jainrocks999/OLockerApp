@@ -19,6 +19,7 @@ const MyProducts = ({route}) => {
   console.log('vkm user respons Selector1',selector1);
   console.log('vkm user respons Selector', selector);
  // const Data=selector1;
+ const [liked, setLiked] = useState([]);
     const [search,setSearch]=useState('')
     const [filteredDataSource, setFilteredDataSource] = useState(selector);
     const [masterDataSource, setMasterDataSource] = useState(selector);
@@ -48,7 +49,7 @@ const searchFilterFunction = text => {
     const manageCategory=async(SrNo)=>{
       const partner=await AsyncStorage.getItem('Partnersrno')
       // console.log('this is user detailssssss',SrNo);
-     
+    
         dispatch({
           type: 'Get_Detail_Request',
           url:'GetProductDetail',
@@ -58,7 +59,7 @@ const searchFilterFunction = text => {
         })
       }
       const manageCategory1= async(SrNo)=>{
-       
+        console.log('srno,  dvbfgg',SrNo);
         dispatch({
           type: 'Get_GetProductDetail_Request',
           url:'GetProductDetail',
@@ -99,7 +100,7 @@ const searchFilterFunction = text => {
        
         <View style={styles.main}>
           <View>
-            <Text style={styles.text}>{partner ?`${selector1.length} Items`:`${selector.length} Items`}</Text>
+            <Text style={styles.text}>{partner ?selector1.length===1? `${selector1.length} Item`:`${selector1.length} Items`: selector.length===1?`${selector.length} Item`:`${selector.length} Items`}</Text>
           </View>
           {/* <View style={{flexDirection:'row',alignItems:'center'}}>
               <TouchableOpacity  onPress={()=>navigation.navigate('Filter')}>
@@ -142,9 +143,17 @@ const searchFilterFunction = text => {
                    <View style={{height: hp('100%'),width:wp('45%'), maxHeight:hp('25%'),borderWidth:0, borderColor:'red'}}>
                     <View style={{height: hp('7%'), width: '100%',borderWidth:0}}>
                      <View style={{padding:0,height: hp('5%'), width: '18%',borderWidth:0,marginTop:0}}>
-                      <TouchableOpacity onPress={()=>click(index,item.IsFavorite)} >
+                      <TouchableOpacity  onPress={() => {
+                          console.log('liked i ii i ', liked);
+                          if (liked.includes(index)) {
+                            let unlike = liked.filter(elem => elem !== index);
+                            setLiked(unlike);
+                          } else {
+                            setLiked([...liked, index]);
+                          }
+                        }}>
                       
-                           <Image style={{height:hp('2.4%'),width:wp('5.6%'),marginLeft:5,marginTop:2,tintColor:id==index?'red':'grey'}}  source={require('../../../assets/Image/dil.png')}/>
+                           <Image style={{height:hp('2.4%'),width:wp('6%'),marginLeft:5,marginTop:2, tintColor: liked.includes(index) ? 'red' : 'grey',}}  source={require('../../../assets/Image/dil.png')}/>
                       </TouchableOpacity>
                     {/* {partner?   <Image style={{height:hp('2.4%'),width:wp('5.6%'),marginLeft:5,marginTop:2}} source={require('../../../assets/Image/dil.png')}/>:<View style={{marginTop:10}}/>} */}
                        <TouchableOpacity onPress={()=>share(item)}>

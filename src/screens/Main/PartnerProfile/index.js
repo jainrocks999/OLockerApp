@@ -153,7 +153,7 @@ const addToNetwork=async()=>{
                     spacing={5}
                     update={val => setRatting1(val)}
                     count={5}
-                    starSize={20}
+                    starSize={16}
                     fullStar= {require('../../../assets/Image/star.png')}
                     emptyStar= {require('../../../assets/Image/star1.png')}/>
 

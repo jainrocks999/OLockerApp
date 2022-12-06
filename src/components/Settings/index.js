@@ -87,8 +87,8 @@ const Settings=()=>{
                     onPress={()=>deteleApi(selector.Profile.SrNo,)}
                     style={{
                         borderColor:'#e9056b',
-                        paddingHorizontal:15,
-                        paddingVertical:4,
+                        paddingHorizontal:20,
+                        paddingVertical:6,
                         borderRadius:8,
                         borderWidth:1
                         }}>

@@ -301,13 +301,13 @@ console.log("response  virews",list);
             borderBottomRightRadius: 60,
             borderBottomLeftRadius:60,
           }}>
-         <View style={{alignItems: 'center', height: 200,marginTop:10}}>
+         <View style={{alignItems: 'center', height: 160,marginTop:0}}>
          
            <FlatListSlider
             data={images}
-            height={200}
+            height={160}
             timer={5000}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:15}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
             indicatorActiveColor={'#032e63'}
             indicatorInActiveColor={'#ffffff'}
@@ -324,12 +324,12 @@ console.log("response  virews",list);
        
          <View style={{height:150}}/>
         </View>
-        <View style={{marginTop:-130,paddingHorizontal:15}}>
+        <View style={{marginTop:-135,paddingHorizontal:15}}>
             <Text style={{color:'#fff',fontWeight:'700',fontSize:16,fontFamily:'Philosopher-Regular'}}>Search Jeweller Partner</Text>
             <View style={{
                 width:'100%',
                 backgroundColor:'#fff',
-                marginTop:10,
+                marginTop:15,
                 elevation:5,
                 borderRadius:10
                 }}>
@@ -443,7 +443,7 @@ console.log("response  virews",list);
                    onPress={()=>getSupplier()}
                     style={{
                        height:40,
-                       width:100,
+                       width:130,
                        backgroundColor:'#e9056b',
                        borderRadius:20,
                        alignItems:'center',justifyContent:'center'
@@ -491,7 +491,7 @@ console.log("response  virews",list);
               <View style={{
                 width:'100%',
                 backgroundColor:'#fff',
-                marginTop:10,
+                marginTop:0,
                 elevation:5,
                 borderRadius:10
                 }}>

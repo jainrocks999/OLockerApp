@@ -30,7 +30,7 @@ const Catalogue=()=>{
     return(
         <View>
              <View style={{backgroundColor:'#fff',alignItems:'center',justifyContent:'center',paddingVertical:14}}>
-            <Text style={{fontSize:16,fontWeight:'700',fontFamily:'Roboto-Medium',color:'#032e63'}}>Categories </Text>
+            <Text style={{fontSize:19,fontWeight:'700',fontFamily:'Roboto-Medium',color:'#032e63'}}>Categories </Text>
           </View>
           {/* {isFetching?<Loader/>:null} */}
           <FlatList

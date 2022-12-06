@@ -17,12 +17,12 @@ const Header = ({
       <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {source?<TouchableOpacity
-            style={{paddingVertical:15, width: 35,alignItems:'center',justifyContent:'center'}}
+            style={{paddingVertical:15, width: 35,alignItems:'center',justifyContent:'center',marginLeft:-5}}
             delayPressIn={0}
             onPress={() => navigation.goBack()}>
             <Image style={styles.img} source={source} />
           </TouchableOpacity>:null}
-          <Text style={[styles.text, {marginLeft: 0}]}>{title}</Text>
+          <Text style={[styles.text, {marginLeft: 5}]}>{title}</Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={onPress1}>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     flexDirection: 'row',
-    paddingVertical: 15,
+    paddingVertical: 12,
   },
   text: {
     color: 'white',

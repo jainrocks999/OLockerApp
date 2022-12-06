@@ -102,7 +102,7 @@ const HomeScreen = () => {
                 alignItems:'center',
                 height:35,
                 }}>
-                <Image style={{height:13,width:20,marginBottom:0,tintColor:'#474747' }} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
+                <Image style={{height:13,width:20,marginBottom:0,tintColor:'#474747' ,marginLeft:5}} resizeMode={'contain'} source={require('../../../assets/Image/serch.png')}/>
                 <TextInput
                  placeholder='Search'
                  placeholderTextColor={'#474747'}

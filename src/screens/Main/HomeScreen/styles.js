@@ -33,12 +33,12 @@ export default StyleSheet.create({
   },
   text1: {
     color: '#c6e0ff',
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto-Medium', marginLeft:15
   },
   text2: {
     color: '#ffffff',
     fontSize: 24,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto-Medium',marginLeft:15
   },
   main: { 
     alignItems: 'center', 
@@ -71,11 +71,11 @@ export default StyleSheet.create({
     elevation: 3,
     borderRadius: 10,
     width: 120,
-    margin: 5,
+    margin: 9,
     alignItems: 'center',
     justifyContent: 'center',
     height: 120,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
 
   },
   cardimg: { 
@@ -127,7 +127,7 @@ export default StyleSheet.create({
   },
   Goldview: {
     marginLeft: 7,
-    marginTop: 9,
+    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
 

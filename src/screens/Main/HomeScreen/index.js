@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
-  SafeAreaView
+  SafeAreaView,Alert
 } from 'react-native';
 import Carousel from 'react-native-banner-carousel';
 import TabView from '../../../components/StoreButtomTab';
@@ -193,10 +193,6 @@ axios(config)
 });
 
 }
-// console.log('data banner image  showsss',sliderdata);
-//   console.log('data banner imagesssssss  showsss',images);
-
- 
 
   const manageProfile= async(id)=>{
    
@@ -208,7 +204,6 @@ axios(config)
       navigation
     });
      AsyncStorage.setItem('SupplierId', JSON.stringify(id))
-    // console.log('storage id for supplier', id);
     dispatch({
       type: 'Partner_Catalogue_Request',
       url: 'GetPartnerCatalogueCategories',
@@ -216,6 +211,29 @@ axios(config)
       navigation
     });
   }
+  const getLogout=()=>{
+
+    console.log('Logout Successfully ..');
+    // console.log( 'alertLogout Succesfully',alert('Logout Succesfully'))
+  }
+  const Logout = () => {
+   
+    Alert.alert(
+      'Are you want to logout ?',
+      '',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            cancelable: false;
+          },
+          style: 'cancel',
+        },
+        {text: 'ok', onPress: () => getLogout()},
+      ],
+      {cancelable: false},
+    );
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -241,7 +259,7 @@ axios(config)
                 />
               </TouchableOpacity>
               <TouchableOpacity 
-              // onPress={() => navigation.toggleDrawer()}
+               onPress={() =>Logout()}
               >
                 <Image
                   style={styles.img3}
@@ -268,15 +286,15 @@ axios(config)
             data={BannerData}
             height={200}
             timer={3000}
-            contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
+            contentContainerStyle={{marginVertical:0,paddingHorizontal:35}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
             indicatorActiveColor={'#032e63'}
             indicatorInActiveColor={'red'}
             indicatorActiveWidth={5}
             animation
             component={<Banner/>}
-            separatorWidth={15}
-            width={300}
+            // separatorWidth={1}
+            width={350}
             autoscroll={false}
             loop={false}
         />
@@ -284,7 +302,7 @@ axios(config)
         <View style={styles.itemview}>
           <View style={styles.itemview1}>
             <Image
-              style={{width: 102, height: 22, tintColor: '#032e63'}}
+              style={{width: 102, height: 22, tintColor: '#032e63',marginLeft:5}}
               source={require('../../../assets/Image/myjewlery.png')}
             />
             <TouchableOpacity
