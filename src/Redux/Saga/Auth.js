@@ -288,7 +288,7 @@ function* getCategory(action) {
         type: 'Get_Category_Success',
         payload: response.GetProducts,
       });
-      action.navigation.navigate('MyProductDetails', { PartnerProductlist: false })
+      action.navigation.navigate('MyProductDetails', { PartnerProductlist: false,name:action.name },)
     } else {
       yield put({
         type: 'Get_Category_Error',
@@ -789,12 +789,11 @@ function* PartnersCatalogue(action) {
     }
     const response = yield call(Api.fetchDataByGET, action.url, data);
     if (response.success == true) {
-
       yield put({
         type: 'GetPartners_Catalogue_Success',
         payload: response,
       });
-      action.navigation.navigate('MyProductDetails',{PartnerProductlist:true})
+      action.navigation.navigate('MyProductDetails',{PartnerProductlist:true,name1:action.name1})
     } else {
       yield put({
         type: 'GetPartners_Catalogue_Error',
@@ -1048,11 +1047,9 @@ function* getDownloadByData(action) {
       FromDate:action.FromDate,
       ToDate:action.ToDate
     }
-    console.log('download by Data Get Report',data);
     const response = yield call(Api.fetchDataByGET6, action.url,data);
 
     if (response.success == true) {
-      console.log('download by Data Get Report',response);
 
       yield put({
         type: 'Get_GetReportForAppDownload_Success',
@@ -1080,11 +1077,9 @@ function* getDownloadByData1(action) {
       FromDate:action.FromDate,
       ToDate:action.ToDate
     }
-    console.log('download by Data Get Report',data);
     const response = yield call(Api.fetchDataByGET6, action.url,data);
 
     if (response.success == true) {
-      console.log('download by Data Get Report',response);
 
       yield put({
         type: 'Get_GetReportForAppDownload1_Success',

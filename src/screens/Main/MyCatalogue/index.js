@@ -34,7 +34,7 @@ const MyCatalogue = ({route}) => {
   const isFocused = useIsFocused();
   const [tc, setTc] = useState(0);
   const [tc1, setTc1] = useState(0);
-  
+  console.log('item122ef',selector1)
   const scrollViewRef = useRef();
 
   useEffect(()=>{
@@ -62,22 +62,24 @@ const MyCatalogue = ({route}) => {
       PartnerSrno:srno,
     });
   }
-  const manageCategory1 = async (id) => {
+  const manageCategory1 = async (id,name) => {
     const srno = await AsyncStorage.getItem('Partnersrno')
     const supplierid = await AsyncStorage.getItem('SupplierId')
-    // console.log('this is user category details', supplierid)
+     console.log('this is user category details233', supplierid)
+     console.log('this is user category details23345', id)
     dispatch({
       type: 'GetPartners_Catalogue_Request',
       url: 'GetPartnerProductsByCatalogueCategory',
       PartnerSrno: srno,
       Category: id,
       supplierId: supplierid,
+      name1:name,
       navigation
 
     });
   }
   
-const manageCategory=async(id)=>{
+const manageCategory=async(id,name)=>{
   const srno=await AsyncStorage.getItem('Partnersrno')
   console.log('this is user category details',id);
 
@@ -87,6 +89,7 @@ const manageCategory=async(id)=>{
      // url: 'GetPartnerProductsByCatalogueCategory',
       PartnerSrno:srno,
       Category:id,
+      name:name,
       navigation
     });
   }
@@ -151,7 +154,7 @@ const tabCategory=()=>{
          <View style={styles.container1}>
            <FlatListSlider
             data={images}
-            height={200}
+            height={170}
             timer={3000}
             contentContainerStyle={{marginVertical:0,paddingHorizontal:30}}
             indicatorContainerStyle={{position:'absolute', bottom: 10}}
@@ -167,7 +170,7 @@ const tabCategory=()=>{
         />
         </View>
         <View ref={scrollViewRef} 
-        ref={scrollViewRef}
+        // ref={scrollViewRef}
         onLayout={(event) => {
           const layout = event.nativeEvent.layout;
            setTc1(layout.height);
@@ -233,7 +236,7 @@ const tabCategory=()=>{
             numColumns={3}
             renderItem={({item})=>(
                 <TouchableOpacity
-                onPress={()=>manageCategory(item.Id)}
+                onPress={()=>manageCategory(item.Id,item.CategoryName)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
               style={styles.card1}>
                 {/* {console.log('zzz2222',`${ImagePath.Path}${item.CategoryImage}`)} */}
@@ -272,7 +275,7 @@ const tabCategory=()=>{
                   onPress={() => 
                     manageProfile(item.SupplierSrNo)}
                   style={styles.card2}>
-                    {/* {console.log('abvds',item)} */}
+                  
                   <View style={styles.card2v}>
                     {item.SupplierImage == null ?
                     <Image
@@ -292,7 +295,7 @@ const tabCategory=()=>{
                     >{item.SupplierName}</Text>
                     {/* <Text style={{ fontFamily: 'Acephimere', color: '#666666', fontSize: 12 }}>{item.CityName}</Text> */}
                   </View>
-                  {/* {console.log('supplier id 3r', item)} */}
+                 
                 </TouchableOpacity>
               )}
 
@@ -310,21 +313,22 @@ const tabCategory=()=>{
               <TouchableOpacity
 
                 onPress={() => 
-                  manageCategory1(item.Id)}
+                  manageCategory1(item.Id,item.CategoryName)}
                 // onPress={() => navigation.navigate('MyProductDetails',{id:item.Id})}
                 style={styles.card1}>
-                {/* {console.log('zzz', item)} */}
+            
                 <Image
                   style={styles.card1img}
-                  // resizeMode={'stretch'}
+                 
                   source={{
                     uri: `${ImagePath.Path}${item.CategoryImage}`,
                   }}
                 />
                 <View style={styles.card1v}>
                   <Text style={[styles.card1t, { color: '#032e63', fontWeight: '700' }]}>{item.CategoryName}</Text>
-                 {item.TotalItems==1? <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Item`}</Text>:
-                 <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>}
+                 {/* {item.TotalItems==1?  */}
+                 <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{item.TotalItems==1?`${item.TotalItems} Item`:`${item.TotalItems} Items`}</Text>
+                  {/* <Text style={[styles.card1t, { color: '#0d0d0d' }]}>{`${item.TotalItems} Items`}</Text>} */}
                 </View>
               </TouchableOpacity>
             )}
@@ -340,7 +344,7 @@ const tabCategory=()=>{
           <View style={styles.card3}>
              <Text style={styles.card3t}>My Collections</Text>
           </View>
-          <View style={{marginTop:10}}>
+          <View style={{marginTop:-10}}>
           <FlatList
             data={selector1}
             renderItem={({item})=>(
@@ -371,12 +375,12 @@ const tabCategory=()=>{
           <View
           style={{
             height: hp('23%'),
-            width: '95%',
+            width: '99%',
             // marginTop: '50%',
             alignSelf: 'center',
             borderWidth: 0.5,
           }}>
-            {/* {console.log('item122ef',`${ImagePath.Path}/${item.CollectionImage}`)} */}
+           
           <View style={{height: hp('3%'), width: '100%',alignItems:'center',justifyContent:'center'}}>
           <Text style={styles.card3vt}>{item.Name}</Text>
           </View>
@@ -406,7 +410,7 @@ const tabCategory=()=>{
         </View>
            :null}  
           
-        <View style={{height:80}}/>
+        <View style={{height:0}}/>
 
       </ScrollView>
       <View style={{bottom: 0, position: 'absolute', left: 0, right: 0}}>

@@ -92,9 +92,7 @@ const Messagebox = () => {
             <ScrollView>
               {isFetching?<Loader/>:null}
                 <View style={styles.Main}>
-                  {selector1.length===1?
-                    <Text style={styles.Maintext}>{`${selector1.length} item purchased`}</Text>: 
-                    <Text style={styles.Maintext}>{`${selector1.length} items purchased`}</Text>}
+                    <Text style={styles.Maintext}>{selector1.length<=1?`${selector1.length} item purchased`:`${selector1.length} items purchased`}</Text>
                 </View>
                 <FlatList
           data={selector1}

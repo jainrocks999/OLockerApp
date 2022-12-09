@@ -11,16 +11,17 @@ const Catalogue=()=>{
   const isFetching =useSelector(state =>state.isFetching)
   const dispatch=useDispatch()
   console.log('this is user respons223',selector);
-  const manageCategory=async(id)=>{
+  const manageCategory=async(id,name)=>{
       const srno = await AsyncStorage.getItem('Partnersrno')
     const supplierid = await AsyncStorage.getItem('SupplierId')
-  console.log('this is user category details',id)
+ 
       dispatch({
         type: 'GetPartners_Catalogue_Request',
          url: 'GetPartnerProductsByCatalogueCategory',
         PartnerSrno: srno,
         Category: id,
         supplierId:supplierid,
+        name1:name,
         navigation
      
     });
@@ -40,7 +41,7 @@ const Catalogue=()=>{
               
               <TouchableOpacity
                // onPress={() => navigation.navigate('MyProductDetails', { id: item.Id })}
-                onPress={()=>manageCategory(item.Id)}
+                onPress={()=>manageCategory(item.Id,item.CategoryName)}
               // onPress={()=>navigation.navigate('CategoryDetails')}
               style={{
                 width: '33.3%',

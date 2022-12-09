@@ -1,13 +1,13 @@
-import React from "react";
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   container1: {
     flex: 1,
     backgroundColor: '#f0eeee',
   },
-  scroll: { 
-    flex: 1, 
-    backgroundColor: '#f0eeef' 
+  scroll: {
+    flex: 1,
+    backgroundColor: '#f0eeef',
   },
   imgback: {
     height: 260,
@@ -24,30 +24,32 @@ export default StyleSheet.create({
   img2: {
     height: 22,
     width: 26,
-    tintColor:'#fff'
+    tintColor: '#fff',
   },
-  img3: { 
-    width: 34, 
-    height: 22, 
-    marginLeft: 15 
+  img3: {
+    width: 34,
+    height: 22,
+    marginLeft: 15,
   },
   text1: {
     color: '#c6e0ff',
-    fontFamily: 'Roboto-Medium', marginLeft:15
+    fontFamily: 'Roboto-Medium',
+    marginLeft: 15,
   },
   text2: {
     color: '#ffffff',
     fontSize: 24,
-    fontFamily: 'Roboto-Medium',marginLeft:15
+    fontFamily: 'Roboto-Medium',
+    marginLeft: 15,
   },
-  main: { 
-    alignItems: 'center', 
-    height: 200, 
-    marginTop: -115 
+  main: {
+    alignItems: 'center',
+    height: 200,
+    marginTop: -120,
   },
-  itemview: { 
-    marginTop: 10, 
-    paddingHorizontal: 12 
+  itemview: {
+    marginTop: 10,
+    paddingHorizontal: 12,
   },
   itemview1: {
     paddingHorizontal: 8,
@@ -61,11 +63,11 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     fontStyle: 'italic',
-    fontFamily: 'Roboto-Medium'
+    fontFamily: 'Roboto-Medium',
   },
   cardview: {
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 3,
@@ -76,17 +78,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
     height: 120,
     backgroundColor: '#fff',
-
   },
-  cardimg: { 
-    height: 120, 
-    width: '100%', 
-    borderTopRightRadius: 10, 
-    borderTopLeftRadius: 10 
+  cardimg: {
+    height: 120,
+    width: '100%',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
   },
-  middle1: { 
-    paddingHorizontal: 20, 
-    marginTop: 10 
+  middle1: {
+    paddingHorizontal: 20,
+    marginTop: 10,
   },
   card1: {
     width: 100,
@@ -100,9 +101,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
   },
-  img4: { 
-    height: 100, 
-    width: 100 
+  img4: {
+    height: 100,
+    width: 100,
   },
   textc: {
     fontSize: 16,
@@ -120,17 +121,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  Goldimg: { 
-    width: 35, 
-    height: 30, 
-    marginBottom: 2 
+  Goldimg: {
+    width: 35,
+    height: 30,
+    marginBottom: 2,
   },
   Goldview: {
     marginLeft: 7,
     marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
-
   },
   Goldt: {
     fontSize: 17,
@@ -144,7 +144,7 @@ export default StyleSheet.create({
     fontSize: 17,
     fontStyle: 'italic',
     fontFamily: 'Roboto-Medium',
-    fontWeight: '700'
+    fontWeight: '700',
   },
   touch: {
     paddingVertical: 4,
@@ -171,13 +171,13 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
-  bottomv: { 
-    marginBottom: 30, 
-    paddingHorizontal: 12 
+  bottomv: {
+    marginBottom: 30,
+    paddingHorizontal: 12,
   },
   Bimg: {
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 3,
@@ -189,23 +189,23 @@ export default StyleSheet.create({
     height: 140,
     marginHorizontal: 5,
   },
-  Bt: { 
-    fontFamily: 'Roboto-Medium', 
-    fontSize: 16, 
-    marginBottom: 20, 
-    fontWeight: '700' 
+  Bt: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 16,
+    marginBottom: 20,
+    fontWeight: '700',
   },
-  Bv: { 
-    bottom: 15, 
-    position: 'absolute', 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    justifyContent: 'center' 
+  Bv: {
+    bottom: 15,
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  Btt: { 
-    fontFamily: 'Roboto-Medium', 
-    fontSize: 18, 
-    fontWeight: '700', 
-    marginTop: 3 
-  }
+  Btt: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 18,
+    fontWeight: '700',
+    marginTop: 3,
+  },
 });

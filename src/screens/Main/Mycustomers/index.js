@@ -19,8 +19,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const Mycustomer = () => {
   const navigation = useNavigation();
   const selector=useSelector(state=>state.CustomerList)
+console.log('cutomerlist,,,,,,,,',selector);
   const dispatch=useDispatch()
-  console.log('this is selector data',selector);
   const isFetching=useSelector(state=>state.isFetching)
   const [search,setSearch]=useState('')
   const [filteredDataSource, setFilteredDataSource] = useState(selector);
@@ -101,7 +101,6 @@ const userProfile=async(id)=>{
             renderItem={({item})=>(
               <TouchableOpacity
               onPress={()=>userProfile(item.SrNo)}
-              //  onPress={()=>navigation.navigate('MyCustomerDetail')}
                style={{
                 backgroundColor:'#fff',
                 marginTop:10,
@@ -111,13 +110,19 @@ const userProfile=async(id)=>{
                 alignItems:'center',
                 paddingVertical:10
               }}>
-                {console.log('hmm', `${ImagePath.Path}${item.ProfilePic}`)}
+                {console.log('image......hhh',`${ImagePath.Path}${item.ProfilePic}`)}
                 <View style={{height:40,borderRadius:20,flexDirection:'row',alignItems:'center'}}>
+              {item.ProfilePic===null?
                 <Image
                 style={{width:40,height:40,borderRadius:20}}
                     source={{
                       uri: `${ImagePath.Path}${item.ProfilePic}`,
-                    }}/>
+                    }}/>:
+                     <Image
+                    style={{width:40,height:40,borderRadius:20}}
+                    source={require('../../../assets/user.jpeg')}
+                  />
+                  }
                 <Text 
                 style={{
                   marginLeft:20,

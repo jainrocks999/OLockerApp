@@ -17,7 +17,7 @@ const Header = ({
       <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           {source?<TouchableOpacity
-            style={{paddingVertical:15, width: 35,alignItems:'center',justifyContent:'center',marginLeft:-5}}
+            style={{paddingVertical:15, width: 35,alignItems:'center',justifyContent:'center',marginLeft:-15}}
             delayPressIn={0}
             onPress={() => navigation.goBack()}>
             <Image style={styles.img} source={source} />

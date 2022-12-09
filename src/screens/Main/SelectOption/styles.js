@@ -25,7 +25,7 @@ export default StyleSheet.create({
     },
     outcardtext: { 
         color: '#7d7d7d', 
-        fontFamily: 'Acephimere' 
+        fontFamily: 'Acephimere' ,fontSize:12
     },
     Text1:
     {

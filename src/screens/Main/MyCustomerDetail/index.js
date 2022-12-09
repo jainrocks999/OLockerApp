@@ -59,7 +59,6 @@ const manageFeedback=async()=>{
         },
       },
     });
-{console.log('hghghmhlkrhlkrhr',configOptions);}
 try{
     RNFetchBlob.config(configOptions)
     .fetch('GET', `http://samples.leanpub.com/thereactnativebook-sample.pdf`, {})
@@ -87,7 +86,7 @@ try{
           Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
         }
       } catch (err) {
-        console.log('sdbmkbmksglbm',err);
+        
       }
     }
   }

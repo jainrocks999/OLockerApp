@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  FlatList
+  FlatList,
 } from 'react-native';
 import TabView from '../../../components/StoreButtomTab';
 import Header from '../../../components/CustomHeader';
@@ -19,124 +19,120 @@ import {
 } from 'victory-native';
 import RNPickerSelect from 'react-native-picker-select';
 import styles from './styles';
-import { useSelector,useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Loader from '../../../components/Loader';
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const MyCatalogue = () => {
   const navigation = useNavigation();
-  const [status,setStatus]=useState('')
-  const isFetching=useSelector(state=>state.isFetching)
-  const dispatch=useDispatch()
-  const [data1,setUserdata]=useState(false)
-  const [data2,setUserdata1]=useState('')
-  const selector=useSelector(state=>state.DownloadByData)
-  const selector1=useSelector(state=>state.DownloadByData1.Downloads)
-  console.log('recent download dataa',selector1);
-  const date=new Date();
-  let ToDAY= `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-console.log('change formate',ToDAY);
-  // console.log('date is formate  ',selector?.Downloads.length);
+  const [status, setStatus] = useState('');
+  const isFetching = useSelector(state => state.isFetching);
+  const dispatch = useDispatch();
+  const [data1, setUserdata] = useState(false);
+  const [data2, setUserdata1] = useState('');
+  const selector = useSelector(state => state.DownloadByData);
+  const selector1 = useSelector(state => state.DownloadByData1);
+  console.log('recent download dataa', selector1,    selector.DownloadCount);
+  const date = new Date();
+  let ToDAY = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  console.log('change formate', ToDAY);
   
- useEffect( ()=>{
-//  TotalDownload()
-//  TotalDownload2()
- 
-},[])
- const TotalDownload2= async()=>{
-  setTimeout(function(){setUserdata(true)}, 2000).bind(data)
- }
-
-const TodayDownload=async()=>{
-  const srno=await AsyncStorage.getItem('Partnersrno');
-  var axios = require('axios');
-
-  var config = {
-    method: 'get',
-    url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
-    // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
-    headers: {
-      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
-      'Content-Type': 'application/json'
-    },
-    params:{
-      PartnerSrNo:srno,
-      FromDate:ToDAY,
-      ToDate:ToDAY
-    }
+  useEffect(() => {
+    //  TotalDownload()
+    //  TotalDownload2()
+  }, []);
+  const TotalDownload2 = async () => {
+    setTimeout(function () {
+      setUserdata(true);
+    }, 2000).bind(data);
   };
 
-  axios(config)
-    .then(function (response) {
-      if (response.data.success==true){
-      setUserdata1(response.data.Downloads);
-      }
-    })
-    .catch(function (error) {
-      console.log('sssmssmsms',error);
-    });
- 
-}
-const TotalDownload=async()=>{
-  const srno=await AsyncStorage.getItem('Partnersrno');
-  var axios = require('axios');
+  const TodayDownload = async () => {
+    const srno = await AsyncStorage.getItem('Partnersrno');
+    var axios = require('axios');
 
-  var config = {
-    method: 'get',
-    url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
-    // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
-    headers: {
-      'MobileAppKey': 'EED26D5A-711D-49BD-8999-38D8A60329C5',
-      'Content-Type': 'application/json'
-    },
-    params:{
-      PartnerSrNo:srno,
-      FromDate:"1/1/2010",
-      ToDate:ToDAY
-    }
+    var config = {
+      method: 'get',
+      url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
+      // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
+      headers: {
+        MobileAppKey: 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+        'Content-Type': 'application/json',
+      },
+      params: {
+        PartnerSrNo: srno,
+        FromDate: ToDAY,
+        ToDate: ToDAY,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.data.success == true) {
+          setUserdata1(response.data.Downloads);
+        }
+      })
+      .catch(function (error) {
+       
+      });
   };
+  const TotalDownload = async () => {
+    const srno = await AsyncStorage.getItem('Partnersrno');
+    var axios = require('axios');
 
-  axios(config)
-    .then(function (response) {
-      if (response.data.success==true){
-      setUserdata(response.data.Downloads);
-      }
-    })
-    .catch(function (error) {
-      console.log('sssmssmsms',error);
-    });
- 
-}
-//console.log('avtr',(data1.length));
-  const manageCustomer=async()=>{
-    const srno=await AsyncStorage.getItem('Partnersrno')
+    var config = {
+      method: 'get',
+      url: 'https://devappapi.olocker.in/api/Partner/GetReportForAppDownload',
+      // url: 'https://api.myjeweller.in/api/Partner/GetReportForAppDownload',
+      headers: {
+        MobileAppKey: 'EED26D5A-711D-49BD-8999-38D8A60329C5',
+        'Content-Type': 'application/json',
+      },
+      params: {
+        PartnerSrNo: srno,
+        FromDate: '1/1/2010',
+        ToDate: ToDAY,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        if (response.data.success == true) {
+          setUserdata(response.data.Downloads);
+        }
+      })
+      .catch(function (error) {
+     
+      });
+  };
+  //console.log('avtr',(data1.length));
+  const manageCustomer = async () => {
+    const srno = await AsyncStorage.getItem('Partnersrno');
     dispatch({
       type: 'Get_Customer_Request',
       url: 'GetCustomersByPartnerId',
-      PartnerSrno:srno,
-      navigation
+      PartnerSrno: srno,
+      navigation,
     });
-    
-  }
+  };
 
-  const manageFeedback=async()=>{
-    const srno=await AsyncStorage.getItem('Partnersrno')
+  const manageFeedback = async () => {
+    const srno = await AsyncStorage.getItem('Partnersrno');
     dispatch({
       type: 'Get_Feedback_Request',
       url: 'GetCustomerFeedbackByPartnerId',
-      PartnerSrno:srno,
-      navigation
+      PartnerSrno: srno,
+      navigation,
     });
-  }
-  const Loyalty=(id)=>{
+  };
+  const Loyalty = id => {
     // dispatch({
     //   type: 'Get_Loyalty_Request',
     //   url: 'GetPartnerPoint',
     //   customerId:857246,
     //   navigation
     // });
-  }
-
+  };
 
   const data = [
     {quarter: 1, earnings: 500},
@@ -156,32 +152,29 @@ const TotalDownload=async()=>{
     <View style={{flex: 1}}>
       <Header
         source1={require('../../../assets/Fo.png')}
-         source2={require('../../../assets/Image/dil.png')}
+        source2={require('../../../assets/Image/dil.png')}
         title={'My Customers '}
         onPress={() => navigation.goBack()}
         onPress1={() => navigation.navigate('Message')}
-        onPress2={()=>navigation.navigate('FavDetails')}
+        onPress2={() => navigation.navigate('FavDetails')}
       />
-     
+
       <ScrollView>
-      {isFetching?<Loader/>:null}
-      {/* {data1?<Loader/>:null} */}
-        <View
-          style={styles.main}>
+        {isFetching ? <Loader /> : null}
+        <View style={styles.main}>
           <View style={{height: 150}} />
         </View>
-        <View
-          style={styles.card}>
-            <View style={styles.cardV}>
+        <View style={styles.card}>
+          <View style={styles.cardV}>
             <View style={styles.cardV1}>
-              <Text style={styles.cardV1t}>{selector.Downloads?.length}</Text>
+              <Text style={styles.cardV1t}>{selector.DownloadCount}</Text>
               <Text style={styles.cardV1tt}>Today Downloads</Text>
             </View>
             <View style={styles.cardV1}>
-              <Text style={styles.cardV1t}>{selector1?.length}</Text>
+              <Text style={styles.cardV1t}>{selector1.DownloadCount}</Text>
               <Text style={styles.cardV1tt}>Total Downloads</Text>
             </View>
-            </View>
+          </View>
           {/* <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20}}>
             <Text style={{fontFamily:'Philosopher-Regular',color:'#032e63',fontSize:16,marginTop:5}}>{'35705 customers '}</Text>
             <View style={{
@@ -242,28 +235,40 @@ const TotalDownload=async()=>{
           </VictoryChart> */}
         </View>
         <View style={styles.card2}>
-          <TouchableOpacity onPress={()=>manageCustomer()}
-           style={{alignItems:'center'}}>
-                <View style={{}}>
-                 <Image style={styles.card2img} source={require('../../../assets/Image/myCustomerImage.png')}/>
-               </View>
-               <Text style={styles.card2t}>{'My Customers'}</Text>
+          <TouchableOpacity
+            onPress={() => manageCustomer()}
+            style={{alignItems: 'center'}}>
+            <View style={{}}>
+              <Image
+                style={styles.card2img}
+                source={require('../../../assets/Image/myCustomerImage.png')}
+              />
+            </View>
+            <Text style={styles.card2t}>{'My Customers'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>manageFeedback()}
-           style={{alignItems:'center'}}>
-                <View style={{}}>
-              <Image style={styles.card2img} source={require('../../../assets/Image/feedbackI.png')}/>
-               </View>
-               <Text style={styles.card2t}>{'Feedback'}</Text>
+          <TouchableOpacity
+            onPress={() => manageFeedback()}
+            style={{alignItems: 'center'}}>
+            <View style={{}}>
+              <Image
+                style={styles.card2img}
+                source={require('../../../assets/Image/feedbackI.png')}
+              />
+            </View>
+            <Text style={styles.card2t}>{'Feedback'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('Loyalty1')}
-           style={{alignItems:'center'}}>
-               <View style={{}}>
-              <Image style={styles.card2img} source={require('../../../assets/Image/heart.png')}/>
-               </View>
-               <Text style={styles.card2t}>{'Loyalty'}</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Loyalty1')}
+            style={{alignItems: 'center'}}>
+            <View style={{}}>
+              <Image
+                style={styles.card2img}
+                source={require('../../../assets/Image/heart.png')}
+              />
+            </View>
+            <Text style={styles.card2t}>{'Loyalty'}</Text>
           </TouchableOpacity>
-        </View>  
+        </View>
         {/* <View style={styles.blog}>
           <Image style={{ height: 13, width: 20 }} resizeMode={'contain'}
             source={require('../../../assets/Image/serch.png')}
@@ -284,19 +289,22 @@ const TotalDownload=async()=>{
         </View>
         <View>
           <FlatList
-            data={selector1}
-            renderItem={({ item }) => (
+            data={selector1.Downloads}
+            renderItem={({item}) => (
               <TouchableOpacity
-               // onPress={() => userProfile(item.SrNo)}
+                // onPress={() => userProfile(item.SrNo)}
                 //  onPress={()=>navigation.navigate('MyCustomerDetail')}
                 style={styles.cardView}>
-                  {console.log('item233',item)}
+                {console.log('item233', item)}
                 <View style={styles.carditem}>
                   <Image
                     style={styles.carditemimg}
-                    source={require('../../../assets/user.jpeg')} />
+                    source={require('../../../assets/user.jpeg')}
+                  />
                   <Text
-                    style={styles.carditemt}>{`${item.FirstName} ${item.LastName}`}</Text>
+                    style={
+                      styles.carditemt
+                    }>{`${item.FirstName} ${item.LastName}`}</Text>
                 </View>
                 <View>
                   <Text style={styles.carditemtt}>{item.Mobile}</Text>
@@ -305,8 +313,7 @@ const TotalDownload=async()=>{
             )}
           />
         </View>
-        <View style={{height:140}}/>
-
+        <View style={{height: 140}} />
       </ScrollView>
       {/* <View style={{backgroundColor:'#032e63',width:60,height:60,
           position:'absolute',bottom:80,right:15,borderRadius:30,
@@ -334,15 +341,39 @@ const data = [
   {title: 'Hello', type: 'add'},
 ];
 const Data = [
-  { label: 'Today Downloads', value: 'Today Downloads' },
-  { label: 'Total Downloads', value: 'Total Downloads' },
+  {label: 'Today Downloads', value: 'Today Downloads'},
+  {label: 'Total Downloads', value: 'Total Downloads'},
   // { label: 'Last 3 year', value: '3' },
 ];
-const User=[
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-  {image:require('../../../assets/user.jpeg'),title:'Milind Shethiya',mobile:'+918765457324'},
-]
+const User = [
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+  {
+    image: require('../../../assets/user.jpeg'),
+    title: 'Milind Shethiya',
+    mobile: '+918765457324',
+  },
+];

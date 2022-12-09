@@ -1,16 +1,15 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   root: {
     alignItems: 'stretch',
     paddingHorizontal: 12,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   slider: {
-      height:20
+    height: 20,
   },
-  button: {
-  },
+  button: {},
   header: {
     alignItems: 'center',
     backgroundColor: 'black',

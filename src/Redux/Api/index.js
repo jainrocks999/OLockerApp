@@ -62,7 +62,7 @@ export default class Api {
   static fetchDataByGET6 = async (url,data) => {
 
     try {
-      console.log('fetchDataByGET6 data',data);
+
       const response = await axios({
         method: 'GET',
         headers: {
@@ -72,10 +72,9 @@ export default class Api {
         url: Constants.MainUrl + url,
         params:data        
       });
-      console.log('data downloadby data GetReportForAppDownload',response.data);
       return response.data;
     } catch (error) {
-      console.log('GetReportForAppDownload error',error);
+      
       throw error;
     }
   };
