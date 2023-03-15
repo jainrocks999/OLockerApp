@@ -22,7 +22,7 @@ import Loader from '../../../components/Loader';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import Banner from '../../../components/Banner';
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const navigation = useNavigation();

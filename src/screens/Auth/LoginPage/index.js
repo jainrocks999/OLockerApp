@@ -15,7 +15,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-simple-toast';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/Loader';
 import {join} from 'redux-saga/effects';
 import {useDispatch, useSelector} from 'react-redux';
@@ -199,9 +199,9 @@ const Login = () => {
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() => {
-                        //navigation.replace('Home')
+                        navigation.replace('Home')
                         // partnerLogin()
-                        handleSubmit();
+                        // handleSubmit();
                       }}>
                       <Text style={{color: '#474747'}}>Login</Text>
                     </TouchableOpacity>

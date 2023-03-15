@@ -17,7 +17,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import styles from './styles';
 import { types } from '@babel/core';
 import Loader from "../../../components/Loader"
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
    const navigation=useNavigation()

@@ -16,7 +16,7 @@ import Buttom from '../../../components/StoreButtomTab';
 import Header from '../../../components/CustomHeader';
 import {CheckBox} from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useDispatch, useSelector} from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';

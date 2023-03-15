@@ -15,7 +15,7 @@ import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from 'react-redux';
 import Loader from '../../../components/Loader';
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Mycustomer = () => {
   const navigation = useNavigation();
   const selector=useSelector(state=>state.CustomerList)

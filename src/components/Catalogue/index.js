@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector,useDispatch } from 'react-redux';
 import ImagePath from '../../components/ImagePath';
 import Loader from "../../components/Loader"
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Catalogue=()=>{
   const navigation=useNavigation()
   const selector = useSelector(state => state.Catalogue.Categories)

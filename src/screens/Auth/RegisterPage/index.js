@@ -15,7 +15,7 @@ import Toast from 'react-native-simple-toast';
 import RNPickerSelect from 'react-native-picker-select';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/Loader';
 
 const loginValidationSchema = yup.object().shape({

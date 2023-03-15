@@ -8,7 +8,7 @@ import Preview from "../../../components/Preview";
 import Banner from '../../../components/Banner';
 // import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 import Loader from "../../../components/Loader"
 const SubCategory = ({route}) => {

@@ -17,7 +17,7 @@ import Header from '../../../components/CustomHeader';
 import DocumentPicker from 'react-native-document-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../components/Loader';
 const Addcollection = () => {
   const navigation = useNavigation();

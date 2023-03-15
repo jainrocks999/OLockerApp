@@ -17,7 +17,7 @@ import BottomTab from "../../../components/StoreButtomTab";
 import Header from '../../../components/CustomHeader';
 import { useSelector } from 'react-redux';
 import Loader from "../../../components/Loader"
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import colors from '../../../components/colors';
 import getDate from '../../../components/Date';

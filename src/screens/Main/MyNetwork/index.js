@@ -9,7 +9,7 @@ import Loader from '../../../components/Loader' ;
 import RNPickerSelect from 'react-native-picker-select';
 import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import colors from '../../../components/colors';
 import Toast from 'react-native-simple-toast';
@@ -351,7 +351,7 @@ console.log("response  virews",list);
               <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:100}}>
                    <View style={{padding:0,justifyContent:'center',width:'42%',alignItems:'flex-start'}}>
                   <View style={{height:45,width:'100%',borderWidth:0,marginLeft:10,borderWidth:0,marginBottom:5}}>
-                   <RNPickerSelect
+                   {/* <RNPickerSelect
                       items={
                         data != undefined ?data.map((item) => (
                         {
@@ -369,13 +369,13 @@ console.log("response  virews",list);
                       value={state}
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select State', value: '' }}
-                    />
+                    /> */}
                     </View>
                   
                    
                    <View style={{height:45,width:'100%',borderWidth:0,marginLeft:10}}>
                    
-                   <RNPickerSelect
+                   {/* <RNPickerSelect
                       items={data2}
                       onValueChange={(value) =>setCity(value)}
                       style={ {
@@ -386,7 +386,7 @@ console.log("response  virews",list);
                       value={city}
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select City', value: '' }}
-                    />
+                    /> */}
                    </View>
                    </View>
                    
@@ -394,18 +394,12 @@ console.log("response  virews",list);
                    <View style={{padding:0,alignItems:'flex-end',justifyContent:'center',width:'42%',}}>
                    {/* <View style={{alignItems:'center',justifyContent:'center'}}> */}
                    <View style={{height:45,width:'100%',borderWidth:0,marginRight:0}}>
-                   <RNPickerSelect
+                   {/* <RNPickerSelect
                       items={
-                        MetalType != undefined ?MetalType.map((item) => (
-                         
-                        {
-                         
+                        MetalType != undefined ?MetalType.map((item) => ({     
                        label:item.Value,
                         value:item.Value
-                   
                      })):undefined}
-                   
-                    // items={Metal}
                       onValueChange={(value,index) =>Metalpurity1(value,index)}
                       style={ {
                         inputAndroid: { color: '#032e63', width: '100%', fontSize: 14, marginBottom: -1,fontFamily:'Acephimere',fontWeight:'700',height:40,marginLeft:30,padding:10,borderWidth:0 },
@@ -415,7 +409,7 @@ console.log("response  virews",list);
                       value={metal}
                       useNativeAndroidPickerStyle={false}
                       placeholder={{ label: 'Select Metal', value: '' }}
-                    />
+                    /> */}
                     {/* </View> */}
                        {/* {console.log('resssmish',metal)} */}
 

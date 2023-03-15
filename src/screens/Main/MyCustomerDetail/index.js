@@ -18,7 +18,7 @@ import BottomTab from '../../../components/StoreButtomTab';
 import { useSelector,useDispatch } from "react-redux";
 import Loader from '../../../components/Loader';
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFetchBlob from 'rn-fetch-blob'
 const Mycustomer = () => {
   const navigation = useNavigation();

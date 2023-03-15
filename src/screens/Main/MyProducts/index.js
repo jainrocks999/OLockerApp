@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import { useSelector,useDispatch } from 'react-redux';
 import Loader from '../../../components/Loader';
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 const MyProducts = ({route}) => {
     const navigation=useNavigation()

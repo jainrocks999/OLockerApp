@@ -16,7 +16,7 @@ import Bottum from "../../../components/StoreButtomTab";
 import Header from "../../../components/CustomHeader";
 import Loader from '../../../components/Loader'
 import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import getDate from '../../../components/Date';

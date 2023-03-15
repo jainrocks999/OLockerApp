@@ -2,7 +2,7 @@ import { ToastAndroid, YellowBox } from 'react-native';
 import {takeEvery, put, call} from 'redux-saga/effects';
 import Api from '../Api';
 import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Login
 function* doLogin(action) {

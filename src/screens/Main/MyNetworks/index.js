@@ -17,7 +17,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Loader from '../../../components/Loader';
 
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = () => {
   const navigation = useNavigation();
   const selector = useSelector(state => state.NetworkList1);
@@ -146,9 +146,9 @@ const HomeScreen = () => {
             </View>
           </View>
         </View>
-
+        {/* filteredDataSource */}
         <FlatList
-          data={filteredDataSource}
+          data={data}
           numColumns={2}
           style={{margin: 10, marginTop: 20, marginBottom: 150}}
           renderItem={({item}) => (

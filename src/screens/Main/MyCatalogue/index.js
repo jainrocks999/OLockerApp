@@ -10,7 +10,7 @@ import Loader from '../../../components/Loader';
 import Banner from '../../../components/Banner';
 import {FlatListSlider} from 'react-native-flatlist-slider';
 import ImagePath from '../../../components/ImagePath';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 import Toast from "react-native-simple-toast";
 import { useIsFocused } from '@react-navigation/native';

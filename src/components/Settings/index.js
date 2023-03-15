@@ -1,7 +1,7 @@
 import React from 'react';
 import { View,Text,StyleSheet,Image,TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../Loader'
 import {useNavigation} from '@react-navigation/native';
 

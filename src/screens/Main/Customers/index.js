@@ -21,7 +21,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import Loader from '../../../components/Loader';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyCatalogue = () => {
   const navigation = useNavigation();
